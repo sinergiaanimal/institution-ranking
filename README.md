@@ -1,2 +1,2 @@
-# institution-comparisoner
-Institution comparisoner project powered with Django CMS.
+# institution-comparer
+Institution comparer project powered with Django CMS.
