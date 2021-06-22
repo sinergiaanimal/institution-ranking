@@ -13,3 +13,6 @@ db.sqlite3-journal
 # Celery stuff
 celerybeat-schedule
 celerybeat.pid
+
+node_modules
+dist

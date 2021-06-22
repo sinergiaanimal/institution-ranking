@@ -6,20 +6,8 @@
     <title>{% block full_title %}{% block title %}No title{% endblock title %} | {{ PROJECT_TITLE }}{% endblock full_title %}</title>
     <!-- required for "mobile" -->
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <script src="{% static 'index-bundle.js' %}"></script>
     {% render_block "css" %}
-    <style type="text/css">
-        .nav {
-            padding-left: 0;
-        }
-        .nav li {
-            display: inline;
-            list-style-type: none;
-            padding-right: 20px;
-        }
-        html, body {
-            height: 100%;
-        }
-    </style>
 </head>
 
 <body>
