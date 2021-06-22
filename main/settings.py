@@ -24,7 +24,7 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 SERVE_MEDIA = True  # Serving media files for development
 
-PROJECT_TITLE = _('Institution comparisoner')
+PROJECT_TITLE = _('Institution comparer')
 
 
 # Django Sites
@@ -61,7 +61,7 @@ INSTALLED_APPS = [
     'djangocms_video',
     'djangocms_googlemap',
     'djangocms_style',
-    'djangocms_icon',
+    'djangocms_icon',    # 'djangocms_icon',
 
     'djangocms_bootstrap4',
     'djangocms_bootstrap4.contrib.bootstrap4_alerts',
@@ -116,6 +116,7 @@ TEMPLATES = [
                 'django.template.context_processors.i18n',
                 'cms.context_processors.cms_settings',
                 'sekizai.context_processors.sekizai',
+                'main.context_processors.global_variables',
             ],
         },
     },
