@@ -6,8 +6,8 @@
   <title>{% block full_title %}{% block title %}No title{% endblock title %} | {{ PROJECT_TITLE }}{% endblock full_title %}</title>
   <!-- required for "mobile" -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="{% static 'main.css' %}">
   {% render_block "css" %}
-  <script src="{% static 'index-bundle.js' %}"></script>
 </head>
 
 <body>
@@ -50,6 +50,7 @@
   </footer>
 
   {% render_block "js" %}
+  <script src="{% static 'bundle.js' %}"></script>
   {% with_data "js-script" as jsset %}
     {% for js in jsset %}<script type="text/javascript" src="{% static js %}"></script>{% endfor %}
   {% end_with_data %}
