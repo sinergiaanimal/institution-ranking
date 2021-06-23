@@ -1,11 +1,27 @@
-.nav {
-    padding-left: 0;
+// Django CMS
+
+div.cms .cms-toolbar {
+    margin-top: 56px !important;
 }
-.nav li {
-    display: inline;
-    list-style-type: none;
-    padding-right: 20px;
+
+div.cms .cms-structure {
+    margin-top: 56px !important;
 }
+
+
+// Global
+
 html, body {
     height: 100%;
+}
+
+.top-spacer {
+    height: 80px;
+}
+
+
+.navbar {
+    &--main {
+        z-index: 10000000;
+    }
 }

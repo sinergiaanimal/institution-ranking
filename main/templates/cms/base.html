@@ -1,33 +1,59 @@
-{% load cms_tags static menu_tags sekizai_tags %}
+{% load static i18n cms_tags menu_tags sekizai_tags %}
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title>{% block full_title %}{% block title %}No title{% endblock title %} | {{ PROJECT_TITLE }}{% endblock full_title %}</title>
-    <!-- required for "mobile" -->
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <script src="{% static 'index-bundle.js' %}"></script>
-    {% render_block "css" %}
+  <title>{% block full_title %}{% block title %}No title{% endblock title %} | {{ PROJECT_TITLE }}{% endblock full_title %}</title>
+  <!-- required for "mobile" -->
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  {% render_block "css" %}
+  <script src="{% static 'index-bundle.js' %}"></script>
 </head>
 
 <body>
-    {% cms_toolbar %}
-    <nav style="max-width: 940px; margin:0 auto">
-        <ul>
-            {% show_menu 0 100 100 100 %}
-            {% language_chooser %}
-        </ul>
-        {% block content %}{% endblock content %}
-    </nav>
-    <footer>
-        {% static_placeholder 'footer' %}
-    </footer>
+  {% cms_toolbar %}
 
-    {% render_block "js" %}
-    {% with_data "js-script" as jsset %}
-        {% for js in jsset %}<script type="text/javascript" src="{% static js %}"></script>{% endfor %}
-    {% end_with_data %}
-    {% render_block "js_end" %}
+  <nav class="navbar navbar--main navbar-expand-md navbar-dark fixed-top bg-dark">
+    <section class="container">
+      <a class="navbar-brand" href="/">{{ PROJECT_TITLE|upper }}</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+              aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          {% show_menu 0 100 100 100 "cms/main_navbar.html" %}
+        </ul>
+        {% language_chooser "cms/language_chooser.html" %}
+      </div>
+    </section>
+  </nav>
+
+  <div class="top-spacer"></div>
+
+  <header>
+    {% block header %}
+      <section class="container">
+        <h1>{% page_attribute "page_title" %}</h1>
+      </section>
+    {% endblock header %}
+  </header>
+
+  <main>
+    <section class="container">
+      {% block content %}{% endblock content %}
+    </section>
+  </main>
+
+  <footer>
+    {% static_placeholder 'footer' %}
+  </footer>
+
+  {% render_block "js" %}
+  {% with_data "js-script" as jsset %}
+    {% for js in jsset %}<script type="text/javascript" src="{% static js %}"></script>{% endfor %}
+  {% end_with_data %}
+  {% render_block "js_end" %}
 </body>
 
 </html>

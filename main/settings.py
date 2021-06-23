@@ -78,6 +78,9 @@ INSTALLED_APPS = [
     'djangocms_bootstrap4.contrib.bootstrap4_picture',
     'djangocms_bootstrap4.contrib.bootstrap4_tabs',
     'djangocms_bootstrap4.contrib.bootstrap4_utilities',
+
+    # Local apps
+    'common',
 ]
 
 MIDDLEWARE = [
@@ -159,7 +162,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGES = [
-    ('en', 'English'),
+    ('en', _('English')),
 ]
 
 LANGUAGE_CODE = 'en'
@@ -211,7 +214,7 @@ THUMBNAIL_PROCESSORS = (
 )
 
 try:
-    from local_settings import *
+    from .local_settings import *
 except ImportError:
     pass
 
