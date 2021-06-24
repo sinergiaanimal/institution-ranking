@@ -1,11 +1,10 @@
 // Django CMS
 
-div.cms .cms-toolbar {
-    margin-top: 56px !important;
-}
-
-div.cms .cms-structure {
-    margin-top: 56px !important;
+div.cms {
+    .cms-toolbar, .cms-sideframe, .cms-structure {
+        // to compensate top main nav
+        margin-top: 56px !important;
+    }
 }
 
 
