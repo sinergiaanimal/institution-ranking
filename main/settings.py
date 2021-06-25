@@ -81,6 +81,7 @@ INSTALLED_APPS = [
 
     # Local apps
     'common',
+    'comparer',
 ]
 
 MIDDLEWARE = [
