@@ -1,0 +1,16 @@
+{% load static %}
+<section class="card ranking-box{% if instance.html_classes %} {{ instance.html_classes }}{% endif %}">
+  <div class="card-body">
+    <h2 class="card-title">{{ instance.title }}</h2>
+    <ol class="card-text">
+      {% for institution in institutions %}
+      <li class="ranking-row">
+        <img class="logo"
+             src="{% if institution.logo %}{% get_media_prefix %}{{ institution.logo }}{% else %}{% static 'comparer/img/institution-logo-default.svg' %}{% endif %}">
+        <span class="name">{{ institution.name }}</span>
+        <span class="score">{{ institution.score|default:0 }}</span>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>

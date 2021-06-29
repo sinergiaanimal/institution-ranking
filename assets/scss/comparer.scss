@@ -1,0 +1,31 @@
+
+.ranking-box {
+
+    ol {
+        padding-left: 20px;
+    }
+
+    .ranking-row {
+        padding: 5px 0 5px 0;
+
+        .logo {
+            display: inline-block;
+            margin: 0 5px 0 5px;
+            width: 20px;
+            max-width: 20px;
+            height: 20px;
+        }
+
+        .name {
+            display: inline-block;
+            line-width: 30px;
+        }
+
+        .score {
+            display: inline-block;
+            position: absolute;
+            right: 0;
+            margin-right: 20px;
+        }
+    }
+}

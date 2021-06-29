@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from common.managers import ActivableModelQuerySet
+
 
 class TimestampedModel(models.Model):
     """
@@ -13,19 +15,13 @@ class TimestampedModel(models.Model):
         abstract = True
 
 
-class ActivableModelManager(models.Manager):
-
-    def active(self):
-        return super().get_queryset().filter(is_active=True)
-
-
 class ActivableModel(models.Model):
     """
     Adds "is_active" field to the model and "active" method to default manager.
     """
     is_active = models.BooleanField(_('is active'), default=True)
 
-    objects = ActivableModelManager()
+    objects = ActivableModelQuerySet.as_manager()
 
     class Meta:
         abstract = True

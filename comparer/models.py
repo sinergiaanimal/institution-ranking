@@ -1,12 +1,14 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from common.models import TimestampedModel, ActivableModel
+from cms.models import CMSPlugin
 
+from common.managers import ActivableModelQuerySet
+from common.models import TimestampedModel, ActivableModel
 
 __all__ = (
     'PolicyCategory', 'PolicyCriterion', 'Institution', 'SocialMediaLink', 'InstitutionEmail', 'InstitutionPolicy',
-    'MessageTemplate'
+    'MessageTemplate', 'RankingBoxPluginModel',
 )
 
 
@@ -39,14 +41,22 @@ class PolicyCriterion(ActivableModel, TimestampedModel):
         return self.name
 
 
+class InstitutionQuerySet(ActivableModelQuerySet):
+
+    def with_score(self):
+        return self.annotate(score=models.Sum('policies__score'))
+
+
 class Institution(ActivableModel, TimestampedModel):
     name = models.CharField(_('name'), max_length=250)
     description = models.TextField(_('description'), blank=True)
+    region = models.CharField(_('region'), max_length=100, blank=True)
     country = models.CharField(_('country'), max_length=100)
     logo = models.ImageField(_('logo'), upload_to='comparer/institution/logo', blank=True)
     # social_media_links = defined in comparer.models.SocialMediaLink.institution
     # emails = defined in comparer.models.InstitutionEmail.institution
     # policies = defined in comparer.models.InstitutionPolicy.institution
+    objects = InstitutionQuerySet.as_manager()
 
     class Meta:
         verbose_name = _('Institution')
@@ -136,3 +146,30 @@ class MessageTemplate(ActivableModel, TimestampedModel):
 
     def __str__(self):
         return self.title
+
+
+class RankingBoxPluginModel(CMSPlugin):
+    title = models.CharField(_('title'), max_length=250, blank=True)
+    items_count = models.PositiveSmallIntegerField(_('items count'), default=5)
+    region_filter = models.CharField(
+        _('filter by regions'),
+        help_text=_('You can type more than one (separated with semicolon).'),
+        max_length=250,
+        blank=True
+    )
+    country_filter = models.CharField(
+        _('filter by countries'),
+        help_text=_('You can type more than one (separated with semicolon).'),
+        max_length=250,
+        blank=True
+    )
+    html_classes = models.CharField(_('HTML classes'), max_length=250, blank=True)
+
+    def __str__(self):
+        return self.title
+
+
+# class RankingBrowserPluginModel(CMSPlugin):
+#
+#     def __str__(self):
+#         return 'comparer'
