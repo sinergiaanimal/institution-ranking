@@ -81,6 +81,9 @@ INSTALLED_APPS = [
 
     # Local apps
     'common',
+    'comparer',
+
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [

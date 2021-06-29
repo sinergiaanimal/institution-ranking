@@ -2,6 +2,7 @@ Django==3.1.12
 django-treebeard==4.4
 django-cms==3.8.0
 django-filer==2.0.2
+django-cleanup==5.2.0
 djangocms-text-ckeditor==4.0.0
 djangocms-picture==3.0.0
 djangocms-file==3.0.0

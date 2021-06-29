@@ -1,0 +1,3 @@
+.change-list #changelist .results + .paginator {
+    position: relative !important;
+}
