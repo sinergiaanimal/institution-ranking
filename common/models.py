@@ -35,6 +35,7 @@ class OrderedModel(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ('order',)
 
     def get_order(self):
         max_order = self.model_class().objects.aggregate(models.Max('order'))['order__max'] or 0

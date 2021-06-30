@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from cms.models import CMSPlugin
 
 from common.managers import ActivableModelQuerySet
-from common.models import TimestampedModel, ActivableModel
+from common.models import TimestampedModel, ActivableModel, OrderedModel
 
 __all__ = (
     'PolicyCategory', 'PolicyCriterion', 'Institution', 'SocialMediaLink', 'InstitutionEmail', 'InstitutionPolicy',
@@ -25,7 +25,7 @@ class PolicyCategory(ActivableModel, TimestampedModel):
         return self.name
 
 
-class PolicyCriterion(ActivableModel, TimestampedModel):
+class PolicyCriterion(OrderedModel, ActivableModel, TimestampedModel):
     name = models.CharField(_('name'), max_length=250)
     category = models.ForeignKey(
         verbose_name=_('category'), to=PolicyCategory, on_delete=models.CASCADE,
