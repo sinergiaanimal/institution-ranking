@@ -8,7 +8,7 @@ from common.models import TimestampedModel, ActivableModel, OrderedModel
 
 __all__ = (
     'PolicyCategory', 'PolicyCriterion', 'Institution', 'SocialMediaLink', 'InstitutionEmail', 'InstitutionPolicy',
-    'MessageTemplate', 'RankingBoxPluginModel',
+    'MessageTemplate', 'RankingBoxPluginModel', 'RankingBrowserPluginModel'
 )
 
 
@@ -169,7 +169,7 @@ class RankingBoxPluginModel(CMSPlugin):
         return self.title
 
 
-# class RankingBrowserPluginModel(CMSPlugin):
-#
-#     def __str__(self):
-#         return 'comparer'
+class RankingBrowserPluginModel(CMSPlugin):
+
+    def __str__(self):
+        return 'Ranking Browser'

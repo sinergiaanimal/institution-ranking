@@ -7,11 +7,11 @@ from django.db.models import Q
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 
-from .models import RankingBoxPluginModel, Institution
+from .models import RankingBoxPluginModel, Institution, RankingBrowserPluginModel
 
 
 @plugin_pool.register_plugin
-class PollPluginPublisher(CMSPluginBase):
+class RankingBoxPluginPublisher(CMSPluginBase):
     model = RankingBoxPluginModel
     module = _('Comparer')
     name = _('Ranking Box')
@@ -40,4 +40,16 @@ class PollPluginPublisher(CMSPluginBase):
 
         context.update({'instance': instance, 'institutions': institutions})
 
+        return context
+
+
+@plugin_pool.register_plugin
+class RankingBrowserPluginPublisher(CMSPluginBase):
+    model = RankingBrowserPluginModel
+    module = _('Comparer')
+    name = _('Ranking Browser')
+    render_template = 'comparer/cms/ranking_browser_plugin.html'
+
+    def render(self, context, instance, placeholder):
+        context.update({'instance': instance})
         return context

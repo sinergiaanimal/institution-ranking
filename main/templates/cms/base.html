@@ -49,12 +49,14 @@
     {% static_placeholder 'footer' %}
   </footer>
 
+  {% block js_start %}{% endblock %}
   {% render_block "js" %}
-  <script src="{% static 'bundle.js' %}"></script>
+  <script src="{% static 'main.bundle.js' %}"></script>
   {% with_data "js-script" as jsset %}
     {% for js in jsset %}<script type="text/javascript" src="{% static js %}"></script>{% endfor %}
   {% end_with_data %}
   {% render_block "js_end" %}
+  {% block js_end %}{% endblock %}
 </body>
 
 </html>
