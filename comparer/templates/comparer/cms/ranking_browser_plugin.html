@@ -1,6 +1,17 @@
 {% load static sekizai_tags %}
-<section class="ranking-browser-app"></section>
+<section id="ranking-browser-app-{{ instance.id }}" class="mt-5">
+</section>
 
 {% addtoblock "js" %}
+    <script id="ranking-browser-cfg-{{ instance.id }}" type="application/json">
+    {
+        "instanceId": {{ instance.id }},
+        "instColName": "{{ instance.inst_col_name }}",
+        "showCategories": [ {% for cat in instance.show_categories.all %}
+            { "name": "{{ cat.name }}", "maxScore": {{ cat.max_score }} }{% if not forloop.last %},{% endif %}
+        {% endfor %} ],
+        "orderBy": "{{ instance.orderBy }}"
+    }
+    </script>
     <script src="{% static 'ranking_browser.bundle.js' %}"></script>
 {% endaddtoblock %}
