@@ -18,7 +18,7 @@ class RankingBoxPluginPublisher(CMSPluginBase):
     render_template = 'comparer/cms/ranking_box_plugin.html'
 
     def render(self, context, instance, placeholder):
-        institutions = Institution.objects.with_score()
+        institutions = Institution.objects.with_scores()
 
         if instance.region_filter:
             institutions = institutions.filter(
@@ -36,7 +36,7 @@ class RankingBoxPluginPublisher(CMSPluginBase):
                 )
             )
 
-        institutions = institutions.order_by('-score')[:instance.items_count]
+        institutions = institutions.order_by('-score_total')[:instance.items_count]
 
         context.update({'instance': instance, 'institutions': institutions})
 

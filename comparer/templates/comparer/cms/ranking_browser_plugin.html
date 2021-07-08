@@ -8,7 +8,7 @@
         "instanceId": {{ instance.id }},
         "instColName": "{{ instance.inst_col_name }}",
         "showCategories": [ {% for cat in instance.show_categories.all %}
-            { "name": "{{ cat.name }}", "maxScore": {{ cat.max_score }} }{% if not forloop.last %},{% endif %}
+            { "id": {{ cat.id }}, "name": "{{ cat.name }}", "maxScore": {{ cat.max_score }} }{% if not forloop.last %},{% endif %}
         {% endfor %} ],
         "orderBy": "{{ instance.orderBy }}"
     }

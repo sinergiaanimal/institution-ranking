@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.db.models import Sum, Q
+from django.conf import settings
 
 from cms.models import CMSPlugin
 
@@ -14,6 +16,7 @@ __all__ = (
 
 class PolicyCategory(OrderedModel, ActivableModel, TimestampedModel):
     name = models.CharField(_('name'), max_length=250)
+    slug = models.SlugField(_('slug'), unique=True)
     max_score = models.PositiveIntegerField(_('max_score'), default=0)
     # criterions - defined in comparer.models.InstitutionPolicy.criterion
     # browser_plugin_instances - defined in comparer.models.RankingBrowserPluginModel
@@ -45,8 +48,16 @@ class PolicyCriterion(OrderedModel, ActivableModel, TimestampedModel):
 
 class InstitutionQuerySet(ActivableModelQuerySet):
 
-    def with_score(self):
-        return self.annotate(score=models.Sum('policies__score'))
+    def with_scores(self):
+        query_dict = {
+            'score_total': models.Sum('policies__score')
+        }
+        for slug in settings.POLICY_CATEGORY_SLUGS:
+            query_dict[f'score_{slug}'] = Sum(
+                'policies__score',
+                filter=Q(policies__criterion__category__slug=slug)
+            )
+        return self.annotate(**query_dict)
 
 
 class Institution(ActivableModel, TimestampedModel):
