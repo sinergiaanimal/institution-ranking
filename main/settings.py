@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'filer',
     'easy_thumbnails',
     'mptt',
+    'rest_framework',
+    'django_filters',
 
     'djangocms_text_ckeditor',
     'djangocms_link',
@@ -198,6 +200,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# Django REST Framework
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'common.permissions.ReadOnlyPermission',
+    ]
+}
+
+
 # Django CMS
 
 CMS_TEMPLATES = [
@@ -215,6 +226,15 @@ THUMBNAIL_PROCESSORS = (
     'filer.thumbnail_processors.scale_and_crop_with_subject_location',
     'easy_thumbnails.processors.filters'
 )
+
+
+# Other
+
+# Application will assume PolicyCategory with these slugs exists in the database:
+POLICY_CATEGORY_SLUGS = [
+    # Fill this in your local_settings.py
+]
+
 
 try:
     from .local_settings import *

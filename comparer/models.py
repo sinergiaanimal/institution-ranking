@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.db.models import Sum, Q
+from django.conf import settings
 
 from cms.models import CMSPlugin
 
@@ -8,18 +10,21 @@ from common.models import TimestampedModel, ActivableModel, OrderedModel
 
 __all__ = (
     'PolicyCategory', 'PolicyCriterion', 'Institution', 'SocialMediaLink', 'InstitutionEmail', 'InstitutionPolicy',
-    'MessageTemplate', 'RankingBoxPluginModel',
+    'MessageTemplate', 'RankingBoxPluginModel', 'RankingBrowserPluginModel'
 )
 
 
-class PolicyCategory(ActivableModel, TimestampedModel):
+class PolicyCategory(OrderedModel, ActivableModel, TimestampedModel):
     name = models.CharField(_('name'), max_length=250)
+    slug = models.SlugField(_('slug'), unique=True)
     max_score = models.PositiveIntegerField(_('max_score'), default=0)
     # criterions - defined in comparer.models.InstitutionPolicy.criterion
+    # browser_plugin_instances - defined in comparer.models.RankingBrowserPluginModel
 
     class Meta:
         verbose_name = _('Policy category')
         verbose_name_plural = _('Policy categories')
+        ordering = ['order']
 
     def __str__(self):
         return self.name
@@ -43,8 +48,16 @@ class PolicyCriterion(OrderedModel, ActivableModel, TimestampedModel):
 
 class InstitutionQuerySet(ActivableModelQuerySet):
 
-    def with_score(self):
-        return self.annotate(score=models.Sum('policies__score'))
+    def with_scores(self):
+        query_dict = {
+            'score_total': models.Sum('policies__score')
+        }
+        for slug in settings.POLICY_CATEGORY_SLUGS:
+            query_dict[f'score_{slug}'] = Sum(
+                'policies__score',
+                filter=Q(policies__criterion__category__slug=slug)
+            )
+        return self.annotate(**query_dict)
 
 
 class Institution(ActivableModel, TimestampedModel):
@@ -169,7 +182,32 @@ class RankingBoxPluginModel(CMSPlugin):
         return self.title
 
 
-# class RankingBrowserPluginModel(CMSPlugin):
-#
-#     def __str__(self):
-#         return 'comparer'
+def get_default_categories():
+    return PolicyCategory.objects.active()
+
+
+class RankingBrowserPluginModel(CMSPlugin):
+    inst_col_name = models.CharField(_('Institution column name'), max_length=100)
+    show_categories = models.ManyToManyField(
+        verbose_name=_('show categories'), to=PolicyCategory, default=get_default_categories,
+        related_name='browser_plugin_instances'
+    )
+    order_by = models.CharField(
+        _('order by'), max_length=250, help_text=_('Specify field names separated by comma.'), blank=True
+    )
+
+    def copy_relations(self, oldinstance):
+        # Before copying related objects from the old instance, the ones
+        # on the current one need to be deleted. Otherwise, duplicates may
+        # appear on the public version of the page
+        self.show_categories.all().delete()
+
+        for cat in oldinstance.show_categories.all():
+            # instance.pk = None; instance.pk.save() is the slightly odd but
+            # standard Django way of copying a saved model instance
+            cat.pk = None
+            cat.plugin = self
+            cat.save()
+
+    def __str__(self):
+        return 'Ranking Browser'

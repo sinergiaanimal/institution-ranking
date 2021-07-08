@@ -8,6 +8,10 @@ from django.conf.urls.static import static
 from django.views.i18n import JavaScriptCatalog
 from django.contrib.sitemaps.views import sitemap
 
+from rest_framework import routers
+
+from comparer.api_views import *
+
 
 urlpatterns = i18n_patterns(
     re_path(r'^jsi18n/$', JavaScriptCatalog.as_view(), name='javascript-catalog'),
@@ -20,6 +24,16 @@ urlpatterns = i18n_patterns(
         {'sitemaps': {'cmspages': CMSSitemap}}
     ),
 )
+
+
+router = routers.DefaultRouter()
+router.register(r'institutions', InstitutionViewSet)
+router.register(r'policy-categories', PolicyCategoryViewSet)
+
+urlpatterns += (
+    re_path(r'^api/', include(router.urls)),
+)
+
 
 if settings.SERVE_MEDIA:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

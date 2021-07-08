@@ -1,12 +1,16 @@
 const path = require('path');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
 
 
 module.exports = {
-  entry: './assets/index.js',  // path to our input file
+  entry: {
+    main: './assets/index.js',
+    ranking_browser: './assets/ranking_browser.js'
+  },
   output: {
-    filename: 'bundle.js',  // output bundle file name
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, './dist'),  // path to our Django static directory
   },
 
@@ -19,6 +23,9 @@ module.exports = {
         "css-loader",
         "sass-loader"
       ]
+    }, {
+      test: /\.vue$/,
+      loader: 'vue-loader'
     }],
   },
 
@@ -26,7 +33,8 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "[name].css",
       chunkFilename: "[id].css"
-    })
+    }),
+    new VueLoaderPlugin()
   ],
 
   optimization: {

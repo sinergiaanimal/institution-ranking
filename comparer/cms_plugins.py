@@ -7,18 +7,18 @@ from django.db.models import Q
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 
-from .models import RankingBoxPluginModel, Institution
+from .models import RankingBoxPluginModel, Institution, RankingBrowserPluginModel
 
 
 @plugin_pool.register_plugin
-class PollPluginPublisher(CMSPluginBase):
+class RankingBoxPluginPublisher(CMSPluginBase):
     model = RankingBoxPluginModel
     module = _('Comparer')
     name = _('Ranking Box')
     render_template = 'comparer/cms/ranking_box_plugin.html'
 
     def render(self, context, instance, placeholder):
-        institutions = Institution.objects.with_score()
+        institutions = Institution.objects.with_scores()
 
         if instance.region_filter:
             institutions = institutions.filter(
@@ -36,8 +36,20 @@ class PollPluginPublisher(CMSPluginBase):
                 )
             )
 
-        institutions = institutions.order_by('-score')[:instance.items_count]
+        institutions = institutions.order_by('-score_total')[:instance.items_count]
 
         context.update({'instance': instance, 'institutions': institutions})
 
+        return context
+
+
+@plugin_pool.register_plugin
+class RankingBrowserPluginPublisher(CMSPluginBase):
+    model = RankingBrowserPluginModel
+    module = _('Comparer')
+    name = _('Ranking Browser')
+    render_template = 'comparer/cms/ranking_browser_plugin.html'
+
+    def render(self, context, instance, placeholder):
+        context.update({'instance': instance})
         return context

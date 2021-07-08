@@ -38,7 +38,7 @@ class OrderedModel(models.Model):
         ordering = ('order',)
 
     def get_order(self):
-        max_order = self.model_class().objects.aggregate(models.Max('order'))['order__max'] or 0
+        max_order = self.__class__.objects.aggregate(models.Max('order'))['order__max'] or 0
         return max_order + 1
 
     def save(self, *args, **kwargs):
