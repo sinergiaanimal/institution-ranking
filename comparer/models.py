@@ -188,26 +188,9 @@ def get_default_categories():
 
 class RankingBrowserPluginModel(CMSPlugin):
     inst_col_name = models.CharField(_('Institution column name'), max_length=100)
-    show_categories = models.ManyToManyField(
-        verbose_name=_('show categories'), to=PolicyCategory, default=get_default_categories,
-        related_name='browser_plugin_instances'
-    )
     order_by = models.CharField(
         _('order by'), max_length=250, help_text=_('Specify field names separated by comma.'), blank=True
     )
-
-    def copy_relations(self, oldinstance):
-        # Before copying related objects from the old instance, the ones
-        # on the current one need to be deleted. Otherwise, duplicates may
-        # appear on the public version of the page
-        self.show_categories.all().delete()
-
-        for cat in oldinstance.show_categories.all():
-            # instance.pk = None; instance.pk.save() is the slightly odd but
-            # standard Django way of copying a saved model instance
-            cat.pk = None
-            cat.plugin = self
-            cat.save()
 
     def __str__(self):
         return 'Ranking Browser'
