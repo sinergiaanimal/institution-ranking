@@ -90,12 +90,12 @@ export default {
         },
     },
 
-    data() {
+    data () {
         return {
             policyCategories: null,
             maxScore: null,
             institutions: null,
-            ordering: ["-score_total"],
+            ordering: this.cfg.orderBy ? this.cfg.orderBy.split(',') : ['-score_total'],
         };
     },
 
