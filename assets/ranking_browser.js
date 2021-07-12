@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import RankingBrowserApp from './vue/RankingBrowserApp.vue';
+import vueDebounce from 'vue-debounce';
 
 
 window.onload = function () {
@@ -8,6 +9,6 @@ window.onload = function () {
         const cfgElem = document.querySelector(`[id^=ranking-browser-cfg-${idSuffix}`);
         const cfgData = JSON.parse(cfgElem.innerHTML);
 
-        createApp(RankingBrowserApp, {cfg: cfgData}).mount(elem);
+        createApp(RankingBrowserApp, {cfg: cfgData}).use(vueDebounce).mount(elem);
     }
 };
