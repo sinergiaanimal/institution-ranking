@@ -80,11 +80,15 @@ class Institution(ActivableModel, TimestampedModel):
 
 
 class SocialMediaLink(ActivableModel, TimestampedModel):
-    FACEBOOK, INSTAGRAM, TWITTER, EMAIL, ANOTHER = range(1, 6)
+    FACEBOOK, INSTAGRAM, TWITTER, LINKEDIN, YOUTUBE, WEBSITE, EMAIL, ANOTHER \
+        = range(1, 9)
     KIND_CHOICES = (
         (FACEBOOK, _('Facebook')),
         (INSTAGRAM, _('Instagram')),
         (TWITTER, _('Twitter')),
+        (LINKEDIN, _('LinkedIn')),
+        (YOUTUBE, _('YouTube')),
+        (WEBSITE, _('Website')),
         (ANOTHER, _('Another')),
     )
 
