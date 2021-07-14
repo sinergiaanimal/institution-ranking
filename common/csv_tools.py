@@ -8,6 +8,10 @@ class CsvImportError(Exception):
     pass
 
 
+class ConfigCsvImportError(CsvImportError):
+    pass
+
+
 class HeaderCsvImportError(CsvImportError):
     pass
 
@@ -96,10 +100,7 @@ class CsvRelatedColumn(CsvColumnBase):
 class CsvImporter(object):
     model = None
     columns = []
-
-    # TODO: Following to be implemented
-    # key_column = 'name'
-    # override_existing = False
+    key_column_name = None
 
     def __init__(self):
         self.header = None
@@ -160,9 +161,43 @@ class CsvImporter(object):
 
         return cleaned_data, related_list
 
-    def process_row(self, row_index, row):
+    def process_row(self, row_index, row, override_existing=False):
         cleaned_data, related_list = self.clean_row(row_index, row)
-        instance = self.model(**cleaned_data)
+
+        # Trying to get existing instance
+        if self.key_column_name:
+            key_column = self.get_column_by_name(self.key_column_name)
+            try:
+                instance = self.model.objects.get(
+                    **{key_column.field_name: cleaned_data[key_column.field_name]}
+                )
+            except self.model.DoesNotExist:
+                instance = None
+        else:
+            instance = None
+
+        if instance:
+            # Instance already present in database
+            if override_existing:
+                for name, value in cleaned_data.items():
+                    setattr(instance, name, value)
+
+                # Removing existing related data
+                for column in self.columns:
+                    if isinstance(column, CsvRelatedColumn):
+                        related_instances = column.related_model.objects.filter(**{column.fk_name: instance})
+                        related_instances.delete()
+
+            else:
+                raise RowCsvImportError(
+                    f'Institution with {key_column.field_name} "{cleaned_data[key_column.field_name]}" '
+                    'already exists.'
+                )
+
+        else:
+            # New instance has to be created
+            instance = self.model(**cleaned_data)
+
         instance.save()
 
         related_instances = []
@@ -176,7 +211,12 @@ class CsvImporter(object):
 
         return instance, related_instances
 
-    def import_data(self, csv_file):
+    def import_data(self, csv_file, override_existing=False):
+        if override_existing and not self.key_column_name:
+            raise ConfigCsvImportError(
+                'The override_existing option is set but no key_column_name is defined in CsvImporter derived class.'
+            )
+
         csv_file.seek(0)
         reader = csv.reader(codecs.iterdecode(csv_file, 'utf-8'))
 
@@ -186,7 +226,8 @@ class CsvImporter(object):
         instances = []
         with transaction.atomic():
             for row_index, row in enumerate(reader, start=1):
-                instance, related_instances = self.process_row(row_index, row)
+
+                instance, related_instances = self.process_row(row_index, row, override_existing)
                 instances.append({
                     'instance': instance,
                     'related_instances': related_instances

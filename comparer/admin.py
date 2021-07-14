@@ -1,12 +1,13 @@
 import csv
 
 from django import forms
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.urls import path
 from django.shortcuts import redirect, render
 from django.utils.translation import ugettext_lazy as _
 
-from common.csv_tools import CsvImporter, CsvColumn, CsvRelatedColumn
+from common.csv_tools import CsvImporter, CsvColumn, CsvRelatedColumn, CsvImportError
+from common.form_validators import validate_csv_ext
 from .models import *
 
 
@@ -53,11 +54,14 @@ class InstitutionPolicyInline(admin.TabularInline):
 
 
 class CsvImportForm(forms.Form):
-    csv_file = forms.FileField()
+    csv_file = forms.FileField(validators=[validate_csv_ext])
+    override_existing = forms.BooleanField(label=_('Override existing'), required=False)
 
 
 class CsvInstitutionImporter(CsvImporter):
     model = Institution
+    key_column_name = 'name'
+
     columns = [
         CsvColumn(name='name', field_name='name', required=True),
         CsvColumn(name='region', field_name='region', required=True),
@@ -111,27 +115,39 @@ class InstitutionAdmin(admin.ModelAdmin):
 
     def import_institutions_csv(self, request):
         if request.method == 'POST':
-            csv_file = request.FILES['csv_file']
+            form = CsvImportForm(request.POST, request.FILES)
 
-            importer = CsvInstitutionImporter()
-            institutions = importer.import_data(csv_file)
+            if form.is_valid():
+                importer = CsvInstitutionImporter()
+                try:
+                    institutions = importer.import_data(
+                        form.cleaned_data['csv_file'],
+                        override_existing=form.cleaned_data['override_existing']
+                    )
+                except CsvImportError as e:
+                    self.message_user(
+                        request,
+                        f'Institution import failed: {e}',
+                        level=messages.ERROR
+                    )
+                else:
+                    self.message_user(
+                        request,
+                        f'{len(institutions)} institutions has been successfully imported from csv file.'
+                    )
+                return redirect("..")
 
-            self.message_user(
-                request,
-                f'{len(institutions)} institutions has been successfully imported form csv file.'
-            )
-            return redirect("..")
-
-        else:
+        else:  # GET
             form = CsvImportForm()
-            context = {
-                'form': form,
-                'opts': self.model._meta,
-                'view_name': _('Import institutions from csv')
-            }
-            return render(
-                request, 'comparer/admin/csv_form.html', context
-            )
+
+        context = {
+            'form': form,
+            'opts': self.model._meta,
+            'view_name': _('Import institutions from csv')
+        }
+        return render(
+            request, 'comparer/admin/csv_form.html', context
+        )
 
 
 admin.site.register(PolicyCategory, PolicyCategoryAdmin)
