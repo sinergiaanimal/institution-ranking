@@ -42,7 +42,14 @@
             </thead>
             <tbody>
                 <tr v-for="institution in institutions" :key="institution.id">
-                    <td>{{ institution.name }}</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <figure :style="{'background-image': 'url(' + (institution.logo_thumb || defaultThumbUrl) + ')'}"
+                                    class="institution-thumb">
+                            </figure>
+                            {{ institution.name }}
+                        </div>
+                    </td>
                     <td>
                         <div class="progress"
                             :title="institution.scores.total + ' / ' + maxScore">
@@ -96,6 +103,7 @@ export default {
 
     data () {
         return {
+            defaultThumbUrl: '/static/comparer/img/institution-logo-default.svg',
             policyCategories: null,
             maxScore: null,
             institutions: null,

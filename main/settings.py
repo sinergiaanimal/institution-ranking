@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'mptt',
     'rest_framework',
     'django_filters',
+    'imagekit',
 
     'djangocms_text_ckeditor',
     'djangocms_link',

@@ -97,6 +97,10 @@ class CsvInstitutionImporter(CsvImporter):
 
 
 class InstitutionAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', 'region', 'country', 'is_active', 'creation_timestamp', 'modification_timestamp']
+    list_display_links = ['id', 'name']
+    list_filter = ['is_active', 'region', 'creation_timestamp', 'modification_timestamp']
+    search_fields = ['id', 'name', 'region', 'country']
     change_list_template = 'comparer/admin/institution_changelist.html'
     inlines = [
         InstitutionEmailInline,

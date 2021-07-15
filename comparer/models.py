@@ -3,10 +3,14 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models import Sum, Q
 from django.conf import settings
 
+from imagekit.models import ProcessedImageField, ImageSpecField
+from imagekit.processors import ResizeToFit
+
 from cms.models import CMSPlugin
 
 from common.managers import ActivableModelQuerySet
 from common.models import TimestampedModel, ActivableModel, OrderedModel
+
 
 __all__ = (
     'PolicyCategory', 'PolicyCriterion', 'Institution', 'SocialMediaLink', 'InstitutionEmail', 'InstitutionPolicy',
@@ -61,11 +65,25 @@ class InstitutionQuerySet(ActivableModelQuerySet):
 
 
 class Institution(ActivableModel, TimestampedModel):
+    LOGO_WIDTH, LOGO_HEIGHT = 240, 240
+    LOGO_THUMB_WIDTH, LOGO_THUMB_HEIGHT = 30, 30
+
     name = models.CharField(_('name'), max_length=250)
     description = models.TextField(_('description'), blank=True)
     region = models.CharField(_('region'), max_length=100, blank=True)
     country = models.CharField(_('country'), max_length=100)
-    logo = models.ImageField(_('logo'), upload_to='comparer/institution/logo', blank=True)
+    logo = ProcessedImageField(
+        verbose_name=_('logo'),
+        upload_to='comparer/institution/logo',
+        null=True, blank=True,
+        processors=[ResizeToFit(LOGO_WIDTH, LOGO_HEIGHT)]
+    )
+    logo_thumb = ImageSpecField(
+        source='logo',
+        processors=[ResizeToFit(LOGO_THUMB_WIDTH, LOGO_THUMB_HEIGHT)],
+        format='PNG'
+    )
+
     # social_media_links = defined in comparer.models.SocialMediaLink.institution
     # emails = defined in comparer.models.InstitutionEmail.institution
     # policies = defined in comparer.models.InstitutionPolicy.institution

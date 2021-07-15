@@ -1,6 +1,6 @@
 from django.conf import settings
 
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from rest_framework.serializers import ModelSerializer, SerializerMethodField, ImageField
 
 from comparer.models import *
 
@@ -31,12 +31,12 @@ class PolicyCategorySerializer(ModelSerializer):
 
 class InstitutionListSerializer(ModelSerializer):
     scores = SerializerMethodField()
+    logo_thumb = ImageField()
 
     class Meta:
         model = Institution
         fields = [
-            'id', 'name', 'region', 'country', 'logo',
-            'scores'
+            'id', 'name', 'region', 'country', 'logo', 'logo_thumb', 'scores'
         ]
 
     def get_scores(self, obj):
@@ -54,7 +54,7 @@ class InstitutionDetailSerializer(ModelSerializer):
     class Meta:
         model = Institution
         fields = [
-            'name', 'region', 'country', 'logo',
+            'name', 'region', 'country', 'logo', 'logo_thumb',
             'social_media_links', 'emails', 'policies',
 
             'description',
