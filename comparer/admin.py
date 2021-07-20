@@ -6,8 +6,8 @@ from django.urls import path
 from django.shortcuts import redirect, render
 from django.utils.translation import ugettext_lazy as _
 
-from common.csv_tools import CsvImporter, CsvColumn, CsvRelatedColumn, CsvImportError
-from common.form_validators import validate_csv_ext
+from common.import_tools import CsvImporter, CsvColumn, CsvRelatedColumn, CsvImportError, ZipImporter
+from common.form_validators import validate_csv_ext, validate_zip_ext
 from .models import *
 
 
@@ -56,6 +56,10 @@ class InstitutionPolicyInline(admin.TabularInline):
 class CsvImportForm(forms.Form):
     csv_file = forms.FileField(validators=[validate_csv_ext])
     override_existing = forms.BooleanField(label=_('Override existing'), required=False)
+
+
+class ArchiveImportForm(forms.Form):
+    archive_file = forms.FileField(validators=[validate_zip_ext])
 
 
 class CsvInstitutionImporter(CsvImporter):
@@ -115,7 +119,47 @@ class InstitutionAdmin(admin.ModelAdmin):
                 self.import_institutions_csv,
                 name='import-institutions-csv'
             ),
+            path(
+                'import-logo-zip/',
+                self.import_logo_zip,
+                name='import-logo-zip'
+            ),
         ] + super().get_urls()
+
+    def import_logo_zip(self, request):
+        if request.method == 'POST':
+            form = ArchiveImportForm(request.POST, request.FILES)
+
+            if form.is_valid():
+                importer = ZipImporter(
+                    model=Institution, file_fname='logo', query_fname='name',
+                    allowed_ext=['bmp', 'gif', 'png', 'jpg', 'jpeg', 'ico']
+                )
+                imported_count, errors_list, unrecog_list = importer.import_data(form.cleaned_data['archive_file'])
+
+                message = _('Successfully assigned logo files to {} institutions.').format(imported_count)
+                if errors_list:
+                    message += _(' Encountered errors while processing: "{}".').format('", "'.join(errors_list))
+                if unrecog_list:
+                    message += _(' Unrecognized files in the archive: "{}".').format('", "'.join(unrecog_list))
+                self.message_user(request, message)
+
+                return redirect("..")
+
+        else:  # GET
+            form = ArchiveImportForm()
+
+        title = _('Import logo from zip')
+        context = {
+            'form': form,
+            'opts': self.model._meta,
+            'title': title,
+            'view_name': title,
+            'submit_btn_name': _('Upload ZIP')
+        }
+        return render(
+            request, 'comparer/admin/file_upload_form.html', context
+        )
 
     def import_institutions_csv(self, request):
         if request.method == 'POST':
@@ -144,13 +188,16 @@ class InstitutionAdmin(admin.ModelAdmin):
         else:  # GET
             form = CsvImportForm()
 
+        title = _('Import institutions from csv')
         context = {
             'form': form,
             'opts': self.model._meta,
-            'view_name': _('Import institutions from csv')
+            'title': title,
+            'view_name': title,
+            'submit_btn_name': _('Upload CSV')
         }
         return render(
-            request, 'comparer/admin/csv_form.html', context
+            request, 'comparer/admin/file_upload_form.html', context
         )
 
 

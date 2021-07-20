@@ -1,5 +1,10 @@
 import codecs
 import csv
+import io
+import zipfile
+import re
+
+from PIL import UnidentifiedImageError
 
 from django.db import transaction
 
@@ -236,5 +241,49 @@ class CsvImporter(object):
         return instances
 
 
+class ZipImporter(object):
+    """
+    Tries to save files from zip_file archive to corresponding model instances when name of the file matches
+    query_fname field value of the model instance.
+    """
 
+    def __init__(self, model, file_fname, query_fname, case_sensitive=False, allowed_ext=None):
+        self.model = model
+        self.file_fname = file_fname
+        self.query_fname = query_fname
+        self.case_sensitive = case_sensitive
 
+        if isinstance(allowed_ext, str):
+            allowed_ext = [allowed_ext]
+        assert isinstance(allowed_ext, (list, tuple))
+        self.allowed_ext = allowed_ext
+
+    def import_data(self, zip_file):
+        imported_count = 0
+        errors_list = []
+        unrecog_list = []
+
+        with zipfile.ZipFile(zip_file, 'r') as archive:
+
+            for raw_name in archive.namelist():
+                if self.allowed_ext:
+                    pattern = r'\.({})$'.format('|'.join(self.allowed_ext))
+                    name = re.sub(pattern, '', raw_name)
+
+                query_params = {
+                    '{n}__{i}exact'.format(n=self.query_fname, i='' if self.case_sensitive else 'i'): name
+                }
+                try:
+                    instance = self.model.objects.get(**query_params)
+                except self.model.DoesNotExist:
+                    unrecog_list.append(raw_name)
+                else:
+                    file_content = io.BytesIO(archive.read(raw_name))
+                    try:
+                        getattr(instance, self.file_fname).save(name, file_content)
+                    except UnidentifiedImageError:
+                        errors_list.append(raw_name)
+                    else:
+                        imported_count += 1
+
+        return imported_count, errors_list, unrecog_list

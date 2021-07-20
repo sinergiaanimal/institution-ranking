@@ -2,6 +2,7 @@
 {# load admin_urls #}
 
 {% block object-tools %}
-    <a href="{% url 'admin:import-institutions-csv' %}">Import institutions from CSV</a>
+    <a href="{% url 'admin:import-institutions-csv' %}">Import institutions from CSV</a> |
+    <a href="{% url 'admin:import-logo-zip' %}">Import logo from ZIP</a>
     {{ block.super }}
 {% endblock %}
