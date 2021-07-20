@@ -13,8 +13,8 @@ from common.models import TimestampedModel, ActivableModel, OrderedModel
 
 
 __all__ = (
-    'PolicyCategory', 'PolicyCriterion', 'Institution', 'SocialMediaLink', 'InstitutionEmail', 'InstitutionPolicy',
-    'MessageTemplate', 'RankingBoxPluginModel', 'RankingBrowserPluginModel'
+    'PolicyCategory', 'PolicyCriterion', 'Institution', 'SocialMediaLink', 'InstitutionEmail', 'InstitutionScore',
+    'InstitutionPolicy', 'MessageTemplate', 'RankingBoxPluginModel', 'RankingBrowserPluginModel'
 )
 
 
@@ -22,7 +22,8 @@ class PolicyCategory(OrderedModel, ActivableModel, TimestampedModel):
     name = models.CharField(_('name'), max_length=250)
     slug = models.SlugField(_('slug'), unique=True)
     max_score = models.PositiveIntegerField(_('max_score'), default=0)
-    # criterions - defined in comparer.models.InstitutionPolicy.criterion
+
+    # criterions - defined in comparer.models.PolicyCriterion.category
     # browser_plugin_instances - defined in comparer.models.RankingBrowserPluginModel
 
     class Meta:
@@ -40,7 +41,6 @@ class PolicyCriterion(OrderedModel, ActivableModel, TimestampedModel):
         verbose_name=_('category'), to=PolicyCategory, on_delete=models.CASCADE,
         related_name='criterions'
     )
-    # policies - defined in comparer.models.InstitutionPolicy.criterion
 
     class Meta:
         verbose_name = _('Policy criterion')
@@ -54,12 +54,12 @@ class InstitutionQuerySet(ActivableModelQuerySet):
 
     def with_scores(self):
         query_dict = {
-            'score_total': models.Sum('policies__score')
+            'score_total': models.Sum('scores__score')
         }
         for slug in settings.POLICY_CATEGORY_SLUGS:
             query_dict[f'score_{slug}'] = Sum(
-                'policies__score',
-                filter=Q(policies__criterion__category__slug=slug)
+                'scores__score',
+                filter=Q(scores__criterion__category__slug=slug)
             )
         return self.annotate(**query_dict)
 
@@ -86,7 +86,8 @@ class Institution(ActivableModel, TimestampedModel):
 
     # social_media_links = defined in comparer.models.SocialMediaLink.institution
     # emails = defined in comparer.models.InstitutionEmail.institution
-    # policies = defined in comparer.models.InstitutionPolicy.institution
+    # scores = defined in comparer.models.InstitutionScore.institution
+
     objects = InstitutionQuerySet.as_manager()
 
     class Meta:
@@ -140,20 +141,32 @@ class InstitutionEmail(ActivableModel, TimestampedModel):
         return self.address
 
 
-class InstitutionPolicy(ActivableModel, TimestampedModel):
+class InstitutionScore(ActivableModel, TimestampedModel):
     institution = models.ForeignKey(
         verbose_name=_('institution'), to=Institution, on_delete=models.CASCADE,
-        related_name='policies'
+        related_name='scores'
     )
     criterion = models.ForeignKey(
         verbose_name=_('policy criterion'), to=PolicyCriterion, on_delete=models.CASCADE,
+        related_name='scores'
+    )
+    comment = models.TextField(_('comment'), blank=True)
+    score = models.IntegerField(_('score'), default=0)
+
+    # policies - defined in comparer.InstitutionPolicy.score
+
+    def __str__(self):
+        return self.score
+
+
+class InstitutionPolicy(ActivableModel, TimestampedModel):
+    score = models.ForeignKey(
+        verbose_name=_('score'), to=InstitutionScore, on_delete=models.CASCADE,
         related_name='policies'
     )
     title = models.CharField(_('title'), max_length=250)
     link = models.URLField(_('link'), blank=True)
     text = models.TextField(_('text'), blank=True)
-    comment = models.TextField(_('comment'), blank=True)
-    score = models.IntegerField(_('score'), default=0)
 
     class Meta:
         verbose_name = _('Institution policy')

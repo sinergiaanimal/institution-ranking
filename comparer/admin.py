@@ -48,8 +48,8 @@ class SocialMediaLinkInline(admin.TabularInline):
     extra = 0
 
 
-class InstitutionPolicyInline(admin.TabularInline):
-    model = InstitutionPolicy
+class InstitutionScoreInline(admin.TabularInline):
+    model = InstitutionScore
     extra = 0
 
 
@@ -109,7 +109,7 @@ class InstitutionAdmin(admin.ModelAdmin):
     inlines = [
         InstitutionEmailInline,
         SocialMediaLinkInline,
-        InstitutionPolicyInline,
+        InstitutionScoreInline,
     ]
 
     def get_urls(self):
@@ -201,10 +201,35 @@ class InstitutionAdmin(admin.ModelAdmin):
         )
 
 
+class InstitutionPolicyInline(admin.TabularInline):
+    model = InstitutionPolicy
+    extra = 0
+
+
+class InstitutionScoreAdmin(admin.ModelAdmin):
+    list_display = [
+        'id', 'institution', 'criterion', 'score', 'is_active', 'creation_timestamp', 'modification_timestamp'
+    ]
+    list_filter = ['criterion', 'is_active', 'score', 'is_active', 'creation_timestamp', 'modification_timestamp']
+    search_fields = ['institution__name', 'criterion__name', 'score']
+    inlines = [InstitutionPolicyInline]
+
+
+class InstitutionPolicyAdmin(admin.ModelAdmin):
+    list_display = [
+        'id', 'score', 'title', 'link', 'is_active', 'creation_timestamp', 'modification_timestamp'
+    ]
+    list_filter = [
+        'score__score', 'is_active', 'creation_timestamp', 'modification_timestamp'
+    ]
+    search_fields = ['title']
+
+
 admin.site.register(PolicyCategory, PolicyCategoryAdmin)
 admin.site.register(PolicyCriterion, PolicyCriterionAdmin)
 admin.site.register(Institution, InstitutionAdmin)
 admin.site.register(SocialMediaLink)
 admin.site.register(InstitutionEmail)
-admin.site.register(InstitutionPolicy)
+admin.site.register(InstitutionScore, InstitutionScoreAdmin)
+admin.site.register(InstitutionPolicy, InstitutionPolicyAdmin)
 admin.site.register(MessageTemplate)
