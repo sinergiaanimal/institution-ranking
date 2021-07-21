@@ -6,7 +6,7 @@ from django.urls import path
 from django.shortcuts import redirect, render
 from django.utils.translation import ugettext_lazy as _
 
-from common.import_tools import CsvImporter, CsvColumn, CsvRelatedColumn, CsvImportError, ZipImporter, CsvIndirectColumn
+from common.import_tools import CsvImporter, CsvColumn, CsvCustomColumn, CsvRelatedColumn, CsvImportError, ZipImporter
 from common.form_validators import validate_csv_ext, validate_zip_ext
 from .models import *
 
@@ -104,8 +104,6 @@ class CsvPolicyImporter(CsvImporter):
     model = InstitutionPolicy
 
     columns = [
-        CsvIndirectColumn(name='institution name', field_name='name', required=True),
-
     ]
 
 
