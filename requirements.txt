@@ -6,6 +6,7 @@ Markdown==3.3.4
 django-filer==2.0.2
 django-cleanup==5.2.0
 django-imagekit==4.0.2
+django-autoslug==1.9.8
 
 django-cms==3.9.0
 djangocms-text-ckeditor==4.0.0

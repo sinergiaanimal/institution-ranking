@@ -36,7 +36,7 @@ class InstitutionListSerializer(ModelSerializer):
     class Meta:
         model = Institution
         fields = [
-            'id', 'name', 'region', 'country', 'logo', 'logo_thumb', 'scores'
+            'id', 'slug', 'name', 'region', 'country', 'logo', 'logo_thumb', 'scores'
         ]
 
     def get_scores(self, obj):

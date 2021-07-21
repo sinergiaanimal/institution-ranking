@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models import Sum, Q
 from django.conf import settings
 
+from autoslug import AutoSlugField
 from imagekit.models import ProcessedImageField, ImageSpecField
 from imagekit.processors import ResizeToFit
 
@@ -69,6 +70,7 @@ class Institution(ActivableModel, TimestampedModel):
     LOGO_THUMB_WIDTH, LOGO_THUMB_HEIGHT = 30, 30
 
     name = models.CharField(_('name'), max_length=250)
+    slug = AutoSlugField(_('slug'), editable=True, populate_from='name', unique=True)
     description = models.TextField(_('description'), blank=True)
     region = models.CharField(_('region'), max_length=100, blank=True)
     country = models.CharField(_('country'), max_length=100)

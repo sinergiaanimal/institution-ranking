@@ -18,6 +18,8 @@ urlpatterns = i18n_patterns(
 
     re_path(r'^admin/', admin.site.urls),
 
+    re_path(r'^', include('comparer.urls')),
+
     path(
         'sitemap.xml',
         sitemap,

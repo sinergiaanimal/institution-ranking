@@ -58,10 +58,21 @@ class CsvColumnBase(object):
 
 
 class CsvColumn(CsvColumnBase):
-    pass
+    """
+    Standard csv column mapped to single model instance field value.
+    """
+
+
+class CsvCustomColumn(CsvColumnBase):
+    """
+    This column values are not directly saved as model field values.
+    """
 
 
 class CsvRelatedColumn(CsvColumnBase):
+    """
+    Saves value in related model instance.
+    """
 
     def __init__(
         self,
