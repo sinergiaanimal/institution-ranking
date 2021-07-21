@@ -31,13 +31,11 @@ class CsvColumnBase(object):
     def __init__(
         self,
         name,
-        field_name,
         data_type=DT_TEXT,
         required=False,
         default=None,
     ):
         self.name = name
-        self.field_name = field_name
         self.data_type = data_type
         self.required = required
         self.default = default
@@ -47,25 +45,48 @@ class CsvColumnBase(object):
             return False, 'Value is required.'
         return True, ''
 
-    def convert_value(self, value):
+    def process_value(self, value):
         if self.data_type == self.DT_NUMBER:
-            converted = int(value)
+            processed = int(value)
         elif self.data_type == self.DT_MARKDOWN:
             raise NotImplementedError('Markdown support is not implemented yet.')
         else:
-            converted = value
-        return converted
+            processed = value
+        return processed
+
+    def assign_data(self, value, instance):
+        raise NotImplementedError('This method should be implemented in derived class.')
 
 
-class CsvColumn(CsvColumnBase):
+class CsvFieldColumn(CsvColumnBase):
     """
     Standard csv column mapped to single model instance field value.
     """
 
+    def __init__(
+        self,
+        name,
+        field_name,
+        data_type=CsvColumnBase.DT_TEXT,
+        required=False,
+        default=None,
+    ):
+        super().__init__(
+            name=name,
+            data_type=data_type,
+            required=required,
+            default=default
+        )
+        self.field_name = field_name
+
+    def assign_data(self, value, instance):
+        setattr(instance, self.field_name, value)
+
 
 class CsvCustomColumn(CsvColumnBase):
     """
-    This column values are not directly saved as model field values.
+    This column is processed specifically.
+    TODO...
     """
 
 
@@ -80,7 +101,7 @@ class CsvRelatedColumn(CsvColumnBase):
         field_name,
         related_model,
         fk_name,
-        data_type=CsvColumn.DT_TEXT,
+        data_type=CsvFieldColumn.DT_TEXT,
         required=False,
         default=None,
         many=True,
@@ -89,28 +110,57 @@ class CsvRelatedColumn(CsvColumnBase):
     ):
         super().__init__(
             name=name,
-            field_name=field_name,
             data_type=data_type,
             required=required,
             default=default
         )
+        self.field_name = field_name
         self.related_model = related_model
         self.fk_name = fk_name
         self.many = many
         self.separator = separator
         self.related_data = related_data or {}
 
-    def convert_values(self, values_str):
+    def process_value(self, value):
         """
         Always returns list of values, even if empty or with single element.
         """
-        if not values_str.strip():
+        if not value.strip():
             return []
         if self.many:
-            values_list = values_str.split(self.separator)
+            values_list = value.split(self.separator)
         else:
-            values_list = [values_str]
-        return [self.convert_value(v) for v in values_list]
+            values_list = [value]
+
+        processed_list = []
+        for val in values_list:
+            data = self.related_data.copy()
+            data[self.field_name] = super().process_value(val)
+            processed_list.append({
+                'model': self.related_model,
+                'fk_name': self.fk_name,
+                'data': data
+            })
+        return processed_list
+
+    def assign_data(self, value, instance, remove_existing=True):
+        """
+        :param value: list of processed values
+        :param instance: model instance
+        :param remove_existing: should existing data be removed before assigning current data?
+        :return:
+        """
+        # Removing existing related data
+        if remove_existing:
+            related_instances = self.related_model.objects.filter(**{self.fk_name: instance})
+            related_instances.delete()
+
+        for item in value:
+            related_obj = item['model'](
+                **{item['fk_name']: instance},
+                **item['data']
+            )
+            related_obj.save()
 
 
 class CsvImporter(object):
@@ -144,11 +194,10 @@ class CsvImporter(object):
 
     def clean_row(self, row_index, row):
         """
-        Try to validate values existing in the row, if corresponding column is defined.
+        Tries to validate values existing in the row, if corresponding column is defined.
         Otherwise ignore the value.
         """
         cleaned_data = {}
-        related_list = []
 
         for i, value in enumerate(row):
             if i < len(self.header):
@@ -158,74 +207,54 @@ class CsvImporter(object):
                     is_valid, error = column.is_valid(value)
                     if not is_valid:
                         raise RowCsvImportError(
-                            f'Row {row_index} has invalid value "{value}" in column {i} "{self.header[i].name}". '
+                            f'Row {row_index + 1} has invalid value "{value}" in column {i} "{self.header[i].name}". '
                             f'Error: {error}'
                         )
 
-                if isinstance(column, CsvColumn):
-                    cleaned_data[column.field_name] = column.convert_value(value)
+                cleaned_data[column.name] = column.process_value(value)
 
-                elif isinstance(column, CsvRelatedColumn):
-                    for val in column.convert_values(value):
-                        data = column.related_data.copy()
-                        data[column.field_name] = val
-                        related_list.append({
-                            'model': column.related_model,
-                            'fk_name': column.fk_name,
-                            'data': data
-                        })
-
-        return cleaned_data, related_list
+        return cleaned_data
 
     def process_row(self, row_index, row, override_existing=False):
-        cleaned_data, related_list = self.clean_row(row_index, row)
+        cleaned_data = self.clean_row(row_index, row)
 
         # Trying to get existing instance
         if self.key_column_name:
             key_column = self.get_column_by_name(self.key_column_name)
             try:
                 instance = self.model.objects.get(
-                    **{key_column.field_name: cleaned_data[key_column.field_name]}
+                    **{key_column.field_name: cleaned_data[key_column.name]}
                 )
             except self.model.DoesNotExist:
                 instance = None
         else:
+            key_column = None
             instance = None
 
         if instance:
             # Instance already present in database
-            if override_existing:
-                for name, value in cleaned_data.items():
-                    setattr(instance, name, value)
-
-                # Removing existing related data
-                for column in self.columns:
-                    if isinstance(column, CsvRelatedColumn):
-                        related_instances = column.related_model.objects.filter(**{column.fk_name: instance})
-                        related_instances.delete()
-
-            else:
+            if not override_existing:
                 raise RowCsvImportError(
-                    f'Institution with {key_column.field_name} "{cleaned_data[key_column.field_name]}" '
+                    f'Institution with {key_column.field_name} "{cleaned_data[key_column.name]}" '
                     'already exists.'
                 )
-
         else:
             # New instance has to be created
-            instance = self.model(**cleaned_data)
+            instance = self.model()
+
+        second_step_columns = []
+        for column in self.columns:
+            if isinstance(column, CsvRelatedColumn):
+                second_step_columns.append(column)
+            else:
+                column.assign_data(cleaned_data[column.name], instance)
 
         instance.save()
 
-        related_instances = []
-        for item in related_list:
-            related_obj = item['model'](
-                **{item['fk_name']: instance},
-                **item['data']
-            )
-            related_obj.save()
-            related_instances.append(related_obj)
+        for column in second_step_columns:
+            column.assign_data(cleaned_data[column.name], instance)
 
-        return instance, related_instances
+        return instance
 
     def import_data(self, csv_file, override_existing=False):
         if override_existing and not self.key_column_name:
@@ -243,11 +272,8 @@ class CsvImporter(object):
         with transaction.atomic():
             for row_index, row in enumerate(reader, start=1):
 
-                instance, related_instances = self.process_row(row_index, row, override_existing)
-                instances.append({
-                    'instance': instance,
-                    'related_instances': related_instances
-                })
+                instance = self.process_row(row_index, row, override_existing)
+                instances.append(instance)
 
         return instances
 

@@ -6,7 +6,7 @@ from django.urls import path
 from django.shortcuts import redirect, render
 from django.utils.translation import ugettext_lazy as _
 
-from common.import_tools import CsvImporter, CsvColumn, CsvCustomColumn, CsvRelatedColumn, CsvImportError, ZipImporter
+from common.import_tools import CsvImporter, CsvFieldColumn, CsvRelatedColumn, CsvImportError, ZipImporter
 from common.form_validators import validate_csv_ext, validate_zip_ext
 from .models import *
 
@@ -67,9 +67,9 @@ class CsvInstitutionImporter(CsvImporter):
     key_column_name = 'name'
 
     columns = [
-        CsvColumn(name='name', field_name='name', required=True),
-        CsvColumn(name='region', field_name='region', required=True),
-        CsvColumn(name='country', field_name='country', required=True),
+        CsvFieldColumn(name='name', field_name='name', required=True),
+        CsvFieldColumn(name='region', field_name='region', required=True),
+        CsvFieldColumn(name='country', field_name='country', required=True),
         CsvRelatedColumn(
             name='email', field_name='address', related_model=InstitutionEmail, fk_name='institution', many=True
         ),
