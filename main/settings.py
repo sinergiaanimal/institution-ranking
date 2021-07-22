@@ -201,6 +201,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# Limit increased from default 1000 to allow clearing large number of instances from admin panel
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
+
+
 # Django REST Framework
 
 REST_FRAMEWORK = {

@@ -6,7 +6,7 @@ from django.urls import path
 from django.shortcuts import redirect, render
 from django.utils.translation import ugettext_lazy as _
 
-from common.import_tools import CsvImporter, CsvFieldColumn, CsvRelatedColumn, CsvImportError, ZipImporter
+from common.import_tools import CsvImporter, CsvFieldColumn, CsvRelatedColumn, CsvImportError, ZipImporter, CsvFKColumn
 from common.form_validators import validate_csv_ext, validate_zip_ext
 from .models import *
 
@@ -100,15 +100,71 @@ class CsvInstitutionImporter(CsvImporter):
     ]
 
 
+def process_institution_score(instance, global_data):
+    institution = global_data['institution name']
+    criterion = global_data['criterion']
+    try:
+        score = InstitutionScore.objects.get(institution=institution, criterion=criterion)
+    except InstitutionScore.DoesNotExist:
+        score = InstitutionScore(
+            institution=institution,
+            criterion=criterion
+        )
+
+    score_val = global_data.get('score')
+    if score_val is not None:
+        score.score = score_val
+
+    comment = global_data.get('comment')
+    if comment is not None:
+        score.comment = comment
+
+    score.save()
+
+    instance.score = score
+
+
 class CsvPolicyImporter(CsvImporter):
     model = InstitutionPolicy
 
     columns = [
+        CsvFKColumn(
+            name='institution name', field_name=None, related_model=Institution, key_field_name='name',
+            required=True, save_globally=True, do_assign=False, priority=4
+        ),
+        CsvFKColumn(
+            name='criterion', field_name=None, related_model=PolicyCriterion, key_field_name='name',
+            required=True, save_globally=True, do_assign=False, priority=4
+        ),
+        CsvFieldColumn(
+            name='policy', field_name='title'
+        ),
+        CsvFieldColumn(
+            name='link of policy', field_name='link',
+            data_type=CsvFieldColumn.DT_TEXT  # DT_LINK validation makes troubles
+        ),
+        CsvFieldColumn(
+            name='text of policy', field_name='text', data_type=CsvFieldColumn.DT_TEXT
+        ),
+        CsvFieldColumn(
+            name='comment', field_name='score__comment', do_assign=False, save_globally=True, priority=4
+        ),
+        CsvFieldColumn(
+            name='score', field_name='score__score', data_type=CsvFieldColumn.DT_NUMBER,
+            do_assign=False, save_globally=True, priority=4
+        )
     ]
+
+    processors = {
+        4: [process_institution_score]
+    }
 
 
 class InstitutionAdmin(admin.ModelAdmin):
-    list_display = ['id', 'slug', 'name', 'region', 'country', 'is_active', 'creation_timestamp', 'modification_timestamp']
+    list_display = [
+        'id', 'slug', 'name', 'region', 'country', 'is_active',
+        'creation_timestamp', 'modification_timestamp'
+    ]
     list_display_links = ['id', 'slug', 'name']
     list_filter = ['is_active', 'region', 'creation_timestamp', 'modification_timestamp']
     search_fields = ['id', 'name', 'region', 'country']
@@ -125,6 +181,11 @@ class InstitutionAdmin(admin.ModelAdmin):
                 'import-institutions-csv/',
                 self.import_institutions_csv,
                 name='import-institutions-csv'
+            ),
+            path(
+                'import-policies-csv/',
+                self.import_policies_csv,
+                name='import-policies-csv'
             ),
             path(
                 'import-logo-zip/',
@@ -189,6 +250,45 @@ class InstitutionAdmin(admin.ModelAdmin):
                     self.message_user(
                         request,
                         f'{len(institutions)} institutions has been successfully imported from csv file.'
+                    )
+                return redirect("..")
+
+        else:  # GET
+            form = CsvImportForm()
+
+        title = _('Import institutions from csv')
+        context = {
+            'form': form,
+            'opts': self.model._meta,
+            'title': title,
+            'view_name': title,
+            'submit_btn_name': _('Upload CSV')
+        }
+        return render(
+            request, 'comparer/admin/file_upload_form.html', context
+        )
+
+    def import_policies_csv(self, request):
+        if request.method == 'POST':
+            form = CsvImportForm(request.POST, request.FILES)
+
+            if form.is_valid():
+                importer = CsvPolicyImporter()
+                try:
+                    policies = importer.import_data(
+                        form.cleaned_data['csv_file'],
+                        override_existing=form.cleaned_data['override_existing']
+                    )
+                except CsvImportError as e:
+                    self.message_user(
+                        request,
+                        f'Policies import failed: {e}',
+                        level=messages.ERROR
+                    )
+                else:
+                    self.message_user(
+                        request,
+                        f'{len(policies)} policies has been successfully imported from csv file.'
                     )
                 return redirect("..")
 

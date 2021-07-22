@@ -7,6 +7,8 @@ import re
 from PIL import UnidentifiedImageError
 
 from django.db import transaction
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
 
 
 class CsvImportError(Exception):
@@ -26,7 +28,7 @@ class RowCsvImportError(CsvImportError):
 
 
 class CsvColumnBase(object):
-    DT_TEXT, DT_NUMBER, DT_MARKDOWN = range(1, 4)
+    DT_TEXT, DT_NUMBER, DT_LINK, DT_MARKDOWN = range(1, 5)
 
     def __init__(
         self,
@@ -34,27 +36,62 @@ class CsvColumnBase(object):
         data_type=DT_TEXT,
         required=False,
         default=None,
+        priority=5,
+        save_globally=False,
+        do_assign=True
     ):
+        """
+        :param name: [str] name of the csv column
+        :param data_type: [DT_*] type of the value in CSV file
+        :param required: [bool] is value required?
+        :param default: [any] use this value if not found in CSV file
+        :param priority: [int] priority of processing, lower values have higher priority
+        :param save_globally: [bool] value will be saved at assign_data stage to global_data dict
+        """
         self.name = name
         self.data_type = data_type
         self.required = required
         self.default = default
+        self.url_validator = URLValidator() if data_type == self.DT_LINK else None
+        self.priority = priority
+        self.save_globally = save_globally
+        self.do_assign = do_assign
 
     def is_valid(self, value):
         if self.required and not (value and value.strip()):
             return False, 'Value is required.'
+        if self.data_type == self.DT_LINK:
+            try:
+                self.url_validator(value)
+            except ValidationError as e:
+                return False, e.message
+
         return True, ''
 
-    def process_value(self, value):
+    def process_value(self, raw_value):
+        """
+        Cleans raw value according to specified data_type
+        :param raw_value: value to be processed
+        :return: processed value
+        """
+        value = raw_value.strip() if isinstance(raw_value, str) else raw_value
+
         if self.data_type == self.DT_NUMBER:
-            processed = int(value)
+            value = int(value)
         elif self.data_type == self.DT_MARKDOWN:
             raise NotImplementedError('Markdown support is not implemented yet.')
-        else:
-            processed = value
-        return processed
 
-    def assign_data(self, value, instance):
+        return value
+
+    def assign_data(self, value, instance, global_data):
+        """
+        Performs assigning cleaned value to the model instance.
+        Should be defined in derived class.
+        :param value: cleaned value
+        :param instance: model instance
+        :param global_data: global data dict to be used for additional processing if needed
+        :return: None
+        """
         raise NotImplementedError('This method should be implemented in derived class.')
 
 
@@ -65,29 +102,77 @@ class CsvFieldColumn(CsvColumnBase):
 
     def __init__(
         self,
-        name,
+        *args,
         field_name,
-        data_type=CsvColumnBase.DT_TEXT,
-        required=False,
-        default=None,
+        save_obj=False,
+        **kwargs,
     ):
-        super().__init__(
-            name=name,
-            data_type=data_type,
-            required=required,
-            default=default
-        )
+        super().__init__(*args, **kwargs)
         self.field_name = field_name
+        self.save_obj = save_obj
 
-    def assign_data(self, value, instance):
-        setattr(instance, self.field_name, value)
+    @staticmethod
+    def get_obj(instance, field_name):
+        """
+        Usable when field_name is set with "instance__related_instance" format
+        to get related instance object.
+        """
+        field_parts = '__'.split(field_name)
+        obj = instance
+        if len(field_parts) > 1:
+            for part in field_parts[-1:]:
+                obj = getattr(obj, part)
+        return obj
+
+    def assign_data(self, value, instance, global_data):
+        if self.do_assign or self.save_obj:
+            obj = self.get_obj(instance, self.field_name)
+
+            if self.do_assign:
+                setattr(obj, self.field_name.split('__')[-1], value)
+
+            if self.save_obj:
+                obj.save()
+
+        if self.save_globally:
+            global_data[self.name] = value
 
 
-class CsvCustomColumn(CsvColumnBase):
+class CsvFKColumn(CsvColumnBase):
     """
-    This column is processed specifically.
-    TODO...
+    This column sets foreign key to related model based on the value.
     """
+
+    def __init__(
+        self,
+        *args,
+        field_name,
+        related_model,
+        key_field_name,
+        **kwargs
+    ):
+        super().__init__(*args, **kwargs)
+        self.field_name = field_name
+        self.related_model = related_model
+        self.key_field_name = key_field_name
+
+    def assign_data(self, value, instance, global_data):
+        try:
+            related = self.related_model.objects.get(**{self.key_field_name: value})
+        except self.related_model.DoesNotExist:
+            raise RowCsvImportError(
+                f'{self.related_model.__name__} instance with {self.key_field_name} "{value}" does not exist.'
+            )
+        except self.related_model.MultipleObjectsReturned:
+            raise RowCsvImportError(
+                f'More than one {self.related_model.__name__} instance '
+                f'with {self.key_field_name} "{value}" has been found.'
+            )
+        if self.do_assign:
+            setattr(instance, self.field_name, related)
+
+        if self.save_globally:
+            global_data[self.name] = related
 
 
 class CsvRelatedColumn(CsvColumnBase):
@@ -97,23 +182,17 @@ class CsvRelatedColumn(CsvColumnBase):
 
     def __init__(
         self,
-        name,
+        *args,
         field_name,
         related_model,
         fk_name,
-        data_type=CsvFieldColumn.DT_TEXT,
-        required=False,
-        default=None,
+        priority=6,
         many=True,
         separator=';',
-        related_data=None
+        related_data=None,
+        **kwargs
     ):
-        super().__init__(
-            name=name,
-            data_type=data_type,
-            required=required,
-            default=default
-        )
+        super().__init__(*args, priority=priority, **kwargs)
         self.field_name = field_name
         self.related_model = related_model
         self.fk_name = fk_name
@@ -143,11 +222,12 @@ class CsvRelatedColumn(CsvColumnBase):
             })
         return processed_list
 
-    def assign_data(self, value, instance, remove_existing=True):
+    def assign_data(self, value, instance, global_data, remove_existing=True):
         """
-        :param value: list of processed values
-        :param instance: model instance
-        :param remove_existing: should existing data be removed before assigning current data?
+        :param value: [list] list of processed values
+        :param instance: [Model] model instance
+        :param remove_existing: [bool] should existing data be removed before assigning current data?
+        :param global_data: [dict] global data dict injected by importer
         :return:
         """
         # Removing existing related data
@@ -155,21 +235,29 @@ class CsvRelatedColumn(CsvColumnBase):
             related_instances = self.related_model.objects.filter(**{self.fk_name: instance})
             related_instances.delete()
 
+        related_objs = []
         for item in value:
             related_obj = item['model'](
                 **{item['fk_name']: instance},
                 **item['data']
             )
             related_obj.save()
+            related_objs.append(related_obj)
+
+        if self.save_globally:
+            global_data[self.name] = related_objs
 
 
 class CsvImporter(object):
     model = None
     columns = []
     key_column_name = None
+    processors = {}
+    save_instance_at_priority = [5]  # instance will be saved after processing columns with this priority
 
     def __init__(self):
         self.header = None
+        self.global_data = {}
 
     @classmethod
     def get_column_by_name(cls, name):
@@ -211,11 +299,19 @@ class CsvImporter(object):
                             f'Error: {error}'
                         )
 
-                cleaned_data[column.name] = column.process_value(value)
+                    cleaned_data[column.name] = column.process_value(value)
 
         return cleaned_data
 
     def process_row(self, row_index, row, override_existing=False):
+        """
+        Performs data assign for single CSV row.
+        :param row_index: [int] number of the row in CSV file
+        :param row: [list] row data read from CSV file
+        :param override_existing: [bool] should existing model instances be overridden?
+            works only when key_column_name is set on CsvImporter derived class
+        :return: [Model] updated model instance
+        """
         cleaned_data = self.clean_row(row_index, row)
 
         # Trying to get existing instance
@@ -242,21 +338,34 @@ class CsvImporter(object):
             # New instance has to be created
             instance = self.model()
 
-        second_step_columns = []
+        priorities = {}
         for column in self.columns:
-            if isinstance(column, CsvRelatedColumn):
-                second_step_columns.append(column)
-            else:
-                column.assign_data(cleaned_data[column.name], instance)
+            if column.priority not in priorities:
+                priorities[column.priority] = []
+            priorities[column.priority].append(column)
 
-        instance.save()
+        priorities = dict(sorted(priorities.items()))
 
-        for column in second_step_columns:
-            column.assign_data(cleaned_data[column.name], instance)
+        for priority, columns in priorities.items():
+            for column in columns:
+                column.assign_data(cleaned_data[column.name], instance, self.global_data)
+
+            if priority in self.processors:
+                for processor_fn in self.processors[priority]:
+                    processor_fn(instance, self.global_data)
+
+            if priority in self.save_instance_at_priority:
+                instance.save()
 
         return instance
 
     def import_data(self, csv_file, override_existing=False):
+        """
+        Main method called to perform import operation.
+        :param csv_file: opened CSV file containing data to be imported
+        :param override_existing: [bool] should existing records be overridden?
+        :return: [list of Model] list of updated instances
+        """
         if override_existing and not self.key_column_name:
             raise ConfigCsvImportError(
                 'The override_existing option is set but no key_column_name is defined in CsvImporter derived class.'

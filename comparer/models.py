@@ -158,7 +158,7 @@ class InstitutionScore(ActivableModel, TimestampedModel):
     # policies - defined in comparer.InstitutionPolicy.score
 
     def __str__(self):
-        return self.score
+        return f'{self.criterion.name}: {self.score}'
 
 
 class InstitutionPolicy(ActivableModel, TimestampedModel):
