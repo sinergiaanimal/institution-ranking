@@ -14,7 +14,7 @@
                 {{ institution.name }}
               </a>
             </span>
-            <span class="score">{{ institution.score|default:0 }}</span>
+            <span class="score">{{ institution.score_total|default:0 }}</span>
           </div>
         </li>
       {% endfor %}
