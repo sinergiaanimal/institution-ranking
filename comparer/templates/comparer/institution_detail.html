@@ -1,17 +1,85 @@
 {% extends 'cms/base.html' %}
-{% load cms_tags static %}
+{% load cms_tags static i18n %}
 
 {% block title %}{{ institution.name }}{% endblock title %}
 
 {% block content %}
-  <div class="row">
-    <div class="col-md-4">
-      <img src="{% get_media_prefix %}{{ institution.logo }}">
+  <section class="container container--narrow">
+    <div class="row">
+      <div class="col-md-5">
+        {% if institution.logo %}
+          <img src="{% get_media_prefix %}{{ institution.logo }}">
+        {% else %}
+          <img src="{% get_static_prefix %}comparer/img/institution-detail-logo-default.svg">
+        {% endif %}
+      </div>
+      <div class="col-md-7">
+        <h1>{{ institution.name }}</h1>
+        <p>{% trans 'Policy assessment' %}</p>
+        <div class="d-flex">
+          <span style="max-width: 50px;">{{ score_percentage }}%</span>
+          <div class="progress ml-auto" style="width: calc(100% - 60px); margin-top: 5px;">
+            <div class="progress-bar" role="progressbar" style="width: {{ score_percentage }}%"
+                 aria-valuenow="{{ score_percentage }}" aria-valuemin="0" aria-valuemax="100">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 mt-4">
+        <p>{{ institution.description }}</p>
+      </div>
     </div>
-    <div class="col-md-8">
-      <h1>{{ institution.name }}</h1>
-      <p>... TODO ...</p>
-    </div>
-  </div>
 
+    <div>
+      {% for cat in categories %}
+        <h2>{{ cat.instance.name }} {{ cat.score_percentage }}%</h2>
+
+        <div id="category-accordion-{{ cat.pk }}" class="mb-5">
+          {% for score in cat.scores %}
+            <div class="card">
+              <div class="card-header" id="heading-score-{{ score.pk }}">
+                <h5 class="mb-0">
+                  <button class="btn btn-link"
+                          data-toggle="collapse"
+                          data-target="#collapse-score-{{ score.pk }}"
+                          aria-expanded="true"
+                          aria-controls="collapse-score-{{ score.pk }}">
+                    {{ score.criterion.name }} {{ score.score }}
+                  </button>
+                </h5>
+              </div>
+
+              <div id="collapse-score-{{ score.pk }}"
+                   class="collapse"
+                   aria-labelledby="heading-score-{{ score.pk }}"
+                   data-parent="#category-accordion-{{ cat.pk }}">
+                <div class="card-body">
+                  {% for policy in score.policies.active %}
+                    <div class="row mt-3">
+                      <div class="col-lg-4">
+                        <p><strong>Assessed policy</strong></p>
+                        <p>
+                          <a href="{{ policy.link }}" target="_blank">
+                            {{ policy.title }}
+                          </a>
+                        </p>
+                      </div>
+                      <div class="col-lg-8">
+                        <p><strong>Policy details</strong></p>
+                        {{ policy.text|safe }}
+                      </div>
+                    </div>
+                  {% endfor %}{# policies #}
+                </div>
+              </div>
+            </div>
+          {% endfor %}{# scores #}
+        </div>
+      {% endfor %}{# categories #}
+    </div>
+
+    <button type="button" class="btn btn-primary float-right mb-5">
+      {% trans 'Ask bank to commit' %}
+    </button>
+  </section>
 {% endblock content %}

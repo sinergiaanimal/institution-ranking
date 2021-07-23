@@ -3,6 +3,7 @@ import csv
 import io
 import zipfile
 import re
+import markdown
 
 from PIL import UnidentifiedImageError
 
@@ -79,7 +80,7 @@ class CsvColumnBase(object):
         if self.data_type == self.DT_NUMBER:
             value = int(value)
         elif self.data_type == self.DT_MARKDOWN:
-            raise NotImplementedError('Markdown support is not implemented yet.')
+            value = markdown.markdown(value)
 
         return value
 

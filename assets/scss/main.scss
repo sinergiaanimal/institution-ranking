@@ -8,6 +8,15 @@ div.cms {
 }
 
 
+// Bootstrap related
+
+.container {
+    &--narrow {
+        max-width: 660px;
+    }
+}
+
+
 // Global
 
 html, body {
@@ -23,3 +32,4 @@ html, body {
         z-index: 10000000;
     }
 }
+

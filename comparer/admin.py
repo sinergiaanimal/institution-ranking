@@ -144,7 +144,7 @@ class CsvPolicyImporter(CsvImporter):
             data_type=CsvFieldColumn.DT_TEXT  # DT_LINK validation makes troubles
         ),
         CsvFieldColumn(
-            name='text of policy', field_name='text', data_type=CsvFieldColumn.DT_TEXT
+            name='text of policy', field_name='text', data_type=CsvFieldColumn.DT_MARKDOWN
         ),
         CsvFieldColumn(
             name='comment', field_name='score__comment', do_assign=False, save_globally=True, priority=4
