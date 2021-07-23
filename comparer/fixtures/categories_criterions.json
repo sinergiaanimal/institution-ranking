@@ -1,0 +1,306 @@
+[
+{
+  "model": "comparer.policycategory",
+  "pk": 9,
+  "fields": {
+    "creation_timestamp": "2021-07-08T12:44:26.891Z",
+    "modification_timestamp": "2021-07-23T14:00:50.122Z",
+    "is_active": true,
+    "order": 1,
+    "name": "General",
+    "slug": "g",
+    "max_score": 2
+  }
+},
+{
+  "model": "comparer.policycategory",
+  "pk": 10,
+  "fields": {
+    "creation_timestamp": "2021-07-08T12:44:50.809Z",
+    "modification_timestamp": "2021-07-23T14:01:15.884Z",
+    "is_active": true,
+    "order": 2,
+    "name": "Animal Farming & Food Production",
+    "slug": "afafp",
+    "max_score": 24
+  }
+},
+{
+  "model": "comparer.policycategory",
+  "pk": 11,
+  "fields": {
+    "creation_timestamp": "2021-07-08T12:45:22.348Z",
+    "modification_timestamp": "2021-07-23T14:01:22.012Z",
+    "is_active": true,
+    "order": 3,
+    "name": "Animal Testing",
+    "slug": "at",
+    "max_score": 6
+  }
+},
+{
+  "model": "comparer.policycategory",
+  "pk": 12,
+  "fields": {
+    "creation_timestamp": "2021-07-08T12:46:04.527Z",
+    "modification_timestamp": "2021-07-23T14:01:27.843Z",
+    "is_active": true,
+    "order": 4,
+    "name": "Pets, Entertainment and Fashion",
+    "slug": "peaf",
+    "max_score": 8
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 1,
+  "fields": {
+    "creation_timestamp": "2021-07-08T12:59:14.296Z",
+    "modification_timestamp": "2021-07-22T16:37:56.260Z",
+    "is_active": true,
+    "order": 2,
+    "name": "No Cages",
+    "category": 10
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 9,
+  "fields": {
+    "creation_timestamp": "2021-07-08T13:02:08.798Z",
+    "modification_timestamp": "2021-07-22T16:36:20.882Z",
+    "is_active": true,
+    "order": 1,
+    "name": "Five Freedoms",
+    "category": 9
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 16,
+  "fields": {
+    "creation_timestamp": "2021-07-22T16:38:15.444Z",
+    "modification_timestamp": "2021-07-22T16:38:15.444Z",
+    "is_active": true,
+    "order": 3,
+    "name": "Environmental conditions",
+    "category": 10
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 17,
+  "fields": {
+    "creation_timestamp": "2021-07-22T16:40:33.079Z",
+    "modification_timestamp": "2021-07-22T16:40:36.968Z",
+    "is_active": true,
+    "order": 4,
+    "name": "Mutilations",
+    "category": 10
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 18,
+  "fields": {
+    "creation_timestamp": "2021-07-22T16:40:52.402Z",
+    "modification_timestamp": "2021-07-22T16:40:52.402Z",
+    "is_active": true,
+    "order": 5,
+    "name": "Breeding",
+    "category": 10
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 19,
+  "fields": {
+    "creation_timestamp": "2021-07-22T16:42:00.933Z",
+    "modification_timestamp": "2021-07-22T16:42:00.933Z",
+    "is_active": true,
+    "order": 6,
+    "name": "Transport",
+    "category": 10
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 20,
+  "fields": {
+    "creation_timestamp": "2021-07-22T16:42:10.081Z",
+    "modification_timestamp": "2021-07-22T16:42:10.081Z",
+    "is_active": true,
+    "order": 7,
+    "name": "Slaughtering",
+    "category": 10
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 21,
+  "fields": {
+    "creation_timestamp": "2021-07-22T16:42:17.290Z",
+    "modification_timestamp": "2021-07-22T16:42:17.290Z",
+    "is_active": true,
+    "order": 8,
+    "name": "Reporting",
+    "category": 10
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 22,
+  "fields": {
+    "creation_timestamp": "2021-07-22T16:42:43.086Z",
+    "modification_timestamp": "2021-07-22T16:42:43.086Z",
+    "is_active": true,
+    "order": 9,
+    "name": "Antibiotics",
+    "category": 10
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 23,
+  "fields": {
+    "creation_timestamp": "2021-07-22T16:42:52.799Z",
+    "modification_timestamp": "2021-07-22T16:42:52.799Z",
+    "is_active": true,
+    "order": 10,
+    "name": "Plant-based shift",
+    "category": 10
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 24,
+  "fields": {
+    "creation_timestamp": "2021-07-22T16:43:03.882Z",
+    "modification_timestamp": "2021-07-22T16:43:03.882Z",
+    "is_active": true,
+    "order": 11,
+    "name": "Fur",
+    "category": 10
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 25,
+  "fields": {
+    "creation_timestamp": "2021-07-22T16:43:11.821Z",
+    "modification_timestamp": "2021-07-22T16:43:11.821Z",
+    "is_active": true,
+    "order": 12,
+    "name": "Trade",
+    "category": 10
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 26,
+  "fields": {
+    "creation_timestamp": "2021-07-22T16:43:25.391Z",
+    "modification_timestamp": "2021-07-22T16:43:25.391Z",
+    "is_active": true,
+    "order": 13,
+    "name": "Conservation",
+    "category": 10
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 27,
+  "fields": {
+    "creation_timestamp": "2021-07-22T16:43:34.623Z",
+    "modification_timestamp": "2021-07-22T16:43:34.623Z",
+    "is_active": true,
+    "order": 14,
+    "name": "Commercial use",
+    "category": 10
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 28,
+  "fields": {
+    "creation_timestamp": "2021-07-22T16:43:47.424Z",
+    "modification_timestamp": "2021-07-22T16:43:47.424Z",
+    "is_active": true,
+    "order": 15,
+    "name": "Non-medical testing",
+    "category": 11
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 29,
+  "fields": {
+    "creation_timestamp": "2021-07-22T16:43:54.750Z",
+    "modification_timestamp": "2021-07-22T16:43:54.750Z",
+    "is_active": true,
+    "order": 16,
+    "name": "Medical testing",
+    "category": 11
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 30,
+  "fields": {
+    "creation_timestamp": "2021-07-22T16:44:07.500Z",
+    "modification_timestamp": "2021-07-22T16:44:07.500Z",
+    "is_active": true,
+    "order": 17,
+    "name": "Genetic Engineering",
+    "category": 11
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 31,
+  "fields": {
+    "creation_timestamp": "2021-07-22T16:44:24.345Z",
+    "modification_timestamp": "2021-07-22T16:44:24.345Z",
+    "is_active": true,
+    "order": 18,
+    "name": "Company procurement",
+    "category": 12
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 32,
+  "fields": {
+    "creation_timestamp": "2021-07-22T16:44:33.300Z",
+    "modification_timestamp": "2021-07-22T16:44:33.300Z",
+    "is_active": true,
+    "order": 19,
+    "name": "Bank Procurement",
+    "category": 12
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 33,
+  "fields": {
+    "creation_timestamp": "2021-07-22T16:44:39.926Z",
+    "modification_timestamp": "2021-07-22T16:44:39.926Z",
+    "is_active": true,
+    "order": 20,
+    "name": "Covenants",
+    "category": 12
+  }
+},
+{
+  "model": "comparer.policycriterion",
+  "pk": 34,
+  "fields": {
+    "creation_timestamp": "2021-07-22T16:44:50.485Z",
+    "modification_timestamp": "2021-07-22T16:44:50.485Z",
+    "is_active": true,
+    "order": 21,
+    "name": "Transition finance",
+    "category": 12
+  }
+}
+]
