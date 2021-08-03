@@ -86,9 +86,9 @@ class Institution(ActivableModel, TimestampedModel):
         format='PNG'
     )
 
-    # social_media_links = defined in comparer.models.SocialMediaLink.institution
-    # emails = defined in comparer.models.InstitutionEmail.institution
-    # scores = defined in comparer.models.InstitutionScore.institution
+    # social_media_links - defined in comparer.models.SocialMediaLink.institution
+    # emails - defined in comparer.models.InstitutionEmail.institution
+    # scores - defined in comparer.models.InstitutionScore.institution
 
     objects = InstitutionQuerySet.as_manager()
 

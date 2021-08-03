@@ -48,8 +48,8 @@
   </footer>
 
   {% block js_start %}{% endblock %}
-  {% render_block "js" %}
   <script src="{% static 'main.bundle.js' %}"></script>
+  {% render_block "js" %}
   {% with_data "js-script" as jsset %}
     {% for js in jsset %}<script type="text/javascript" src="{% static js %}"></script>{% endfor %}
   {% end_with_data %}

@@ -158,6 +158,10 @@ export default {
         applySearch (val, e) {
             this.searchText = val;
             this.getInstitutionList();
+        },
+
+        showMessagePopup (institution) {
+            this.$refs.messagePopup.showMessagePopup(institution);
         }
     },
 

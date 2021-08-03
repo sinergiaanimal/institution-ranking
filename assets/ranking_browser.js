@@ -1,4 +1,4 @@
-import 'bootstrap';
+import 'bootstrap/js/dist/modal';
 
 import { createApp } from 'vue';
 import RankingBrowserApp from './vue/RankingBrowserApp.vue';
