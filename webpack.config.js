@@ -5,6 +5,8 @@ const { VueLoaderPlugin } = require('vue-loader');
 
 
 module.exports = {
+  devtool: 'source-map',
+  
   entry: {
     main: './assets/index.js',
     ranking_browser: './assets/ranking_browser.js'

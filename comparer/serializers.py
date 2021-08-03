@@ -5,6 +5,12 @@ from rest_framework.serializers import ModelSerializer, SerializerMethodField, I
 from comparer.models import *
 
 
+__all__ = (
+    'PolicyCategorySerializer', 'InstitutionListSerializer', 'InstitutionDetailSerializer',
+    'MessageTemplateSerializer'
+)
+
+
 class PolicyCriterionNestedSerializer(ModelSerializer):
 
     class Meta:
@@ -48,14 +54,40 @@ class InstitutionListSerializer(ModelSerializer):
         return scores
 
 
-class InstitutionDetailSerializer(ModelSerializer):
-    emails = SerializerMethodField()
+class SocialMediaLinkSerializer(ModelSerializer):
+    kind_name = SerializerMethodField()
+
+    class Meta:
+        model = SocialMediaLink
+        fields = ['id', 'kind', 'kind_name', 'url']
+
+    def get_kind_name(self, obj):
+        return obj.get_kind_display()
+
+
+class InstitutionEmailSerializer(ModelSerializer):
+
+    class Meta:
+        model = InstitutionEmail
+        fields = ['id', 'address']
+
+
+class InstitutionDetailSerializer(InstitutionListSerializer):
+    social_media_links = SocialMediaLinkSerializer(many=True)
+    emails = InstitutionEmailSerializer(many=True)
 
     class Meta:
         model = Institution
-        fields = [
-            'name', 'region', 'country', 'logo', 'logo_thumb',
-            'social_media_links', 'emails', 'policies',
+        fields = InstitutionListSerializer.Meta.fields + [
+            'social_media_links', 'emails', 'description',
+        ]
 
-            'description',
+
+class MessageTemplateSerializer(ModelSerializer):
+
+    class Meta:
+        model = MessageTemplate
+        fields = [
+            'id', 'kind', 'min_score', 'max_score',
+            'title', 'content'
         ]

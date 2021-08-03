@@ -1,12 +1,12 @@
 from django.conf import settings
 
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 
 from comparer.models import *
-from comparer.serializers import InstitutionListSerializer, InstitutionDetailSerializer, PolicyCategorySerializer
+from comparer.serializers import *
 
 
-__all__ = ('PolicyCategoryViewSet', 'InstitutionViewSet')
+__all__ = ('PolicyCategoryViewSet', 'InstitutionViewSet', 'MessageTemplateList', 'MessageTemplateListForScore')
 
 
 class PolicyCategoryViewSet(viewsets.ModelViewSet):
@@ -29,3 +29,16 @@ class InstitutionViewSet(viewsets.ModelViewSet):
         if self.action == 'retrieve':
             return InstitutionDetailSerializer
         return InstitutionListSerializer
+
+
+class MessageTemplateList(generics.ListAPIView):
+    serializer_class = MessageTemplateSerializer
+    queryset = MessageTemplate.objects.active()
+
+
+class MessageTemplateListForScore(MessageTemplateList):
+
+    def get_queryset(self):
+        score = self.kwargs['score']
+        return MessageTemplate.objects.active()\
+            .exclude(min_score__gt=score).exclude(max_score__lt=score)

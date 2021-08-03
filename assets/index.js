@@ -1,4 +1,5 @@
 // JS libraries:
+import 'jquery';
 import 'bootstrap';
 
 // SASS styles:

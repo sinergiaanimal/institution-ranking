@@ -37,7 +37,7 @@
                         @ordering-changed="onOrderingChanged"
                     />
 
-                    <th scope="col">Compare</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -71,27 +71,31 @@
                         {{ institution.scores[category.slug] }}
                     </td>
 
-                    <th scope="col"></th>
+                    <th scope="col">
+                        <i class="far fa-envelope"
+                           @click="showMessagePopup(institution)">
+                        </i>
+                    </th>
                 </tr>
             </tbody>
         </table>
+
+        <MessagePopup ref="messagePopup" />
     </section>
 </template>
 
 <script>
 import axios from "axios";
 import ColumnHeader from "./ColumnHeader.vue";
+import MessagePopup from "./MessagePopup.vue";
 
-
-const apiUrls = {
-    institutions: "/api/institutions/",
-    policyCategories: "/api/policy-categories/",
-};
+import { apiUrls } from "./static_data";
 
 
 export default {
     components: {
         ColumnHeader,
+        MessagePopup
     },
 
     props: {

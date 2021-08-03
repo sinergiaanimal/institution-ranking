@@ -1,3 +1,5 @@
+import 'bootstrap';
+
 import { createApp } from 'vue';
 import RankingBrowserApp from './vue/RankingBrowserApp.vue';
 import vueDebounce from 'vue-debounce';

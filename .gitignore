@@ -16,3 +16,5 @@ celerybeat.pid
 
 node_modules
 dist
+media
+static

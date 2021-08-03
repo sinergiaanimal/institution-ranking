@@ -101,8 +101,8 @@ class Institution(ActivableModel, TimestampedModel):
 
 
 class SocialMediaLink(ActivableModel, TimestampedModel):
-    FACEBOOK, INSTAGRAM, TWITTER, LINKEDIN, YOUTUBE, WEBSITE, EMAIL, ANOTHER \
-        = range(1, 9)
+    FACEBOOK, INSTAGRAM, TWITTER, LINKEDIN, YOUTUBE, WEBSITE, ANOTHER \
+        = range(1, 8)
     KIND_CHOICES = (
         (FACEBOOK, _('Facebook')),
         (INSTAGRAM, _('Instagram')),
@@ -187,6 +187,8 @@ class MessageTemplate(ActivableModel, TimestampedModel):
     )
 
     kind = models.PositiveSmallIntegerField(_('kind'), choices=KIND_CHOICES, default=NEUTRAL)
+    min_score = models.PositiveIntegerField(_('minimum score'), null=True, blank=True)
+    max_score = models.PositiveIntegerField(_('maximum score'), null=True, blank=True)
     title = models.TextField(_('title'))
     content = models.TextField(_('content'))
 
