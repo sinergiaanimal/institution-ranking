@@ -59,8 +59,6 @@ import $ from "jquery";
 import { apiUrls, messageTemplateKind } from "./static_data";
 
 
-
-
 export default {
 
     data () {
@@ -71,7 +69,6 @@ export default {
             institutionDetail: null,
             messages: [],
             messageTemplateKind: messageTemplateKind
-
         }
     },
 
