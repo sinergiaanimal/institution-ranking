@@ -1,4 +1,6 @@
 
+/* RankingBox */
+
 .ranking-box {
 
     ol {
@@ -22,7 +24,7 @@
             }
 
             .name {
-                line-width: 30px;
+                line-height: 30px;
             }
 
             .score {
@@ -33,6 +35,8 @@
     }
 }
 
+
+/* RankingBrowser */
 
 .ranking-browser-table.table {
 
@@ -49,5 +53,23 @@
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
+    }
+}
+
+
+/* ComparerPopup */
+
+.comparer-panel {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background-color: black;
+    padding: 10px;
+
+    &__selection-counter {
+        display: inline-block;
+        background-color: #E4B902;
+        padding: 6px;
+        border-radius: 5px;
     }
 }

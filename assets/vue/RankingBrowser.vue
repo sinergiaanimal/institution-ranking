@@ -1,12 +1,24 @@
 <template>
     <section>
-        <div class="form-group">
+        <button type="button"
+                class="btn btn-warning float-right"
+                @click="switchComparisonMode()">
+            <span v-if="comparisonMode">
+                STOP COMPARING
+            </span>
+            <span v-else>
+                {{ cfg.compareBtnText }}
+            </span>
+        </button>
+        <div class="form-group" style="max-width: 50%;">
             <input class="form-control" type="text" placeholder="Search"
                    v-debounce:300ms="applySearch" />
         </div>
         <table class="ranking-browser-table table">
             <thead>
                 <tr>
+                    <th scope="col" v-show="comparisonMode"></th>
+
                     <ColumnHeader
                         :col-name="'name'"
                         :col-title="cfg.instColName"
@@ -42,6 +54,12 @@
             </thead>
             <tbody>
                 <tr v-for="institution in institutions" :key="institution.id">
+                    <td v-show="comparisonMode">
+                        <input type="checkbox"
+                               class="table-institution-checkbox-input"
+                               @change="updateSelection(institution, $event)"
+                               :disabled="selectionLimitReached && !selection.includes(institution)" />
+                    </td>
                     <td>
                         <a :href="detailsPageUrl + institution.slug + '/'" class="d-flex align-items-center">
                             <figure :style="{'background-image': 'url(' + (institution.logo_thumb || defaultThumbUrl) + ')'}"
@@ -81,6 +99,12 @@
         </table>
 
         <MessagePopup ref="messagePopup" />
+
+        <ComparerPopup ref="comparerPopup"
+                       :popup-title="cfg.popupTitle"
+                       :popup-info="popupInfo"
+                       :categories="policyCategories"
+                       :institutions="selection" />
     </section>
 </template>
 
@@ -88,14 +112,16 @@
 import axios from "axios";
 import ColumnHeader from "./ColumnHeader.vue";
 import MessagePopup from "./MessagePopup.vue";
+import ComparerPopup from "./ComparerPopup.vue";
 
-import { apiUrls } from "./static_data";
+import { apiUrls } from "./static_data"; 
 
 
 export default {
     components: {
         ColumnHeader,
-        MessagePopup
+        MessagePopup,
+        ComparerPopup
     },
 
     props: {
@@ -113,8 +139,20 @@ export default {
             maxScore: null,
             institutions: null,
             ordering: this.cfg.orderBy ? this.cfg.orderBy.split(',') : ['-score_total'],
-            searchText: ''
+            popupInfo: this.cfg.popupInfo.replace(
+                '<counter>', `${this.cfg.selectionLimit}`
+            ),
+            searchText: '',
+            selection: [],
+            selectionLimit: this.cfg.selectionLimit,
+            comparisonMode: false
         };
+    },
+
+    computed: {
+        selectionLimitReached: function () {
+            return this.selection.length >= this.selectionLimit;
+        }
     },
 
     methods: {
@@ -131,6 +169,16 @@ export default {
             }
 
             this.getInstitutionList();
+        },
+
+        updateSelection (institution, event) {
+            if (event.target.checked) {
+                this.selection.push(institution);
+            } else {
+                this.selection.splice(
+                    this.selection.indexOf(institution)
+                )
+            }
         },
 
         getInstitutionList () {
@@ -162,6 +210,21 @@ export default {
 
         showMessagePopup (institution) {
             this.$refs.messagePopup.showMessagePopup(institution);
+        },
+
+        switchComparisonMode () {
+            this.comparisonMode = !this.comparisonMode;
+
+            if (!this.comparisonMode) {
+                this.selection = [];
+                document.querySelectorAll(
+                    '.table-institution-checkbox-input'
+                ).forEach(
+                    element => {
+                        element.checked = false;
+                    }
+                )
+            }
         }
     },
 

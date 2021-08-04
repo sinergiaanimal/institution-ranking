@@ -226,9 +226,37 @@ def get_default_categories():
 
 
 class RankingBrowserPluginModel(CMSPlugin):
-    inst_col_name = models.CharField(_('Institution column name'), max_length=100)
+    inst_col_name = models.CharField(
+        _('institution column name'),
+        max_length=100
+    )
+    compare_btn_text = models.CharField(
+        _('compare button text'),
+        max_length=100,
+        default='COMPARE INSTITUTIONS'
+    )
+    popup_title = models.TextField(
+        _('comparison popup title'),
+        default='Institutions comparison'
+    )
+    popup_info = models.TextField(
+        _('comparison popup info'),
+        help_text=_(
+            'Information text displayed beside "Compare" button. '
+            'Use <counter> notation to pass selection limit value.'
+        ),
+        default='You can compare at the same time up to <counter> banks'
+    )
+    selection_limit = models.PositiveSmallIntegerField(
+        _('selection limit'),
+        default=3,
+        help_text=_('Maximal number of institutions to compare.')
+    )
     order_by = models.CharField(
-        _('order by'), max_length=250, help_text=_('Specify field names separated by comma.'), blank=True
+        _('order by'), max_length=250,
+        help_text=_('Specify field names separated by comma.'),
+        default="-score_total",
+        blank=True
     )
 
     def __str__(self):

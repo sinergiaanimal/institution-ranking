@@ -6,8 +6,12 @@
   <script id="ranking-browser-cfg-{{ instance.id }}" type="application/json">
   {
     "instanceId": {{ instance.id }},
-    "instColName": "{{ instance.inst_col_name }}",
-    "orderBy": "{{ instance.order_by }}"
+    "instColName": "{{ instance.inst_col_name|safe }}",
+    "orderBy": "{{ instance.order_by }}",
+    "compareBtnText": "{{ instance.compare_btn_text|safe }}",
+    "popupTitle": "{{ instance.popup_title|safe }}",
+    "popupInfo": "{{ instance.popup_info|safe }}",
+    "selectionLimit": "{{ instance.selection_limit }}"
   }
   </script>
   <script src="{% static 'ranking_browser.bundle.js' %}"></script>
