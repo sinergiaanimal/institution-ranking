@@ -14,8 +14,8 @@ db.sqlite3-journal
 celerybeat-schedule
 celerybeat.pid
 
-DevProfile
-node_modules
-dist
-media
-static
+/DevProfile
+/node_modules
+/dist
+/media
+/static

@@ -29,7 +29,7 @@ module.exports = {
       test: /\.vue$/,
       loader: 'vue-loader'
     }, {
-      test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      test: /\.(woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?|otf)$/,
       loader: 'url-loader',
       options: {
         mimetype: 'application/font-woff',
@@ -37,7 +37,7 @@ module.exports = {
     }, {
       test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
       loader: 'file-loader'
-    }],
+    }]
   },
 
   plugins: [

@@ -2,7 +2,7 @@
     <div id="message-popup" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class=modal-header>
+                <div class="modal-header">
                     <h1 class="modal-title">
                         Sending a message to
                         <i>{{ institution.name }}</i>

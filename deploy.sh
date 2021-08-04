@@ -1,3 +1,5 @@
+git pull
+
 source ./venv.sh
 
 npm install

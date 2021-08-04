@@ -245,7 +245,7 @@ class RankingBrowserPluginModel(CMSPlugin):
             'Information text displayed beside "Compare" button. '
             'Use <counter> notation to pass selection limit value.'
         ),
-        default='You can compare at the same time up to <counter> banks'
+        default='You can compare at the same time up to <counter> institutions'
     )
     selection_limit = models.PositiveSmallIntegerField(
         _('selection limit'),
