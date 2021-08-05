@@ -1,21 +1,21 @@
 <template>
-    <RankingBrowser :cfg="cfg" />
+  <RankingBrowser :cfg="cfg" />
 </template>
 
 
 <script>
-import RankingBrowser from './RankingBrowser.vue'
+import RankingBrowser from './RankingBrowser.vue';
 
 export default {
-    name: 'RankingBrowserApp',
-    components: {
-        RankingBrowser
+  name: 'RankingBrowserApp',
+  components: {
+    RankingBrowser,
+  },
+  props: {
+    cfg: {
+      type: Object,
+      required: true,
     },
-    props: {
-        'cfg': {
-            type: Object,
-            required: true
-        },
-    }
-}
+  },
+};
 </script>
