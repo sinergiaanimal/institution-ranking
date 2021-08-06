@@ -1,0 +1,51 @@
+
+.icon {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background-image: url('/assets/img/icons/primary80/link.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  &--spaced {
+    margin: 0 10px 0 10px;
+  }
+
+  &--website {
+    background-image: url('/assets/img/icons/primary80/link.svg');
+  }
+
+  &--facebook {
+    background-image: url('/assets/img/icons/primary80/facebook.svg');
+  }
+
+  &--instagram {
+    background-image: url('/assets/img/icons/primary80/instagram.svg');
+  }
+
+  &--linkedin {
+    background-image: url('/assets/img/icons/primary80/linkedin.svg');
+  }
+
+  &--website {
+    background-image: url('/assets/img/icons/primary80/link.svg');
+  }
+
+  &--mail {
+    background-image: url('/assets/img/icons/primary80/mail.svg');
+  }
+
+  &--twitter {
+    background-image: url('/assets/img/icons/primary80/twitter.svg');
+  }
+
+  &--youtube {
+    background-image: url('/assets/img/icons/primary80/youtube.svg');
+  }
+
+  &--copy {
+    background-image: url('/assets/img/icons/primary80/copy.svg');
+  }
+}
+

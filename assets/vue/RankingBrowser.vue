@@ -2,10 +2,10 @@
   <section>
     <button
       type="button"
-      class="btn btn-warning float-right"
+      class="button button--primary float-right mb-3"
       @click="switchComparisonMode()"
     >
-      <span v-if="comparisonMode"> STOP COMPARING </span>
+      <span v-if="comparisonMode">STOP COMPARING</span>
       <span v-else>
         {{ cfg.compareBtnText }}
       </span>

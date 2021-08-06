@@ -1,0 +1,65 @@
+@import "colors";
+@import "fonts";
+
+
+.button {
+  padding: 19px 24px 13px 24px;
+  border: 1px solid $black;
+  border-radius: 8px;
+  background-color: $white;
+  color: $black;
+
+  font-family: Acumin Pro SemiCondensed;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+
+  &--primary {
+    background-color: $primary-50;
+    border-color: $primary-50;
+    color: $primary-100;
+
+    &:hover {
+      background-color: $primary-60;
+      border-color: $primary-60;
+      cursor: pointer;
+    }
+
+    &:active {
+      background-color: $primary-70;
+      border-color: $primary-70;
+      cursor: pointer;
+    }
+
+    &:disabled {
+      background-color: $primary-20;
+      border-color: $primary-20;
+      cursor: not-allowed;
+    }
+  }
+
+  &--with-counter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    line-height: 28px;
+  }
+
+  &__text {
+    height: 28px;
+  }
+
+  &__counter {
+    background-color: $primary-70;
+    padding: 4px 10px;
+    margin-left: 6px;
+    margin-bottom: 2px;
+    border-radius: 5px;
+    width: auto;
+    color: $black;
+  }
+
+}

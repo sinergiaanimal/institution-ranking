@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="24"
+   height="24"
+   viewBox="0 0 24 24"
+   fill="none"
+   version="1.1"
+   id="svg205"
+   sodipodi:docname="youtube.svg"
+   inkscape:version="1.1 (1:1.1+202105261517+ce6663b3b7)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs209" />
+  <sodipodi:namedview
+     id="namedview207"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="28.416667"
+     inkscape:cx="12"
+     inkscape:cy="12"
+     inkscape:window-width="1920"
+     inkscape:window-height="1029"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg205" />
+  <path
+     fill-rule="evenodd"
+     clip-rule="evenodd"
+     d="M5.90677 7.68952L5.4088 7.74485C5.00371 7.78986 4.67782 8.09846 4.61081 8.5005C4.22462 10.8176 4.22462 13.1827 4.61081 15.4999C4.67782 15.9019 5.00371 16.2105 5.40879 16.2555L5.90677 16.3109C9.95642 16.7608 14.0435 16.7608 18.0931 16.3109L18.5911 16.2555C18.9962 16.2105 19.3221 15.9019 19.3891 15.4999C19.7753 13.1827 19.7753 10.8176 19.3891 8.5005C19.3221 8.09846 18.9962 7.78986 18.5911 7.74485L18.0931 7.68952C14.0435 7.23956 9.95642 7.23956 5.90677 7.68952ZM5.18793 5.75708C3.89351 5.90091 2.85213 6.88703 2.63802 8.1717C2.21555 10.7065 2.21555 13.2938 2.63802 15.8287C2.85213 17.1134 3.89351 18.0995 5.18793 18.2433L5.6859 18.2986C9.88235 18.7649 14.1175 18.7649 18.314 18.2986L18.8119 18.2433C20.1064 18.0995 21.1477 17.1134 21.3619 15.8287C21.7843 13.2938 21.7843 10.7065 21.3619 8.1717C21.1477 6.88703 20.1064 5.90091 18.812 5.75708L18.314 5.70175C14.1175 5.23548 9.88235 5.23548 5.68591 5.70175L5.18793 5.75708Z"
+     fill="black"
+     id="path201"
+     style="fill:#987b01;fill-opacity:1" />
+  <path
+     d="M14.7519 11.1678C15.3457 11.5636 15.3457 12.4361 14.7519 12.8319L11.5547 14.9634C10.8901 15.4064 10 14.93 10 14.1313V9.86838C10 9.06969 10.8901 8.59329 11.5547 9.03633L14.7519 11.1678Z"
+     fill="black"
+     id="path203"
+     style="fill:#987b01;fill-opacity:1" />
+</svg>

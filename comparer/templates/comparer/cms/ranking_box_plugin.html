@@ -1,23 +1,23 @@
 {% load static %}
-<section class="card ranking-box{% if instance.html_classes %} {{ instance.html_classes }}{% endif %}">
-  <div class="card-body">
-    <h2 class="card-title">{{ instance.title }}</h2>
-    <ol class="card-text">
-      {% for institution in institutions %}
-        <li class="ranking-row">
-          <div class="ranking-item">
-            <span class="logo"
-                  style="background-image: url({% if institution.logo_thumb %}{% get_media_prefix %}{{ institution.logo_thumb }}{% else %}{% static 'comparer/img/institution-logo-default.svg' %}{% endif %})">
-            </span>
-            <span class="name">
-              <a href="{% url 'institution-detail' slug=institution.slug %}">
-                {{ institution.name }}
-              </a>
-            </span>
-            <span class="score">{{ institution.score_total|default:0 }}</span>
-          </div>
-        </li>
-      {% endfor %}
-    </ol>
-  </div>
+<section class="ranking-box{% if instance.html_classes %} {{ instance.html_classes }}{% endif %}">
+  <h2 class="ranking-box__title">{{ instance.title }}</h2>
+  <ol>
+    {% for institution in institutions %}
+      <li class="ranking-box__row">
+        <div class="ranking-box__item">
+          <span class="ranking-box__logo"
+                style="background-image: url({% if institution.logo_thumb %}{% get_media_prefix %}{{ institution.logo_thumb }}{% else %}{% static 'comparer/img/institution-logo-default.svg' %}{% endif %})">
+          </span>
+          <span class="ranking-box__name">
+            <a href="{% url 'institution-detail' slug=institution.slug %}">
+              {{ institution.name }}
+            </a>
+          </span>
+          <span class="ranking-box__score">
+            {{ institution.score_total|default:0 }}
+          </span>
+        </div>
+      </li>
+    {% endfor %}
+  </ol>
 </section>

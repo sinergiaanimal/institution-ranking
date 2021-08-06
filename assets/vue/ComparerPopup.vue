@@ -54,11 +54,18 @@
         </div>
       </div>
     </div>
-    <div class="comparer-panel" v-show="institutions.length > 0">
-      <span style="color: white">{{ popupInfo }}</span>
-      <button type="button" class="btn btn-warning ml-3" @click="showPopup()">
-        Compare
-        <span class="comparer-panel__selection-counter">{{
+    <div
+      class="toast-panel toast-panel--br-corner"
+      v-show="institutions.length > 0"
+    >
+      <p>{{ popupInfo }}</p>
+      <button
+        type="button"
+        class="button button--primary button--with-counter ml-3"
+        @click="showPopup()"
+      >
+        <span class="button__text">Compare</span>
+        <span class="button__counter">{{
           institutions.length
         }}</span>
       </button>

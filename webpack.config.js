@@ -2,6 +2,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
+const CopyPlugin = require('copy-webpack-plugin');
 
 
 module.exports = {
@@ -13,7 +14,7 @@ module.exports = {
   },
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, './dist'),  // path to our Django static directory
+    path: path.resolve(__dirname, './dist'),
   },
 
   module: {
@@ -22,8 +23,8 @@ module.exports = {
       test: /\.s?css$/,
       use: [
         MiniCssExtractPlugin.loader,
-        "css-loader",
-        "sass-loader"
+        'css-loader',
+        'sass-loader'
       ]
     }, {
       test: /\.vue$/,
@@ -35,17 +36,22 @@ module.exports = {
         mimetype: 'application/font-woff',
       }
     }, {
-      test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      test: /\.(ttf|eot|svg|ico|jp?eg|bmp)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
       loader: 'file-loader'
     }]
   },
 
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "[name].css",
-      chunkFilename: "[id].css"
+      filename: '[name].css',
+      chunkFilename: '[id].css'
     }),
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new CopyPlugin({
+      patterns: [
+        { from: './static', to: 'static' },
+      ],
+    }),
   ],
 
   optimization: {
