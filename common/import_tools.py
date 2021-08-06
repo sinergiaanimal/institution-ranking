@@ -62,10 +62,11 @@ class CsvColumnBase(object):
         if self.required and not (value and value.strip()):
             return False, 'Value is required.'
         if self.data_type == self.DT_LINK:
-            try:
-                self.url_validator(value)
-            except ValidationError as e:
-                return False, e.message
+            pass  # URL validation is to strict.
+            # try:
+            #     self.url_validator(value)
+            # except ValidationError as e:
+            #     return False, e.message
 
         return True, ''
 
@@ -79,6 +80,12 @@ class CsvColumnBase(object):
 
         if self.data_type == self.DT_NUMBER:
             value = int(value)
+        elif self.data_type == self.DT_LINK:
+            if not (
+                value.startswith('http://') or value.startswith('https://')
+            ):
+                value = f'https://{value}'
+
         elif self.data_type == self.DT_MARKDOWN:
             value = markdown.markdown(value)
 
@@ -205,7 +212,8 @@ class CsvRelatedColumn(CsvColumnBase):
         """
         Always returns list of values, even if empty or with single element.
         """
-        if not value.strip():
+        value = super().process_value(value)
+        if not value:
             return []
         if self.many:
             values_list = value.split(self.separator)
@@ -267,6 +275,12 @@ class CsvImporter(object):
                 return column
         return None
 
+    def pre_import(self, override_existing=False):
+        """
+        Override this method to perform any pre import operations.
+        """
+        pass
+
     def process_header(self, header_row):
         """
         Setting self.header to contain corresponding columns if definition is found
@@ -316,7 +330,7 @@ class CsvImporter(object):
         cleaned_data = self.clean_row(row_index, row)
 
         # Trying to get existing instance
-        if self.key_column_name:
+        if self.key_column_name and self.key_column_name != 'dummy':
             key_column = self.get_column_by_name(self.key_column_name)
             try:
                 instance = self.model.objects.get(
@@ -380,6 +394,7 @@ class CsvImporter(object):
 
         instances = []
         with transaction.atomic():
+            self.pre_import(override_existing=override_existing)
             for row_index, row in enumerate(reader, start=1):
 
                 instance = self.process_row(row_index, row, override_existing)

@@ -71,30 +71,43 @@ class CsvInstitutionImporter(CsvImporter):
         CsvFieldColumn(name='region', field_name='region', required=True),
         CsvFieldColumn(name='country', field_name='country', required=True),
         CsvRelatedColumn(
-            name='email', field_name='address', related_model=InstitutionEmail, fk_name='institution', many=True
+            name='email', field_name='address', related_model=InstitutionEmail,
+            fk_name='institution', many=True
         ),
         CsvRelatedColumn(
-            name='facebook', field_name='url', related_model=SocialMediaLink, fk_name='institution', many=False,
+            name='facebook', field_name='url', related_model=SocialMediaLink,
+            data_type=CsvFieldColumn.DT_LINK,
+            fk_name='institution', many=False,
             related_data={'kind': SocialMediaLink.FACEBOOK}
         ),
         CsvRelatedColumn(
-            name='twitter', field_name='url', related_model=SocialMediaLink, fk_name='institution', many=False,
+            name='twitter', field_name='url', related_model=SocialMediaLink,
+            data_type=CsvFieldColumn.DT_LINK,
+            fk_name='institution', many=False,
             related_data={'kind': SocialMediaLink.TWITTER}
         ),
         CsvRelatedColumn(
-            name='instagram', field_name='url', related_model=SocialMediaLink, fk_name='institution', many=False,
+            name='instagram', field_name='url', related_model=SocialMediaLink,
+            data_type=CsvFieldColumn.DT_LINK,
+            fk_name='institution', many=False,
             related_data={'kind': SocialMediaLink.INSTAGRAM}
         ),
         CsvRelatedColumn(
-            name='linkedin', field_name='url', related_model=SocialMediaLink, fk_name='institution', many=False,
+            name='linkedin', field_name='url', related_model=SocialMediaLink,
+            data_type=CsvFieldColumn.DT_LINK,
+            fk_name='institution', many=False,
             related_data={'kind': SocialMediaLink.LINKEDIN}
         ),
         CsvRelatedColumn(
-            name='youtube', field_name='url', related_model=SocialMediaLink, fk_name='institution', many=False,
+            name='youtube', field_name='url', related_model=SocialMediaLink,
+            data_type=CsvFieldColumn.DT_LINK,
+            fk_name='institution', many=False,
             related_data={'kind': SocialMediaLink.YOUTUBE}
         ),
         CsvRelatedColumn(
-            name='site', field_name='url', related_model=SocialMediaLink, fk_name='institution', many=False,
+            name='site', field_name='url', related_model=SocialMediaLink,
+            data_type=CsvFieldColumn.DT_LINK,
+            fk_name='institution', many=False,
             related_data={'kind': SocialMediaLink.WEBSITE}
         )
     ]
@@ -126,6 +139,7 @@ def process_institution_score(instance, global_data):
 
 class CsvPolicyImporter(CsvImporter):
     model = InstitutionPolicy
+    key_column_name = 'dummy'
 
     columns = [
         CsvFKColumn(
@@ -141,7 +155,7 @@ class CsvPolicyImporter(CsvImporter):
         ),
         CsvFieldColumn(
             name='link of policy', field_name='link',
-            data_type=CsvFieldColumn.DT_TEXT  # DT_LINK validation makes troubles
+            data_type=CsvFieldColumn.DT_LINK
         ),
         CsvFieldColumn(
             name='text of policy', field_name='text', data_type=CsvFieldColumn.DT_MARKDOWN
@@ -158,6 +172,10 @@ class CsvPolicyImporter(CsvImporter):
     processors = {
         4: [process_institution_score]
     }
+
+    def pre_import(self, override_existing=False):
+        if override_existing:
+            InstitutionPolicy.objects.all().delete()
 
 
 class InstitutionAdmin(admin.ModelAdmin):
