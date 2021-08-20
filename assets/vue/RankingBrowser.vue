@@ -12,13 +12,13 @@
     </button>
     <div class="form-group" style="max-width: 50%">
       <input
-        class="form-control"
+        class="input input--search"
         type="text"
-        placeholder="Search"
+        placeholder="SEARCH"
         v-debounce:300ms="applySearch"
       />
     </div>
-    <table class="ranking-browser-table table">
+    <table class="browser-table table">
       <thead>
         <tr>
           <th scope="col" v-show="comparisonMode"></th>
@@ -48,7 +48,8 @@
             v-for="category in policyCategories"
             :key="category.id"
             :col-name="'score_' + category.slug"
-            :col-title="category.name"
+            :col-title="category.short_name"
+            :extra-classes="'policy-cat-col'"
             :ordering-array="ordering"
             @ordering-changed="onOrderingChanged"
           />

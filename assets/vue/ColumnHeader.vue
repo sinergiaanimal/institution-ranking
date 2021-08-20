@@ -1,5 +1,5 @@
 <template>
-  <th scope="col" data-col="name" @click="updateOrdering">
+  <th scope="col" data-col="name" @click="updateOrdering" :class="extraClasses">
     {{ colTitle }}&nbsp;<i
       v-if="inOrdering(colName)"
       class="fas fa-sort-down d-inline"
@@ -24,6 +24,10 @@ export default {
       type: Object,
       required: true,
     },
+    extraClasses: {
+      type: String,
+      required: false,
+    }
   },
 
   emits: {

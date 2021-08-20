@@ -26,7 +26,8 @@ class PolicyCategorySerializer(ModelSerializer):
     class Meta:
         model = PolicyCategory
         fields = [
-            'id', 'slug', 'name', 'order', 'max_score', 'criterions'
+            'id', 'slug', 'name', 'short_name',
+            'order', 'max_score', 'criterions'
         ]
 
     def get_criterions(self, obj):

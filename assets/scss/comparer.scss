@@ -1,92 +1,111 @@
-@import 'colors';
-@import 'fonts';
-
+@import "colors";
+@import "fonts";
 
 /* RankingBox */
 
 .ranking-box {
-    background-color: $white;
-    border-radius: 8px;
-    border: none;
-    box-shadow: 3px 3px 10px $neutral-20;
-    padding: 25px;
+  background-color: $white;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 3px 3px 10px $neutral-20;
+  padding: 25px;
+  font-family: Acumin Pro;
+  margin-top: 15px;
+  margin-bottom: 15px;
+
+  &__title {
+    /* body */
     font-family: Acumin Pro;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    color: $primary-90;
+    text-transform: uppercase;
+  }
 
-    &__title {
-        /* body */
-        font-family: Acumin Pro;
-        font-weight: 400;
-        font-size: 18px;
-        line-height: 28px;
-        color: $primary-90;
-        text-transform: uppercase;
-    }
+  ol {
+    padding-left: 20px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: $neutral-80;
+  }
 
-    ol {
-        padding-left: 20px;
-        font-weight: 600;
-        font-size: 16px;
-        line-height: 24px;
-        color: $neutral-80;
-    }
+  a {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    color: $neutral-80;
+  }
 
-    a {
-        font-weight: 400;
-        font-size: 18px;
-        line-height: 28px;
-        color: $neutral-80;
-    }
+  &__row {
+    padding: 5px 0 5px 0;
+  }
 
-    &__row {
-        padding: 5px 0 5px 0;
-    }
+  &__item {
+    display: flex;
+    align-items: baseline;
+  }
 
-    &__item {
-        display: flex;
-        align-items: baseline;
-    }
+  &__logo {
+    position: relative;
+    margin: 0 10px 0 5px;
+    width: 26px;
+    height: 26px;
+    bottom: -6px;
+  }
 
-    &__logo {
-        position: relative;
-        margin: 0 10px 0 5px;
-        width: 26px;
-        height: 26px;
-        bottom: -6px;
-    }
+  &__name {
+    line-height: 30px;
+  }
 
-    &__name {
-        line-height: 30px;
-    }
-
-    &__score {
-        margin-left: auto;
-        margin-right: 10px;
-        font-weight: 900;
-        font-size: 16px;
-        line-height: 24px;
-        color: $primary-70;
-    }
+  &__score {
+    font-family: Acumin Pro;
+    margin-left: auto;
+    margin-right: 10px;
+    font-weight: 900;
+    font-size: 16px;
+    line-height: 24px;
+    color: $primary-70;
+  }
 }
-
 
 /* RankingBrowser */
 
-.ranking-browser-table.table {
+.browser-table {
+  
+  td {
+    vertical-align: middle;
+    font-family: Acumin Pro;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    color: $neutral-80;
+  }
 
-    td {
-        vertical-align: middle;
-    }
+  th {
+    font-family: Acumin Pro;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    color: $primary-90;
+    text-transform: uppercase;
 
-    .institution-thumb {
-        display: inline-block;
-        margin: 0;
-        margin-right: 6px;
-        width: 30px;
-        height: 30px;
-        background-size: contain;
-        background-position: center;
-        background-repeat: no-repeat;
+    &.policy-cat-col {
+        width: 14%;
     }
+  }
+
+  .institution-thumb {
+    display: inline-block;
+    margin: 0;
+    margin-right: 6px;
+    width: 30px;
+    height: 30px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 }

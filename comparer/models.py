@@ -21,6 +21,10 @@ __all__ = (
 
 class PolicyCategory(OrderedModel, ActivableModel, TimestampedModel):
     name = models.CharField(_('name'), max_length=250)
+    short_name = models.CharField(
+        _('short name'), max_length=20,
+        help_text=_('Used in ranking table as title.')
+    )
     slug = models.SlugField(_('slug'), unique=True)
     max_score = models.PositiveIntegerField(_('max_score'), default=0)
 

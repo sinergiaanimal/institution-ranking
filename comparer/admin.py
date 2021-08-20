@@ -27,12 +27,14 @@ class PolicyCriterionInline(admin.TabularInline):
 
 class PolicyCategoryAdmin(admin.ModelAdmin):
     model = PolicyCategory
-    list_display = ['id', 'slug', 'name', 'order', 'max_score', 'is_active']
-    list_display_links = ['id', 'slug', 'name']
+    list_display = [
+        'id', 'slug', 'name', 'short_name', 'order', 'max_score', 'is_active'
+        ]
+    list_display_links = ['id', 'slug']
     lift_filter = ['is_active']
-    search_fields = ['name']
+    search_fields = ['name', 'short_name']
     ordering = ['order', 'name']
-    prepopulated_fields = {'slug': ('name',)}
+    prepopulated_fields = {'slug': ('short_name',)}
     inlines = [
         PolicyCriterionInline,
     ]

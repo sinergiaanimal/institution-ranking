@@ -1,0 +1,33 @@
+@import "colors";
+@import "fonts";
+
+.input {
+  display: block;
+  height: 60px;
+  width: 300px;
+  max-width: 100%;
+
+  border: 1px solid $neutral-60;
+  border-radius: 8px;
+  padding: 4px 20px 0 20px;
+  
+  color: $neutral-80;
+  background-color: $white;
+  
+  font-family: Acumin Pro SemiCondensed;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 27px;
+  letter-spacing: 0.06em;
+
+  &--search {
+    
+    ::placeholder {
+      padding: 4px 20px 0 20px;
+      font-weight: 900;
+      color: $neutral-30;
+      text-align: center;
+    }
+  }
+}
