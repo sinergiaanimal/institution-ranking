@@ -1,0 +1,31 @@
+@import "colors";
+@import "fonts";
+
+
+/* progress bar */
+
+.progress {
+  position: relative;
+  background-color: $neutral-10;
+  height: 16px;
+
+  .progress-value {
+    position: absolute;
+    color: $black;
+    width: 100%;
+    text-align: center;
+    font-family: Acumin Pro;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    margin-top: 1px;
+  }
+
+  &--gold {
+
+    .progress-bar {
+      background-color: $primary-50;
+    }
+  }
+}

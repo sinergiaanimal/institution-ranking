@@ -46,6 +46,7 @@
 
           <ColumnHeader
             v-for="category in policyCategories"
+            class="text-center"
             :key="category.id"
             :col-name="'score_' + category.slug"
             :col-title="category.short_name"
@@ -58,7 +59,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="institution in institutions" :key="institution.id">
+        <tr v-for="institution in institutions"
+            :key="institution.id"
+            :set="scorePercentage = Math.round(
+              (100 * institution.scores.total) / maxScore
+            )"
+        >
           <td v-show="comparisonMode">
             <input
               type="checkbox"
@@ -86,20 +92,22 @@
           </td>
           <td>
             <div
-              class="progress"
-              :title="institution.scores.total + ' / ' + maxScore"
+              class="progress progress--gold"
+              :title="scorePercentage + '%'"
             >
+              <div class="progress-value">
+                {{ scorePercentage }}%
+              </div>
               <div
                 class="progress-bar"
                 role="progressbar"
                 :style="
-                  'width: ' + (100 * institution.scores.total) / maxScore + '%'
+                  'width: ' + scorePercentage + '%'
                 "
                 :aria-valuenow="institution.scores.total"
                 aria-valuemin="0"
                 :aria-valuemax="maxScore"
               >
-                {{ institution.scores.total }} / {{ maxScore }}
               </div>
             </div>
           </td>
@@ -108,13 +116,16 @@
           <td
             scope="col"
             v-for="category in policyCategories"
+            class="text-center"
             :key="category.id"
           >
             {{ institution.scores[category.slug] }}
           </td>
 
           <th scope="col">
-            <i class="far fa-envelope" @click="showMessagePopup(institution)">
+            <i class="far fa-envelope fa-lg mt-1
+                      d-block text-center color-primary-60"
+               @click="showMessagePopup(institution)">
             </i>
           </th>
         </tr>
