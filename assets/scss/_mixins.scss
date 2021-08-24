@@ -1,0 +1,5 @@
+@import "colors";
+
+@mixin shadow {
+  box-shadow: 3px 3px 10px $neutral-20;
+}

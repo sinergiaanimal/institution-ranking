@@ -1,13 +1,15 @@
 @import "colors";
 @import "fonts";
+@import "mixins";
 
 /* RankingBox */
 
 .ranking-box {
+  @include shadow;
+
   background-color: $white;
   border-radius: 8px;
   border: none;
-  box-shadow: 3px 3px 10px $neutral-20;
   padding: 25px;
   font-family: Acumin Pro;
   margin-top: 15px;
@@ -72,7 +74,30 @@
 /* RankingBrowser */
 
 .browser-table {
-  
+  @include shadow;
+
+  background-color: $white;
+
+  // Overriding Bootstrap styling
+  &.table td, th {
+    padding-top: 15px;
+    border-top: 1px solid $neutral-10;
+    border-bottom: none;
+  }
+
+  &.table th {
+    padding-top: 18px;
+  }
+
+  &.table thead th {
+    border-bottom: 2px solid $neutral-10;
+  }
+  // End
+
+  .compensate-height {
+    margin-top: -4px;
+  }
+
   td {
     vertical-align: middle;
     font-family: Acumin Pro;
@@ -102,6 +127,8 @@
     margin: -6px 6px 0 0;
     width: 30px;
     height: 30px;
+    min-width: 30px;
+    min-height: 30px;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;

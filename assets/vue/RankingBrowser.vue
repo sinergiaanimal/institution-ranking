@@ -92,7 +92,7 @@
           </td>
           <td>
             <div
-              class="progress progress--gold"
+              class="progress progress--gold compensate-height"
               :title="scorePercentage + '%'"
             >
               <div class="progress-value">
@@ -122,12 +122,12 @@
             {{ institution.scores[category.slug] }}
           </td>
 
-          <th scope="col">
-            <i class="far fa-envelope fa-lg mt-1
+          <td scope="col">
+            <i class="far fa-envelope fa-lg compensate-height
                       d-block text-center color-primary-60"
                @click="showMessagePopup(institution)">
             </i>
-          </th>
+          </td>
         </tr>
       </tbody>
     </table>
