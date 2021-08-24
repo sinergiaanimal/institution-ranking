@@ -201,8 +201,17 @@ export default {
       if (colIndex >= 0) {
         this.ordering[colIndex] = `-${colName}`; // reverse ordering
       } else if (colRevIndex >= 0) {
-        this.ordering.splice(colRevIndex, 1); // remove ordering
+        if (this.ordering.length > this.cfg.minOrderBy) {
+          this.ordering.splice(colRevIndex, 1); // remove ordering
+        } else {
+          // reverse instead of removing if min limit is reached
+          this.ordering[colRevIndex] = `${colName}`;
+        }
       } else {
+        if (this.ordering.length >= this.cfg.maxOrderBy) {
+          // remove the first current ordering option if max limit is reached
+          this.ordering.shift();
+        }
         this.ordering.push(colName); // add ordering
       }
 

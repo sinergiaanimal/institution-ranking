@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Sum, Q
@@ -258,10 +259,69 @@ class RankingBrowserPluginModel(CMSPlugin):
     )
     order_by = models.CharField(
         _('order by'), max_length=250,
-        help_text=_('Specify field names separated by comma.'),
+        help_text=_(
+            'Default ordering. Specify field names separated by comma.'
+        ),
         default="-score_total",
         blank=True
     )
+    min_order_by = models.PositiveSmallIntegerField(
+        _('minimum ordering options'),
+        help_text=_(
+            'Determines how many ordering options has be applied at least.'
+        ),
+        default=0
+    )
+    max_order_by = models.PositiveSmallIntegerField(
+        _('maximum ordering options'),
+        help_text=_(
+            'Determines how many ordering options can be applied at most.'
+        ),
+        default=2
+    )
+
+    @staticmethod
+    def _get_ordering_choices():
+        items = [
+            'name',
+            'score_total',
+            'country'
+        ]
+        for category in PolicyCategory.objects.active():
+            items.append(f'score_{category.slug}')
+        return items
+
+    def clean(self):
+        order_items = self.order_by.split(',')
+        item_len = len(order_items)
+        if (
+            item_len < self.min_order_by or
+            item_len > self.max_order_by
+        ):
+            raise ValidationError({
+                'order_by': _(
+                    'Minimum required ordering options is {min} '
+                    'and maximum is {max} but {item_len} options '
+                    'is currently defined.'
+                ).format(
+                    min=self.min_order_by,
+                    max=self.max_order_by,
+                    item_len=item_len
+                )
+            })
+        
+        ordering_choices = self._get_ordering_choices()
+        for item in order_items:
+            if item.lstrip('-') not in ordering_choices:
+                raise ValidationError({
+                    'order_by': _(
+                        'Ordering option "{item}" is not valid. '
+                        'Allowed choices are: {choices}.'
+                    ).format(
+                        item=item,
+                        choices=', '.join(ordering_choices)
+                    )
+                })
 
     def __str__(self):
         return 'Ranking Browser'

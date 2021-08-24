@@ -53,6 +53,18 @@ p {
     color: $black;
 }
 
+a {
+    color: $primary-80;
+
+    &:hover {
+        color: $primary-90;
+    }
+}
+
+.clickable {
+    cursor: pointer;
+}
+
 .top-spacer {
     height: 80px;
 }

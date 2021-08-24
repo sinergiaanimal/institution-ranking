@@ -1,5 +1,9 @@
 <template>
-  <th scope="col" data-col="name" @click="updateOrdering" :class="extraClasses">
+  <th scope="col"
+      data-col="name"
+      class="clickable"
+      :class="extraClasses"
+      @click="updateOrdering">
     {{ colTitle }}&nbsp;<i
       v-if="inOrdering(colName)"
       class="fas fa-sort-down d-inline"
