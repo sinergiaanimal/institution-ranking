@@ -58,6 +58,7 @@
           <th scope="col">Action</th>
         </tr>
       </thead>
+
       <tbody>
         <tr v-for="institution in institutions"
             :key="institution.id"
@@ -127,6 +128,11 @@
                       d-block text-center color-primary-60"
                @click="showMessagePopup(institution)">
             </i>
+          </td>
+        </tr>
+        <tr v-if="!(institutions && institutions.length)">
+          <td colspan="100" class="no-results-col">
+            No results
           </td>
         </tr>
       </tbody>
