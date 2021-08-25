@@ -1,0 +1,58 @@
+@import "colors";
+@import "fonts";
+
+
+.table.comparison {
+  font-family: Acumin Pro;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 14px;
+  line-height: 20px;
+  color: $neutral-80;
+  margin-bottom: 0;
+
+  td, th {
+    border-top: none;
+    padding: 20px;
+    text-align: center;
+    min-width: 160px;
+
+    &.category-col {
+      min-width: 200px;
+      border-bottom: none;
+    }
+
+    &.bg-transparent {
+      background-color: transparent;
+    }
+  }
+
+  th {
+    background-color: $neutral-10;
+  }
+
+  td {
+    background-color: $neutral-5;
+    border-bottom: 1px solid $neutral-10;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  .corner-tl {
+    border-top-left-radius: 8px;
+  }
+
+  .corner-tr {
+    border-top-right-radius: 8px;
+  }
+
+  .corner-br {
+    border-bottom-right-radius: 8px;
+  }
+
+  .corner-bl {
+    border-bottom-left-radius: 8px;
+  }
+}

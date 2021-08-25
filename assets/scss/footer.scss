@@ -76,7 +76,7 @@
     list-style: none;
 
     .nav-item.active a.nav-link {
-      color: $primary-90;
+      $color: $primary-90;
     }
   }
 
@@ -85,7 +85,7 @@
     flex-direction: row;
     justify-content: space-between;
     padding-top: 36px;
-    padding-bottom: 36px;
+    padding-bottom: 30px;
     border-top: 2px solid $primary-70;
     align-items: baseline;
   }

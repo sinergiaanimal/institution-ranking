@@ -1,10 +1,13 @@
 <template>
   <div>
-    <div id="comparer-popup" class="modal fade" tabindex="-1" role="dialog">
+    <div id="comparer-popup"
+         class="modal fade popup"
+         tabindex="-1"
+         role="dialog">
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title">
+            <h1 class="modal-title popup__title">
               {{ popupTitle }}
             </h1>
             <button
@@ -16,21 +19,33 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
+
           <div class="modal-body">
-            <table class="table">
+            <table class="table comparison">
               <tr>
-                <th scope="col"></th>
+                <td scope="col" class="invisible category-col"></td>
                 <th
                   scope="col"
-                  v-for="institution in institutions"
+                  v-for="(institution, index) in institutions"
+                  :class="{
+                    'corner-tl': index === 0,
+                    'corner-tr': index === institutions.length - 1
+                  }"
                   :key="institution.id"
                 >
                   {{ institution.name }}
                 </th>
               </tr>
 
-              <tr v-for="category in categories" :key="category.id">
-                <th scope="col">{{ category.name }}</th>
+              <tr v-for="(category, index) in categories"
+                 :key="category.id">
+                <th scope="col"
+                    :class="{
+                      'corner-tl': index === 0,
+                      'corner-bl': index === categories.length - 1
+                    }">
+                  {{ category.name }}
+                  </th>
                 <td
                   v-for="institution in institutions"
                   :key="institution.id"
@@ -39,12 +54,17 @@
                   {{ institution.scores[category.slug] }}
                 </td>
               </tr>
+
               <tr>
-                <th scope="col">TOTAL</th>
+                <th scope="col" class="bg-transparent">Total</th>
                 <td
-                  v-for="institution in institutions"
-                  :key="institution.id"
+                  v-for="(institution, index) in institutions"
                   scope="col"
+                  :key="institution.id"
+                  :class="{
+                    'corner-bl': index === 0,
+                    'corner-br': index === institutions.length - 1
+                  }"
                 >
                   {{ institution.scores.total }}
                 </td>
