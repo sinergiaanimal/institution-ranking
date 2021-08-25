@@ -1,0 +1,29 @@
+{% load cms_tags menu_tags %}
+
+<footer class="footer">
+  <div class="container">
+    <section class="footer__primary">
+      <div class="footer__outer-links">
+        <div class="footer__title">
+          {% static_placeholder "footer_logo" %}
+          <a class="navbar-brand" href="/">{{ PROJECT_TITLE|upper }}</a>
+        </div>
+        <div class="footer__social">
+          {% static_placeholder "social_media_links" %}
+        </div>
+      </div>
+      <ul class="footer__menu">
+        {% show_menu 0 100 100 100 "cms/_main_navbar_items.html" %}
+      </ul>
+    </section>
+    <section class="footer__secondary">
+      <p>
+        &copy; 2010 - 2020 Privacy - Terms
+      </p>
+      <div class="footer__logo">
+        <p>Website created by</p>
+        {% static_placeholder "author_logo" %}
+      </div>
+    </section>
+  </div>
+</footer>

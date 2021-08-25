@@ -1,0 +1,57 @@
+@import "colors";
+@import "fonts";
+@import "mixins";
+
+
+.navbar {
+
+  &--main {
+    @include shadow;
+    @include menu-font;
+
+    height: 64px;
+    background-color: $primary-50;
+    color: $black;
+
+    a {
+      color: $black;
+    }
+
+    .nav-item {
+      padding-top: 4px;
+
+      .nav-link {
+        padding-right: 0;
+        padding-left: 40px;
+      }
+
+      &.active a.nav-link {
+        color: $primary-90;
+      }
+    }
+
+    .navbar-brand {
+      font-size: 24px;
+      line-height: 24px;
+      height: 28px;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url('/assets/img/icons/black/hamburger.svg');
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    &__logo {
+      margin-right: 10px;
+      padding-right: 10px;
+      border-right: 2px solid $neutral-90;
+    }
+  }
+
+  &__header {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+}

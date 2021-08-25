@@ -1,0 +1,101 @@
+@import "colors";
+@import "fonts";
+@import "mixins";
+
+.footer {
+  background-color: $primary-50;
+  color: $black;
+  margin-top: 60px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  a {
+    color: $black;
+
+    &.active {
+      color: $primary-90;
+    }
+  }
+
+  p {
+    font-family: Acumin Pro;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: $primary-100;
+  }
+
+  &__primary {
+    display: flex;
+    flex-direction: row;
+    padding-top: 60px;
+    padding-bottom: 10px;
+  }
+
+  &__outer-links {
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+
+    .navbar-brand {
+      @include menu-font;
+    }
+
+    width: auto;
+    margin-right: auto;
+  }
+
+  &__social {
+    margin-top: 20px;
+
+    a {
+      margin-right: 30px;
+    }
+  }
+
+  &__title {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  &__menu {
+    @include menu-font;
+
+    width: auto;
+    margin-left: auto;
+    margin-bottom: 0;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    list-style: none;
+
+    .nav-item.active a.nav-link {
+      color: $primary-90;
+    }
+  }
+
+  &__secondary {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 36px;
+    padding-bottom: 36px;
+    border-top: 2px solid $primary-70;
+    align-items: baseline;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: baseline;
+
+    a {
+      margin-left: 30px;
+    }
+  }
+}

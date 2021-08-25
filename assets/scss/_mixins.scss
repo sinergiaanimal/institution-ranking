@@ -1,5 +1,17 @@
 @import "colors";
 
+
 @mixin shadow {
   box-shadow: 3px 3px 10px $neutral-20;
+}
+
+@mixin menu-font {
+  font-family: Acumin Pro ExtraCondensed;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 24px;
+  text-align: center;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }

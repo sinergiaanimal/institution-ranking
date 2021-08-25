@@ -1,136 +1,148 @@
-@import 'colors';
-@import 'fonts';
-
+@import "colors";
+@import "fonts";
 
 // Django CMS
 
 div.cms {
-    .cms-toolbar, .cms-sideframe, .cms-structure {
-        // to compensate top main nav
-        margin-top: 56px !important;
-    }
+  .cms-toolbar,
+  .cms-sideframe,
+  .cms-structure {
+    // to compensate top main nav
+    margin-top: 64px !important;
+  }
 }
-
 
 // Bootstrap related
 
 .container {
-    &--narrow {
-        max-width: 660px;
-    }
+  &--narrow {
+    max-width: 660px;
+  }
 }
-
 
 // Colors
 
 .color-primary-60 {
-    color: $primary-60;
+  color: $primary-60;
 }
-
 
 // Global
 
-html, body {
+html {
     height: 100%;
 }
 
 body {
-    font-family: Acumin Pro;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 28px;
-    color: $black;
-    background-color: $neutral-5;
+  position: relative;
+  height: auto;
+  min-height: calc(100% - 120px);  // to compensate header
+
+  font-family: Acumin Pro;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+  color: $black;
+  background-color: $neutral-5;
+}
+
+main {
+    padding-bottom: 330px;  // to make place for footer
 }
 
 p {
-    font-family: Acumin Pro;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 28px;
-    color: $black;
+  font-family: Acumin Pro;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+  color: $black;
 }
 
 a {
-    color: $primary-80;
+  color: $primary-80;
 
-    &:hover {
-        color: $primary-90;
-    }
+  &:hover {
+    color: $primary-90;
+  }
 }
 
 .clickable {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-.top-spacer {
-    height: 80px;
+.header {
+  &--main {
+    margin-top: 120px;
+  }
 }
 
 .navbar {
-    &--main {
-        z-index: 10000000;
-    }
+  &--main {
+    z-index: 10000000;
+  }
 }
-
 
 // Headers
 
 h1 {
-    font-family: Acumin Pro ExtraCondensed;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 69px;
-    line-height: 64px;
-    letter-spacing: 0.02em;
-    color: $primary-100;
+  font-family: Acumin Pro ExtraCondensed;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 69px;
+  line-height: 64px;
+  letter-spacing: 0.02em;
+  color: $primary-100;
+  margin-bottom: 30px;
 }
 
 h2 {
-    font-family: Acumin Pro ExtraCondensed;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 55px;
-    line-height: 60px;
-    letter-spacing: 0.02em;
-    color: $primary-100;
+  font-family: Acumin Pro ExtraCondensed;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 55px;
+  line-height: 60px;
+  letter-spacing: 0.02em;
+  color: $primary-100;
+  margin-bottom: 30px;
 
-    &.header-light {
-        font-family: Acumin Pro;
-        font-weight: 600;
-        letter-spacing: -0.04em;
-        opacity: 0.1;
-    }
+  &.header-light {
+    font-family: Acumin Pro;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    opacity: 0.1;
+  }
 }
 
 h3 {
-    font-family: Acumin Pro ExtraCondensed;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 35px;
-    line-height: 56px;
-    letter-spacing: 0.02em;
-    color: $primary-100;
+  font-family: Acumin Pro ExtraCondensed;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 35px;
+  line-height: 56px;
+  letter-spacing: 0.02em;
+  color: $primary-100;
+  margin-bottom: 30px;
 }
 
 h4 {
-    font-family: Acumin Pro;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 28px;
-    line-height: 32px;
-    letter-spacing: 0.01em;
-    color: $primary-100;
+  font-family: Acumin Pro;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 32px;
+  letter-spacing: 0.01em;
+  color: $primary-100;
+  margin-bottom: 30px;
 }
 
 h5 {
-    font-family: Acumin Pro;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 22px;
-    line-height: 28px;
-    letter-spacing: -0.02em;
-    color: $primary-100;
+  font-family: Acumin Pro;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 28px;
+  letter-spacing: -0.02em;
+  color: $primary-100;
+  margin-bottom: 30px;
 }
