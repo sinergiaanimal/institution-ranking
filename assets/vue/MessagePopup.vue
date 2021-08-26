@@ -44,6 +44,11 @@
             <p :id="'message-' + message.id"
                class="popup__message popup__message--content">
               {{ message.content }}
+              <transition name="fade">
+                <div class="popup__copy-msg" v-show="showCopyInfo">
+                  Message has been copied to the clipboard.
+                </div>
+              </transition>
               <button
                 type="button"
                 class="icon icon--copy popup__copy-btn"
@@ -59,7 +64,10 @@
             Choose a way of contact with
             <i>{{ institution.name }}</i>
           </h2>
-          <div v-if="institutionDetail" class="d-flex justify-content-center">
+          <div 
+            v-if="institutionDetail"
+            class="d-flex justify-content-center mb-3"
+          >
             <a
               v-for="email in institutionDetail.emails"
               :key="email.id"
@@ -108,6 +116,7 @@ export default {
       institutionDetail: null,
       messages: [],
       messageTemplateKind: messageTemplateKind,
+      showCopyInfo: false
     };
   },
 
@@ -152,6 +161,9 @@ export default {
       document.addEventListener('copy', listener);
       document.execCommand('copy');
       document.removeEventListener('copy', listener);
+
+      this.showCopyInfo = true;
+      setTimeout(() => { this.showCopyInfo = false; }, 2000);
     },
   },
 

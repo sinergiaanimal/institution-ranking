@@ -37,7 +37,7 @@
     border-radius: 8px;
 
     &--good {
-      color: $success-10;
+      color: $success-80;
       background-color: $success-5;
       border-color: $success-5;
     }
@@ -83,6 +83,19 @@
     border: none;
     background-color: transparent;
     cursor: copy;
+  }
+
+  &__copy-msg {
+    font-size: 14px;
+    position: absolute;
+    bottom: 10px;
+    right: 50px;
+    padding: 5px 10px;
+    margin-left: 30px;
+    border: 1px solid $primary-70;
+    border-radius: 8px;
+    color: $primary-80;
+    background-color: $primary-5;
   }
 }
 
