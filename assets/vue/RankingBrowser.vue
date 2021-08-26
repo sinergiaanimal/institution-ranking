@@ -146,6 +146,8 @@
       :popup-info="popupInfo"
       :categories="policyCategories"
       :institutions="selection"
+      :neutralThreshold="cfg.neutralThreshold"
+      :positiveThreshold="cfg.positiveThreshold"
     />
   </section>
 </template>
@@ -233,6 +235,11 @@ export default {
     },
 
     getInstitutionList () {
+      if (this.comparisonMode) {
+        // Cancel comparison mode if institution list is going to change.
+        this.switchComparisonMode();
+      }
+
       axios.get(apiUrls.policyCategories).then((response) => {
         let getParams = {
           ordering: `${this.ordering.join(',')}`,

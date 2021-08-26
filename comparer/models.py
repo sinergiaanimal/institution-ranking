@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Sum, Q
@@ -278,6 +279,23 @@ class RankingBrowserPluginModel(CMSPlugin):
             'Determines how many ordering options can be applied at most.'
         ),
         default=2
+    )
+    neutral_threshold = models.PositiveSmallIntegerField(
+        _('neutral threshold'),
+        help_text=_(
+            'Percentage score threshold from which score is considered neutral.'
+        ),
+        default=34,
+        validators=[MaxValueValidator(100)]
+    )
+    positive_threshold = models.PositiveSmallIntegerField(
+        _('positive threshold'),
+        help_text=_(
+            'Percentage score threshold from which '
+            'score is considered positive.'
+        ),
+        default=67,
+        validators=[MaxValueValidator(100)]
     )
 
     @staticmethod

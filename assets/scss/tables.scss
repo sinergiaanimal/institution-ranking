@@ -2,6 +2,18 @@
 @import "fonts";
 
 
+@mixin score-icon {
+  display: block;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  right: calc(20% + 10px);
+  top: calc(50% - 10px);
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  font-size: 18px;
+}
+
 .table.comparison {
   font-family: Acumin Pro;
   font-style: normal;
@@ -13,9 +25,15 @@
 
   td, th {
     border-top: none;
-    padding: 20px;
+    padding: 10px;
     text-align: center;
     min-width: 160px;
+    vertical-align: middle;
+    position: relative;
+  
+    // Fix to Firefox bug when cell borders are not showing
+    // if cell is having "position: relative".
+    background-clip: padding-box;
 
     &.category-col {
       min-width: 200px;
@@ -24,6 +42,79 @@
 
     &.bg-transparent {
       background-color: transparent;
+    }
+  }
+
+  .value {
+    padding: 10px;
+    display: block;
+    border-radius: 8px;
+    background-color: transparent;
+
+    &--negative {
+      background-color: $critical-10;
+
+      &::after {
+        @include score-icon;
+        content: '\f556';
+        color: $critical-60;
+      }
+    }
+
+    &--neutral {
+      background-color: $primary-10;
+      
+      &::after {
+        @include score-icon;
+        content: '\f5a4';
+        color: $primary-50;
+      }
+    }
+
+    &--positive {
+      background-color: $success-10;
+
+      &::after {
+        @include score-icon;
+        content: '\f560';
+        color: $success-50;
+      }
+    }
+
+    &--summary {
+
+      &-negative {
+        color: $white;
+        background-color: $critical-60;
+
+        &::after {
+          @include score-icon;
+          content: '\f556';
+          color: $white;
+        }
+      }
+  
+      &-neutral {
+        color: $white;
+        background-color: $primary-60;
+
+        &::after {
+          @include score-icon;
+          content: '\f5a4';
+          color: $white;
+        }
+      }
+  
+      &-positive {
+        color: $white;
+        background-color: $success-60;
+
+        &::after {
+          @include score-icon;
+          content: '\f560';
+          color: $white;
+        }
+      }
     }
   }
 

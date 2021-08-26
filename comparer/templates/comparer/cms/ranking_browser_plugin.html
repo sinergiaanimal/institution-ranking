@@ -13,7 +13,9 @@
     "compareBtnText": "{{ instance.compare_btn_text|safe }}",
     "popupTitle": "{{ instance.popup_title|safe }}",
     "popupInfo": "{{ instance.popup_info|safe }}",
-    "selectionLimit": "{{ instance.selection_limit }}"
+    "selectionLimit": "{{ instance.selection_limit }}",
+    "neutralThreshold": {{ instance.neutral_threshold }},
+    "positiveThreshold": {{ instance.positive_threshold }}
   }
   </script>
   <script src="{% static 'ranking_browser.bundle.js' %}"></script>

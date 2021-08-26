@@ -33,7 +33,9 @@
                   }"
                   :key="institution.id"
                 >
-                  {{ institution.name }}
+                  <span class="value">
+                    {{ institution.name }}
+                  </span>
                 </th>
               </tr>
 
@@ -44,14 +46,25 @@
                       'corner-tl': index === 0,
                       'corner-bl': index === categories.length - 1
                     }">
-                  {{ category.name }}
-                  </th>
+                  <span class="value">
+                    {{ category.name }}
+                  </span>
+                </th>
                 <td
-                  v-for="institution in institutions"
-                  :key="institution.id"
+                  v-for="(institution, i) in institutions"
                   scope="col"
+                  :key="institution.id"
                 >
-                  {{ institution.scores[category.slug] }}
+                  <span 
+                    :class="{
+                      'value': true,
+                      'value--positive': evaluated[i][category.slug].isPositive,
+                      'value--neutral': evaluated[i][category.slug].isNeutral,
+                      'value--negative': evaluated[i][category.slug].isNegative
+                    }"
+                  >
+                    {{ institution.scores[category.slug] }}
+                  </span>
                 </td>
               </tr>
 
@@ -66,7 +79,19 @@
                     'corner-br': index === institutions.length - 1
                   }"
                 >
-                  {{ institution.scores.total }}
+                  <span
+                    :class="{
+                      'value': true,
+                      'value--summary-positive':
+                        evaluated[index]['total'].isPositive,
+                      'value--summary-neutral':
+                        evaluated[index]['total'].isNeutral,
+                      'value--summary-negative':
+                        evaluated[index]['total'].isNegative
+                    }"
+                  >
+                    {{ institution.scores.total }}
+                  </span>
                 </td>
               </tr>
             </table>
@@ -102,16 +127,49 @@ export default {
     popupInfo: String,
     institutions: Array,
     categories: Array,
+    neutralThreshold: Number,
+    positiveThreshold: Number
   },
 
   data () {
     return {};
   },
 
+  computed: {
+    evaluated: function () {
+      let items = [];
+      
+      for (var institution of this.institutions) {
+        const categoryTotal = {
+          slug: 'total',
+          max_score: this.categories.reduce(
+            (prev, curr) => ({max_score: prev.max_score + curr.max_score})
+          ).max_score
+        };
+        const evals = {};
+
+        for (var category of [...this.categories, categoryTotal]) {
+          const percentage = 
+            institution.scores[category.slug] * 100 / category.max_score;
+          const isPositive = percentage >= this.positiveThreshold;
+          const isNeutral = !isPositive && percentage >= this.neutralThreshold;
+          const isNegative = percentage < this.neutralThreshold;
+
+          evals[category.slug] = {
+            isPositive, isNeutral, isNegative
+          };
+        }
+
+        items.push(evals);
+      }
+
+      return items;
+    }
+  },
+
   methods: {
     showPopup () {
       $('#comparer-popup').modal('show');
-      console.log(this.institutions);
     },
   },
 };
