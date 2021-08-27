@@ -27,6 +27,7 @@
             :col-name="'name'"
             :col-title="cfg.instColName"
             :ordering-array="ordering"
+            :extra-classes="'browser-table__name-col'"
             @ordering-changed="onOrderingChanged"
           />
 
@@ -67,14 +68,16 @@
             )"
         >
           <td v-show="comparisonMode">
-            <input
-              type="checkbox"
-              class="table-institution-checkbox-input"
-              @change="updateSelection(institution, $event)"
-              :disabled="
-                selectionLimitReached && !selection.includes(institution)
-              "
-            />
+            <div class="mt-1">
+              <input
+                type="checkbox"
+                class="input table-institution-checkbox-input"
+                @change="updateSelection(institution, $event)"
+                :disabled="
+                  selectionLimitReached && !selection.includes(institution)
+                "
+              />
+            </div>
           </td>
           <td>
             <a
@@ -230,13 +233,13 @@ export default {
       if (event.target.checked) {
         this.selection.push(institution);
       } else {
-        this.selection.splice(this.selection.indexOf(institution));
+        this.selection.splice(this.selection.indexOf(institution), 1);
       }
     },
 
     getInstitutionList () {
       if (this.comparisonMode) {
-        // Cancel comparison mode if institution list is going to change.
+        // Turn off comparison mode if institution list is going to change.
         this.switchComparisonMode();
       }
 

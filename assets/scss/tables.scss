@@ -10,7 +10,7 @@
   right: calc(20% + 10px);
   top: calc(50% - 10px);
   font-family: 'Font Awesome 5 Free';
-  font-weight: 900;
+  font-weight: 400;
   font-size: 18px;
 }
 
@@ -76,7 +76,7 @@
 
       &::after {
         @include score-icon;
-        content: '\f560';
+        content: '\f5b8';
         color: $success-50;
       }
     }
@@ -111,7 +111,7 @@
 
         &::after {
           @include score-icon;
-          content: '\f560';
+          content: '\f5b8';
           color: $white;
         }
       }

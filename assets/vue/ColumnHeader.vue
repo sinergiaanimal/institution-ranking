@@ -3,13 +3,14 @@
       data-col="name"
       class="clickable"
       :class="extraClasses"
-      @click="updateOrdering">
-    {{ colTitle }}&nbsp;<i
-      v-if="inOrdering(colName)"
-      class="fas fa-sort-down d-inline"
-    ></i
-    ><i v-else-if="inRevOrdering(colName)" class="fas fa-sort-up d-inline"></i
-    ><i v-else class="fas fa-sort d-inline"></i>
+      @click="updateOrdering"
+  >
+    {{ colTitle }}&nbsp;<!--
+    --><i v-if="inOrdering(colName)"
+          class="fas fa-sort-down d-inline"></i><!--
+    --><i v-else-if="inRevOrdering(colName)"
+          class="fas fa-sort-up d-inline"></i><!--
+    --><i v-else class="fas fa-sort d-inline"></i>
   </th>
 </template>
 
