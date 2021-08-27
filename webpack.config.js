@@ -36,7 +36,7 @@ module.exports = {
         mimetype: 'application/font-woff',
       }
     }, {
-      test: /\.(ttf|eot|svg|ico|jp?eg|bmp)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      test: /\.(ttf|eot|svg|ico|jpg|bmp)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
       loader: 'file-loader'
     }]
   },

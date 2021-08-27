@@ -352,10 +352,18 @@ class InstitutionPolicyAdmin(admin.ModelAdmin):
     search_fields = ['title']
 
 
+class SocialMediaLinkAdmin(admin.ModelAdmin):
+    list_display = [
+        'id', 'institution', 'kind', 'url'
+    ]
+    list_filter = ['kind']
+    search_fields = ['institution__name', 'url']
+
+
 admin.site.register(PolicyCategory, PolicyCategoryAdmin)
 admin.site.register(PolicyCriterion, PolicyCriterionAdmin)
 admin.site.register(Institution, InstitutionAdmin)
-admin.site.register(SocialMediaLink)
+admin.site.register(SocialMediaLink, SocialMediaLinkAdmin)
 admin.site.register(InstitutionEmail)
 admin.site.register(InstitutionScore, InstitutionScoreAdmin)
 admin.site.register(InstitutionPolicy, InstitutionPolicyAdmin)

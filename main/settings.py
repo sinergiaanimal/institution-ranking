@@ -244,6 +244,7 @@ THUMBNAIL_PROCESSORS = (
 POLICY_CATEGORY_SLUGS = [
     # Fill this in your local_settings.py
 ]
+INSTITUTION_NAME = 'institution'
 
 
 try:

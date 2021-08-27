@@ -170,6 +170,9 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+    background-color: $white;
+    border: 4px solid $primary-50;
+    border-radius: 50%;
   }
 
   &__card {
@@ -181,9 +184,11 @@
     &-header {
       height: 125px;
       width: 100%;
-      background-color: gray;  // for tests
       border-top-left-radius: 8px;
       border-top-right-radius: 8px;
+      background-image: url('/assets/img/bg/institution-detail-header-bg.jpg');
+      background-position: center;
+      background-image: cover;
     }
 
     &-content {
@@ -193,28 +198,28 @@
       border-bottom-left-radius: 8px;
       border-bottom-right-radius: 8px;
     }
+  }
 
-    &-title {
-      font-family: Acumin Pro ExtraCondensed;
-      font-style: normal;
-      font-weight: 400;
-      font-size: 35px;
-      line-height: 56px;
-      letter-spacing: 0.02em;
-      color: $primary-100;   
-      margin-bottom: 20px;
-    }
+  &__title {
+    font-family: Acumin Pro ExtraCondensed;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 35px;
+    line-height: 56px;
+    letter-spacing: 0.02em;
+    color: $primary-100;   
+    margin-bottom: 20px;
+  }
 
-    &-subtitle {
-      font-family: Acumin Pro;
-      font-style: normal;
-      font-weight: 600;
-      font-size: 16px;
-      line-height: 28px;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-      color: $primary-100;
-      margin-bottom: 20px;
-    }
+  &__subtitle {
+    font-family: Acumin Pro;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 28px;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: $primary-100;
+    margin-bottom: 10px;
   }
 }

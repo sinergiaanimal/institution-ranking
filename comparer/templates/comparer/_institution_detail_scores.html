@@ -1,0 +1,57 @@
+{% for cat in categories %}
+  <div class="accordion">
+    <div class="accordion__header">
+      <h2 class="accordion__title">
+        {{ cat.instance.name }} {{ cat.score_percentage }}%
+      </h2>
+    </div>
+
+    <div id="category-accordion-{{ cat.pk }}"
+         class="accordion__content">
+      
+      {% for score in cat.scores %}
+        <div class="accordion__item">
+          
+          <div id="heading-score-{{ score.pk }}"
+               class="accordion__item-header">
+            <button class="btn accordion__item-toggler"
+                    data-toggle="collapse"
+                    data-target="#collapse-score-{{ score.pk }}"
+                    aria-expanded="true"
+                    aria-controls="collapse-score-{{ score.pk }}">
+              <h3 class="accordion__item-title">
+                {{ score.criterion.name }} {{ score.score }}
+              </h3>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+          </div>
+
+          <div id="collapse-score-{{ score.pk }}"
+               class="accordion__item-content collapse"
+               aria-labelledby="heading-score-{{ score.pk }}"
+               data-parent="#category-accordion-{{ cat.pk }}">
+            <div class="card-body">
+              {% for policy in score.policies.active %}
+                <div class="row mt-3">
+                  <div class="col-lg-4">
+                    <p><strong>Assessed policy</strong></p>
+                    <p>
+                      <a href="{{ policy.link }}" target="_blank"
+                          rel="noopener noreferrer">
+                        {{ policy.title }}
+                      </a>
+                    </p>
+                  </div>
+                  <div class="col-lg-8">
+                    <p><strong>Policy details</strong></p>
+                    {{ policy.text|safe }}
+                  </div>
+                </div>
+              {% endfor %}{# policies #}
+            </div>
+          </div>
+        </div>
+      {% endfor %}{# scores #}
+    </div>
+  </div>
+{% endfor %}{# categories #}

@@ -76,24 +76,21 @@
               :title="'E-mail: ' + email.address"
             >
             </a>
-            <div
+            <a
               v-for="sm in institutionDetail.social_media_links"
               :key="sm.id"
+              :class="[
+                'icon',
+                'icon--spaced',
+                'icon--' + sm.kind_name.toLowerCase(),
+              ]"
+              :href="sm.url"
+              :title="sm.kind_name + ': ' + sm.url"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <a
-                :class="[
-                  'icon',
-                  'icon--spaced',
-                  'icon--' + sm.kind_name.toLowerCase(),
-                ]"
-                :href="sm.url"
-                target="_blank"
-                rel="noopener noreferrer"
-                :title="sm.kind_name + ': ' + sm.url"
-              >
-                <span class="sr-only">{{ sm.kind_name }}</span>
-              </a>
-            </div>
+              <span class="sr-only">{{ sm.kind_name }}</span>
+            </a>
           </div>
         </div>
       </div>

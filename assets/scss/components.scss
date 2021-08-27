@@ -1,5 +1,6 @@
 @import "colors";
 @import "fonts";
+@import "mixins";
 
 
 /* progress bar */
@@ -26,6 +27,80 @@
 
     .progress-bar {
       background-color: $primary-50;
+    }
+  }
+
+  &--large {
+    height: 24px;
+    border-radius: 8px;
+    border: 2px solid $neutral-10;
+
+    .progress-value {
+      font-size: 16px;
+      margin-top: 3px;
+    }
+
+    .progress-bar {
+      border-radius: 6px;
+    }
+  }
+}
+
+
+/* Accordion */
+
+.accordion {
+  @include shadow;
+  margin-bottom: 20px;
+
+  &__header {
+    background-color: $neutral-20;
+    padding: 10px 15px;
+  }
+
+  &__title {
+    font-family: Acumin Pro;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 28px;
+    color: #000000;
+    margin: 0;
+  }
+
+  &__content {
+    background-color: $white;
+  }
+
+  &__item {
+
+    &-header {
+
+    }
+
+    &-toggler {
+      width: 100%;
+      padding: 10px 15px;
+      border-radius: 0;
+      border-top: 1px solid $neutral-10;
+      border-bottom: 1px solid $neutral-10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &-title {
+      font-family: Acumin Pro;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 28px;
+      color: $primary-90;
+      margin: 0;
+    }
+
+    &-content {
+
     }
   }
 }

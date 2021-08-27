@@ -1,86 +1,117 @@
 {% extends 'cms/base.html' %}
 {% load cms_tags static i18n %}
 
-{% block title %}{{ institution.name }}{% endblock title %}
+{% block title %}
+  {{ institution.name }}
+{% endblock title %}
+
+
+{% block header %}
+  <header class="header header--main">
+    <section class="container">
+      <div class="inst-detail__header">
+        {% if institution.logo %}
+          <figure
+            class="inst-detail__logo"
+            style="background-image: url('{% get_media_prefix %}{{ institution.logo }}');"
+          >
+          </figure>
+        {% else %}
+          <figure
+            class="inst-detail__logo"
+            style="background-image: url('{% get_static_prefix %}comparer/img/institution-detail-logo-default.svg');"
+          >
+          </figure>
+        {% endif %}
+        <h1>
+          {{ institution.name }}
+        </h1>
+      </div>
+    </section>
+  </header>
+{% endblock header %}
 
 {% block content %}
-  <section class="container container--narrow">
+  <section class="container clearfix">
     <div class="row">
-      <div class="col-md-5">
-        {% if institution.logo %}
-          <img src="{% get_media_prefix %}{{ institution.logo }}">
-        {% else %}
-          <img src="{% get_static_prefix %}comparer/img/institution-detail-logo-default.svg">
-        {% endif %}
-      </div>
-      <div class="col-md-7">
-        <h1>{{ institution.name }}</h1>
-        <p>{% trans 'Policy assessment' %}</p>
-        <div class="d-flex">
-          <span style="max-width: 50px;">{{ score_percentage }}%</span>
-          <div class="progress ml-auto" style="width: calc(100% - 60px); margin-top: 5px;">
-            <div class="progress-bar" role="progressbar" style="width: {{ score_percentage }}%"
-                 aria-valuenow="{{ score_percentage }}" aria-valuemin="0" aria-valuemax="100">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 mt-4">
-        <p>{{ institution.description }}</p>
-      </div>
-    </div>
-
-    <div>
-      {% for cat in categories %}
-        <h2>{{ cat.instance.name }} {{ cat.score_percentage }}%</h2>
-
-        <div id="category-accordion-{{ cat.pk }}" class="mb-5">
-          {% for score in cat.scores %}
-            <div class="card">
-              <div class="card-header" id="heading-score-{{ score.pk }}">
-                <h5 class="mb-0">
-                  <button class="btn btn-link"
-                          data-toggle="collapse"
-                          data-target="#collapse-score-{{ score.pk }}"
-                          aria-expanded="true"
-                          aria-controls="collapse-score-{{ score.pk }}">
-                    {{ score.criterion.name }} {{ score.score }}
-                  </button>
-                </h5>
-              </div>
-
-              <div id="collapse-score-{{ score.pk }}"
-                   class="collapse"
-                   aria-labelledby="heading-score-{{ score.pk }}"
-                   data-parent="#category-accordion-{{ cat.pk }}">
-                <div class="card-body">
-                  {% for policy in score.policies.active %}
-                    <div class="row mt-3">
-                      <div class="col-lg-4">
-                        <p><strong>Assessed policy</strong></p>
-                        <p>
-                          <a href="{{ policy.link }}" target="_blank"
-                             rel="noopener noreferrer">
-                            {{ policy.title }}
-                          </a>
-                        </p>
-                      </div>
-                      <div class="col-lg-8">
-                        <p><strong>Policy details</strong></p>
-                        {{ policy.text|safe }}
-                      </div>
-                    </div>
-                  {% endfor %}{# policies #}
+      
+      <div class="col-lg-4">
+        <div class="inst-detail__card">
+          <div class="inst-detail__card-header"></div>
+          <div class="inst-detail__card-content">
+            <h2 class="inst-detail__title">
+              About {{ institution.name }}
+            </h2>
+            
+            <h3 class="inst-detail__subtitle">
+              {% trans 'Policy assessment' %}
+            </h3>
+            <div class="row mb-5">
+              <div class="col-md-10">
+                <div class="progress progress--gold progress--large">
+                  <div class="progress-value">
+                    {{ score_percentage }}%
+                  </div>
+                  <div class="progress-bar"
+                      role="progressbar"
+                      style="width: {{ score_percentage }}%"
+                      aria-valuenow="{{ score_percentage }}"
+                      aria-valuemin="0"
+                      aria-valuemax="100">
+                  </div>
                 </div>
               </div>
             </div>
-          {% endfor %}{# scores #}
+
+            <h3 class="inst-detail__subtitle">
+              {% trans 'Social media' %}
+            </h3>
+
+            <div class="d-flex">
+              {% for email in institution.emails.active %}
+                <a class="icon icon--spaced icon--mail"
+                   href="mailto:{{ email.address }}"
+                  title="E-mail: {{ email.address }}">
+                  <span class="sr-only">e-mail</span>
+                </a>
+              {% endfor %}
+              {% for sm in institution.social_media_links.active %}
+                <a class="icon icon--spaced
+                          icon--{{ sm.get_kind_display.lower }}"
+                   href="{{ sm.url }}"
+                   title="{{ sm.get_kind_display }}: {{ sm.url }}"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                  <span class="sr-only">{{ sm.kind_name }}</span>
+                </a>
+              {% endfor %}
+            </div>
+
+            {% if institution.description %}
+              <p class="mt-4">{{ institution.description }}</p>
+            {% endif %}
+          </div>
         </div>
-      {% endfor %}{# categories #}
+        
+        <button type="button" class="button button--primary mt-5 mb-5">
+          {% trans 'Send message' %}
+        </button>
+      </div>
+
+      <div class="col-lg-8 inst-detail__scores">
+        <h2 class="inst-detail__title">
+          {{ INSTITUTION_NAME.capitalize }}'s Policy
+        </h2>
+        {% include "comparer/_institution_detail_scores.html" %}
+      </div>
     </div>
 
-    <button type="button" class="btn btn-primary float-right mb-5">
-      {% trans 'Ask bank to commit' %}
-    </button>
+    <p class="float-right">
+      <a href="/ranking/">
+        <i class="fas fa-long-arrow-alt-left mr-2"></i>
+        Go back to ranking list
+      </a>
+    </p>
+    <div class="clearfix"></div>
   </section>
 {% endblock content %}
