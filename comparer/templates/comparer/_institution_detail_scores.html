@@ -2,7 +2,20 @@
   <div class="accordion">
     <div class="accordion__header">
       <h2 class="accordion__title">
-        {{ cat.instance.name }} {{ cat.score_percentage }}%
+        {{ cat.instance.name }}
+        <div class="progress progress--gold progress--narrow ml-3"
+            title="{{ cat.score_percentage }}%">
+          <div class="progress-value">
+            {{ cat.score_percentage }}%
+          </div>
+          <div class="progress-bar"
+              role="progressbar"
+              style="width: {{ cat.score_percentage }}%"
+              aria-valuenow="{{ cat.score_percentage }}"
+              aria-valuemin="0"
+              aria-valuemax="100">
+          </div>
+        </div>
       </h2>
     </div>
 
@@ -14,15 +27,26 @@
           
           <div id="heading-score-{{ score.pk }}"
                class="accordion__item-header">
-            <button class="btn accordion__item-toggler"
+            <button class="btn accordion__item-toggler collapsed"
                     data-toggle="collapse"
                     data-target="#collapse-score-{{ score.pk }}"
                     aria-expanded="true"
                     aria-controls="collapse-score-{{ score.pk }}">
               <h3 class="accordion__item-title">
-                {{ score.criterion.name }} {{ score.score }}
+                {% if score.score == 0 %}
+                  <i class="far fa-times-circle color-critical-80"></i>
+                {% endif %}
+                {% if score.score == 1 %}
+                  <i class="far fa-circle color-warning-60"></i>
+                {% endif %}
+                {% if score.score == 2 %}
+                  <i class="far fa-check-circle color-success-80"></i>
+                {% endif %}
+                <span class="pl-2">
+                  {{ score.criterion.name }}
+                </span>
               </h3>
-              <i class="fas fa-chevron-down"></i>
+              <i class="accordion__item-toggler-icon fas fa-chevron-up"></i>
             </button>
           </div>
 
@@ -34,7 +58,7 @@
               {% for policy in score.policies.active %}
                 <div class="row mt-3">
                   <div class="col-lg-4">
-                    <p><strong>Assessed policy</strong></p>
+                    <h4>Assessed policy</h4>
                     <p>
                       <a href="{{ policy.link }}" target="_blank"
                           rel="noopener noreferrer">
@@ -43,8 +67,11 @@
                     </p>
                   </div>
                   <div class="col-lg-8">
-                    <p><strong>Policy details</strong></p>
-                    {{ policy.text|safe }}
+                    {% if policy.text.strip %}
+                      <div class="accordion__item-detail-box">
+                        {{ policy.text|safe }}
+                      </div>
+                    {% endif %}
                   </div>
                 </div>
               {% endfor %}{# policies #}

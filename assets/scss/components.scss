@@ -10,6 +10,10 @@
   background-color: $neutral-10;
   height: 16px;
 
+  .progress-bar {
+    height: 100%;
+  }
+
   .progress-value {
     position: absolute;
     color: $black;
@@ -44,6 +48,11 @@
       border-radius: 6px;
     }
   }
+
+  &--narrow {
+    display: inline-block;
+    width: 60px;
+  }
 }
 
 
@@ -59,6 +68,10 @@
   }
 
   &__title {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
     font-family: Acumin Pro;
     font-style: normal;
     font-weight: normal;
@@ -78,6 +91,47 @@
 
     }
 
+    &-content {
+
+      h4 {
+        font-family: Acumin Pro;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 20px;
+        color: $primary-80;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+      }
+
+      p {
+        font-family: Acumin Pro;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        color: $neutral-90;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    &-detail-box {
+      padding: 10px;
+      background-color: $neutral-5;
+      border-radius: 8px;
+      font-family: Acumin Pro;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      color: $primary-100;
+      
+      
+    }
+
     &-toggler {
       width: 100%;
       padding: 10px 15px;
@@ -87,6 +141,16 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+
+      .accordion__item-toggler-icon {
+        transform: rotate(0deg);
+        transition: all .4s;
+      }
+
+      &.collapsed .accordion__item-toggler-icon {
+        transform: rotate(180deg);
+        transition: all .4s;
+      }
     }
 
     &-title {
@@ -97,10 +161,6 @@
       line-height: 28px;
       color: $primary-90;
       margin: 0;
-    }
-
-    &-content {
-
     }
   }
 }
