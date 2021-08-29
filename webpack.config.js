@@ -10,7 +10,8 @@ module.exports = {
   
   entry: {
     main: './assets/index.js',
-    ranking_browser: './assets/ranking_browser.js'
+    ranking_browser: './assets/ranking_browser.js',
+    message_popup: './assets/message_popup.js',
   },
   output: {
     filename: '[name].bundle.js',

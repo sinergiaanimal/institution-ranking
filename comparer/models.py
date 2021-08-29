@@ -105,6 +105,10 @@ class Institution(ActivableModel, TimestampedModel):
     def __str__(self):
         return self.name
 
+    @property
+    def total_score(self):
+        return self.scores.active().aggregate(sum=models.Sum('score'))['sum']
+
 
 class SocialMediaLink(ActivableModel, TimestampedModel):
     FACEBOOK, INSTAGRAM, TWITTER, LINKEDIN, YOUTUBE, WEBSITE, ANOTHER \

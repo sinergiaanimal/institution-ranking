@@ -93,9 +93,9 @@
           </div>
         </div>
         
-        <button type="button" class="button button--primary mt-5 mb-5">
-          {% trans 'Send message' %}
-        </button>
+        <div id="message-popup-app" data-institution-id="{{ institution.id }}">
+          <!-- MessagePopupApp.vue component will be mounted here. -->
+        </div>
       </div>
 
       <div class="col-lg-8 inst-detail__scores">
@@ -115,3 +115,21 @@
     <div class="clearfix"></div>
   </section>
 {% endblock content %}
+
+
+{% block js_end %}
+  {{ block.super }}
+  <script id="message-popup-cfg" type="application/json">
+  {
+    "buttonTitle": "{% trans "Send message" %}",
+    "institution": {
+      "id": {{ institution.id }},
+      "name": "{{ institution.name }}",
+      "scores": {
+        "total": {{ institution.total_score }}
+      }
+    }
+  }
+  </script>
+  <script src="{% static 'message_popup.bundle.js' %}"></script>
+{% endblock js_end %}

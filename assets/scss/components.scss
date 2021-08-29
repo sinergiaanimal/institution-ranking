@@ -8,10 +8,12 @@
 .progress {
   position: relative;
   background-color: $neutral-10;
-  height: 16px;
+  border: 2px solid $neutral-10;
+  height: 20px;
 
   .progress-bar {
     height: 100%;
+    border-radius: 4px;
   }
 
   .progress-value {
