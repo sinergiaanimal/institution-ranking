@@ -1,0 +1,42 @@
+{% for category in categories %}
+  <div class="accordion"
+       id="category-accordion-{{ category.pk }}">
+    <div class="accordion__header">
+      <h2 class="accordion__title">
+        {{ category.name }}
+      </h2>
+    </div>
+    
+    <div class="accordion__content">
+      {% for criterion in category.criterions.active.order_by|dictsort:"order" %}
+        <div class="accordion__item">
+        
+          <div id="criterion-{{ criterion.pk }}"
+               class="accordion__item-header">
+            <button class="btn accordion__item-toggler collapsed"
+                    data-toggle="collapse"
+                    data-target="#collapse-criterion-{{ criterion.pk }}"
+                    aria-expanded="true"
+                    aria-controls="collapse-criterion-{{ criterion.pk }}"
+                    {% if not criterion.description %}disabled="disabled"{% endif %}>
+              <h3 class="accordion__item-title">
+                {{ criterion.name }}
+              </h3>
+              <i class="accordion__item-toggler-icon fas fa-chevron-up"></i>
+            </button>
+          </div>
+
+          <div id="collapse-criterion-{{ criterion.pk }}"
+               class="accordion__item-content collapse"
+               aria-labelledby="criterion-{{ score.pk }}"
+               data-parent="#category-accordion-{{ category.pk }}">
+            <div class="card-body">
+              {{ criterion.description|linebreaks }}
+            </div>
+          </div>
+
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endfor %}

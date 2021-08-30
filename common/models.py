@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from cms.models.fields import PlaceholderField
+
 from common.managers import ActivableModelQuerySet
 
 
@@ -8,8 +10,12 @@ class TimestampedModel(models.Model):
     """
     Adds automatic creation and modification timestamp fields.
     """
-    creation_timestamp = models.DateTimeField(_('Creation time stamp'), auto_now_add=True)
-    modification_timestamp = models.DateTimeField(_('Modification time stamp'), auto_now=True)
+    creation_timestamp = models.DateTimeField(
+        _('Creation time stamp'), auto_now_add=True
+    )
+    modification_timestamp = models.DateTimeField(
+        _('Modification time stamp'), auto_now=True
+    )
 
     class Meta:
         abstract = True
@@ -29,7 +35,8 @@ class ActivableModel(models.Model):
 
 class OrderedModel(models.Model):
     """
-    Adds "order" field to the model and set it's value as the last at save if not explicitly given.
+    Adds "order" field to the model and set it's value as the last at save
+     if not explicitly given.
     """
     order = models.IntegerField(_('Order'), null=False, blank=True)
 
@@ -38,7 +45,9 @@ class OrderedModel(models.Model):
         ordering = ('order',)
 
     def get_order(self):
-        max_order = self.__class__.objects.aggregate(models.Max('order'))['order__max'] or 0
+        max_order = self.__class__.objects.aggregate(
+            models.Max('order')
+        )['order__max'] or 0
         return max_order + 1
 
     def save(self, *args, **kwargs):
@@ -46,3 +55,21 @@ class OrderedModel(models.Model):
             self.order = self.get_order()
         super().save(*args, **kwargs)
 
+
+def content_placeholder_slotname(instance):
+    return instance.slug
+
+
+class ContentPlaceholder(TimestampedModel):
+    slug = models.SlugField(_('slug'), unique=True)
+    placeholder = PlaceholderField(
+        verbose_name=_('CMS placeholder'),
+        slotname=content_placeholder_slotname
+    )
+    description = models.TextField(
+        _('description'), null=True, blank=True,
+        help_text=_('Description for administrator.')
+    )
+
+    def __str__(self):
+      return self.slug

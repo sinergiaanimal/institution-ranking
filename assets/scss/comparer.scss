@@ -23,6 +23,7 @@
     line-height: 28px;
     color: $primary-90;
     text-transform: uppercase;
+    margin-bottom: 10px;
   }
 
   ol {
@@ -31,6 +32,7 @@
     font-size: 16px;
     line-height: 24px;
     color: $neutral-80;
+    margin-bottom: 0;
   }
 
   a {
@@ -54,6 +56,9 @@
     width: 26px;
     height: 26px;
     bottom: -6px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
   }
 
   &__name {
@@ -175,51 +180,11 @@
     border-radius: 50%;
   }
 
-  &__card {
-    @include shadow;
-
-    border-radius: 8px;
-    background-color: $white;
-
-    &-header {
-      height: 125px;
-      width: 100%;
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
-      background-image: url('/assets/img/bg/institution-detail-header-bg.jpg');
-      background-position: center;
-      background-image: cover;
-    }
-
-    &-content {
-      padding: 20px 30px;
-      height: auto;
-      width: 100%;
-      border-bottom-left-radius: 8px;
-      border-bottom-right-radius: 8px;
-    }
-  }
-
   &__title {
-    font-family: Acumin Pro ExtraCondensed;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 35px;
-    line-height: 56px;
-    letter-spacing: 0.02em;
-    color: $primary-100;   
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 
   &__subtitle {
-    font-family: Acumin Pro;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 28px;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    color: $primary-100;
     margin-bottom: 10px;
   }
 }

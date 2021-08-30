@@ -48,6 +48,7 @@ class PolicyCriterion(OrderedModel, ActivableModel, TimestampedModel):
         verbose_name=_('category'), to=PolicyCategory, on_delete=models.CASCADE,
         related_name='criterions'
     )
+    description = models.TextField(_('Description'), null=False, blank=True)
 
     class Meta:
         verbose_name = _('Policy criterion')
@@ -347,3 +348,7 @@ class RankingBrowserPluginModel(CMSPlugin):
 
     def __str__(self):
         return 'Ranking Browser'
+
+
+def get_default_categories():
+    return PolicyCategory.objects.active()
