@@ -11,31 +11,36 @@
   border-radius: 8px;
   border: none;
   padding: 25px;
-  font-family: Acumin Pro;
   margin-top: 15px;
   margin-bottom: 15px;
 
   &__title {
-    /* body */
-    font-family: Acumin Pro;
-    font-weight: 400;
+    font-family: acumin-pro-semi-condensed;
     font-size: 18px;
     line-height: 28px;
+    font-weight: 600;
     color: $primary-90;
     text-transform: uppercase;
     margin-bottom: 10px;
   }
 
   ol {
+    font-family: acumin-pro;
+    font-weight: 400;
     padding-left: 20px;
-    font-weight: 600;
     font-size: 16px;
     line-height: 24px;
     color: $neutral-80;
     margin-bottom: 0;
+
+    li:marker {
+      font-family: acumin-pro;
+      font-weight: 400;
+    }
   }
 
   a {
+    font-family: acumin-pro;
     font-weight: 400;
     font-size: 18px;
     line-height: 28px;
@@ -63,13 +68,15 @@
 
   &__name {
     line-height: 30px;
+    font-family: acumin-pro-semi-condensed;
+    font-weight: 400;
   }
 
   &__score {
-    font-family: Acumin Pro;
+    font-family: acumin-pro-semi-condensed;
     margin-left: auto;
     margin-right: 10px;
-    font-weight: 900;
+    font-weight: 600;
     font-size: 18px;
     line-height: 24px;
     color: $primary-70;
@@ -86,27 +93,19 @@
 
   // Overriding Bootstrap styling
   &.table td, th {
-    padding-top: 15px;
     border-top: 1px solid $neutral-10;
     border-bottom: none;
   }
 
-  &.table th {
-    padding-top: 18px;
-  }
-
   &.table thead th {
     border-bottom: 2px solid $neutral-10;
+    white-space: nowrap;
   }
   // End
 
-  .compensate-height {
-    margin-top: -4px;
-  }
-
   td {
     vertical-align: middle;
-    font-family: Acumin Pro;
+    font-family: acumin-pro;
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
@@ -120,9 +119,9 @@
   }
 
   th {
-    font-family: Acumin Pro;
+    font-family: acumin-pro-semi-condensed;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 14px;
     line-height: 20px;
     color: $primary-90;
@@ -139,7 +138,7 @@
 
   .institution-thumb {
     display: inline-block;
-    margin: -6px 6px 0 0;
+    margin: 0 6px 0 0;
     width: 30px;
     height: 30px;
     min-width: 30px;
@@ -161,8 +160,7 @@
     margin-bottom: 40px;
 
     h1 {
-      margin-top: 20px;
-      margin-bottom: 0;
+      margin: 0;
     }
   }
 

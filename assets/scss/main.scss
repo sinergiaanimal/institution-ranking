@@ -50,7 +50,7 @@ body {
   height: auto;
   min-height: calc(100% - 120px);  // to compensate header
 
-  font-family: Acumin Pro;
+  font-family: acumin-pro;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -64,7 +64,7 @@ main {
 }
 
 p {
-  font-family: Acumin Pro;
+  font-family: acumin-pro;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -99,7 +99,7 @@ a {
 // Headers
 
 h1 {
-  font-family: Acumin Pro ExtraCondensed;
+  font-family: acumin-pro-extra-condensed;
   font-style: normal;
   font-weight: 400;
   font-size: 69px;
@@ -110,7 +110,7 @@ h1 {
 }
 
 h2 {
-  font-family: Acumin Pro ExtraCondensed;
+  font-family: acumin-pro-extra-condensed;
   font-style: normal;
   font-weight: 400;
   font-size: 55px;
@@ -120,7 +120,7 @@ h2 {
   margin-bottom: 30px;
 
   &.header-light {
-    font-family: Acumin Pro;
+    font-family: acumin-pro;
     font-weight: 600;
     letter-spacing: -0.04em;
     opacity: 0.1;
@@ -128,7 +128,7 @@ h2 {
 }
 
 h3 {
-  font-family: Acumin Pro ExtraCondensed;
+  font-family: acumin-pro-extra-condensed;
   font-style: normal;
   font-weight: 400;
   font-size: 35px;
@@ -139,7 +139,7 @@ h3 {
 }
 
 h4 {
-  font-family: Acumin Pro;
+  font-family: acumin-pro;
   font-style: normal;
   font-weight: 400;
   font-size: 28px;
@@ -150,7 +150,7 @@ h4 {
 }
 
 h5 {
-  font-family: Acumin Pro;
+  font-family: acumin-pro;
   font-style: normal;
   font-weight: 400;
   font-size: 22px;

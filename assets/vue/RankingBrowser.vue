@@ -96,7 +96,7 @@
           </td>
           <td>
             <div
-              class="progress progress--gold compensate-height"
+              class="progress progress--gold"
               :title="scorePercentage + '%'"
             >
               <div class="progress-value">
@@ -127,7 +127,7 @@
           </td>
 
           <td scope="col">
-            <i class="far fa-envelope fa-lg compensate-height
+            <i class="far fa-envelope fa-lg
                       d-block text-center color-primary-60"
                @click="showMessagePopup(institution)">
             </i>
