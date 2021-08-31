@@ -31,7 +31,7 @@
                aria-labelledby="criterion-{{ score.pk }}"
                data-parent="#category-accordion-{{ category.pk }}">
             <div class="card-body">
-              {{ criterion.description|linebreaks }}
+              {{ criterion.descr_rendered|safe }}
             </div>
           </div>
 

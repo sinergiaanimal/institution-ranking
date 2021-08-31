@@ -29,6 +29,7 @@ PROJECT_TITLE = _('Institution comparer')
 
 # Django Sites
 
+SITE_URL = "localhost"  # required by django-markdownfield
 SITE_ID = 1
 
 
@@ -56,6 +57,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'imagekit',
+    'markdownfield',
 
     'djangocms_text_ckeditor',
     'djangocms_link',

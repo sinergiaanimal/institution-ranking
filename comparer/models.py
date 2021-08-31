@@ -8,6 +8,8 @@ from django.conf import settings
 from autoslug import AutoSlugField
 from imagekit.models import ProcessedImageField, ImageSpecField
 from imagekit.processors import ResizeToFit
+from markdownfield.models import MarkdownField, RenderedMarkdownField
+from markdownfield.validators import VALIDATOR_STANDARD
 
 from cms.models import CMSPlugin
 
@@ -48,7 +50,13 @@ class PolicyCriterion(OrderedModel, ActivableModel, TimestampedModel):
         verbose_name=_('category'), to=PolicyCategory, on_delete=models.CASCADE,
         related_name='criterions'
     )
-    description = models.TextField(_('Description'), null=False, blank=True)
+    description = MarkdownField(
+        _('Description'), null=False, blank=True,
+        rendered_field='descr_rendered', validator=VALIDATOR_STANDARD
+    )
+    descr_rendered = RenderedMarkdownField(
+        null=False, blank=True
+    )
 
     class Meta:
         verbose_name = _('Policy criterion')
