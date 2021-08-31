@@ -1,51 +1,79 @@
+@import "colors";
+
+
+@mixin fa($content) {
+  &::before {
+    display: inline-block;
+    background: transparent;
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 700;
+    font-size: 18px;
+    color: $primary-90;
+    content: $content;
+  }
+}
+
+@mixin fab($content) {
+  @include fa($content);
+  
+  &::before {
+    font-family: 'Font Awesome 5 Brands';
+    font-weight: 400;
+  }
+}
+
+@mixin far($content) {
+  @include fa($content);
+  
+  &::before {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 400;
+  }
+}
+
 
 .icon {
   display: inline-block;
   width: 30px;
   height: 30px;
-  background-image: url('/assets/img/icons/primary80/link.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
 
   &--spaced {
-    margin: 0 10px 0 10px;
+    margin: 0 20px 0 0px;
   }
 
   &--website {
-    background-image: url('/assets/img/icons/primary80/link.svg');
-  }
-
-  &--facebook {
-    background-image: url('/assets/img/icons/primary80/facebook.svg');
-  }
-
-  &--instagram {
-    background-image: url('/assets/img/icons/primary80/instagram.svg');
-  }
-
-  &--linkedin {
-    background-image: url('/assets/img/icons/primary80/linkedin.svg');
-  }
-
-  &--website {
-    background-image: url('/assets/img/icons/primary80/link.svg');
-  }
-
-  &--mail {
-    background-image: url('/assets/img/icons/primary80/mail.svg');
-  }
-
-  &--twitter {
-    background-image: url('/assets/img/icons/primary80/twitter.svg');
-  }
-
-  &--youtube {
-    background-image: url('/assets/img/icons/primary80/youtube.svg');
+    @include fa('\f0c1');
   }
 
   &--copy {
-    background-image: url('/assets/img/icons/primary80/copy.svg');
+    @include far('\f0c5');
+  }
+
+  &--mail {
+    @include far('\f0e0');
+  }
+
+  &--facebook {
+    @include fab('\f39e');
+  }
+
+  &--instagram {
+    @include fab('\f16d');
+  }
+
+  &--linkedin {
+    @include fab('\f0e1');
+  }
+
+  &--twitter {
+    @include fab('\f099');
+  }
+
+  &--youtube {
+    @include fab('\f167');
   }
 }
 
