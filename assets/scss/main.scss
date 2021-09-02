@@ -1,5 +1,7 @@
 @import "colors";
 @import "fonts";
+@import "mixins";
+
 
 // Django CMS
 
@@ -23,23 +25,31 @@ div.cms {
 // Colors
 
 .color-primary-60 {
-  color: $primary-60;
+  color: $primary-60 !important;
 }
 
 .color-success-80 {
-  color: $success-80;
+  color: $success-80 !important;
 }
 
 .color-warning-60 {
-  color: $warning-60;
+  color: $warning-60 !important;
 }
 
 .color-critical-80 {
-  color: $critical-80;
+  color: $critical-80 !important;
 }
 
 .bg-color-white {
   background-color: $white !important;
+}
+
+.bg-color-neutral-5 {
+  background-color: $neutral-5 !important;
+}
+
+.shadowed {
+  @include shadow;
 }
 
 
@@ -52,7 +62,7 @@ html {
 body {
   position: relative;
   height: auto;
-  min-height: calc(100% - 120px);  // to compensate header
+  min-height: 100vh;
 
   font-family: acumin-pro, Roboto, Sans-Serif;
   font-style: normal;

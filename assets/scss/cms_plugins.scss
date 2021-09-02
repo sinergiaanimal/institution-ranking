@@ -1,6 +1,13 @@
 @import "colors";
 
 
+/* Styling for Django CMS custom WrapperPlugin */
+
+.wrapper {
+  position: relative;
+}
+
+
 /* Styling for Django CMS custom CoverPlugin */
 
 .cover {
@@ -10,7 +17,7 @@
   background-repeat: no-repeat;
   background-size: cover;
 
-  &__veil_of_darkness {
+  &__veil-of-darkness {
     display: block;
     position: absolute;
     left: 0;

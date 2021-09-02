@@ -3,18 +3,28 @@
 
 /* Custom elements used in CMS pages */
 
-.partial-rect-bg {
+.partial-bg {
   position: relative;
 
   &::before {
     content: '';
     display: block;
     position: absolute;
+    background-color: $primary-50;
+  }
+
+  &--rect-left::before {
     left: -50px;
     top: -90px;
     bottom: -50px;
     width: 40%;
-    background-color: $primary-50;
+  }
+
+  &--rect-right::before {
+    right: -50px;
+    top: -90px;
+    bottom: -50px;
+    width: 40%;
   }
 }
 
@@ -56,4 +66,10 @@
     border-radius: 8px;
     z-index: 0;
   }
+}
+
+.stamp-tl {
+  position: absolute;
+  top: -50px;
+  left: -50px;
 }

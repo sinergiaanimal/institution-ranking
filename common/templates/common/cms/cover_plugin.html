@@ -1,15 +1,12 @@
 {% load cms_tags static %}
 
 <{{ instance.tag_type }} {{ instance.attributes_str }}>
-    <div class="cover__veil_of_darkness"
-         style="opacity: {{ darkness }}">
-    </div>
-    <div class="cover__content">
-        {% if instance.card_content %}
-            {{ instance.card_content }}
-        {% endif %}
-        {% for plugin in instance.child_plugin_instances %}
-            {% with forloop as parentloop %}{% render_plugin plugin %}{% endwith %}
-        {% endfor %}
-    </div>
+  <div class="cover__veil-of-darkness"
+       style="opacity: {{ darkness }}">
+  </div>
+  <div class="cover__content">
+    {% for plugin in instance.child_plugin_instances %}
+      {% with forloop as parentloop %}{% render_plugin plugin %}{% endwith %}
+    {% endfor %}
+  </div>
 </{{ instance.tag_type }}>

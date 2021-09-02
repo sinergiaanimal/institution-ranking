@@ -10,6 +10,8 @@ from filer.fields.image import FilerImageField
 from common.managers import ActivableModelQuerySet
 
 
+# Abstract base models
+
 class TimestampedModel(models.Model):
     """
     Adds automatic creation and modification timestamp fields.
@@ -67,6 +69,9 @@ def content_placeholder_slotname(instance):
 # Django CMS related models
 
 class ContentPlaceholder(TimestampedModel):
+    """
+    Placeholder model to use with pages outside of CMS.
+    """
     slug = models.SlugField(_('slug'), unique=True)
     placeholder = PlaceholderField(
         verbose_name=_('CMS placeholder'),
@@ -81,7 +86,27 @@ class ContentPlaceholder(TimestampedModel):
       return self.slug
 
 
+class WrapperPluginModel(CMSPlugin):
+    """
+    Wraps contents into simple HTML element with configurable type
+     and attributes.
+    """
+    tag_type = TagTypeField()
+    attributes = AttributesField(
+        verbose_name=_('attributes'),
+        blank=True,
+        excluded_keys=[]
+    )
+
+    def __str__(self):
+        return f'(Wrapper)'
+
+
 class CoverPluginModel(CMSPlugin):
+    """
+    Allows to create container with full width background image.
+    """
+    tag_type = TagTypeField()
     image = FilerImageField(
         verbose_name=_('image'),
         null=True, blank=True, on_delete=models.CASCADE,
@@ -99,7 +124,6 @@ class CoverPluginModel(CMSPlugin):
             'to the background.'
         )
     )
-    tag_type = TagTypeField()
 
     def __str__(self):
         return f'(Cover)'

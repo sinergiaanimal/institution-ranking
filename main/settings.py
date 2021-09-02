@@ -87,6 +87,7 @@ INSTALLED_APPS = [
     # Local apps
     'common',
     'comparer',
+    'blog',
 
     'django_cleanup.apps.CleanupConfig',
 ]

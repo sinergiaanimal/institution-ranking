@@ -1,5 +1,3 @@
-import csv
-
 from django import forms
 from django.contrib import admin, messages
 from django.urls import path

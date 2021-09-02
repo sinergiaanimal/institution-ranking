@@ -1,0 +1,49 @@
+{% extends 'cms/base.html' %}
+{% load cms_tags static i18n %}
+
+{% block title %}
+  {{ post.title }}
+{% endblock title %}
+
+{% block header %}
+  <section class="cover content-box"
+           style="background-image: url('{{ post.header_image.url }}');">
+    <div class="cover__veil-of-darkness"
+         style="opacity: {{ bg_opacity }};">
+    </div>
+    <div class="cover__content">
+      <div class="container">
+        <h1 class="text-center">{{ post.title }}</h1>
+      </div>
+    </div>
+  </section>
+{% endblock header %}
+
+{% block content %}
+  <section class="container clearfix mt-5">
+    <div class="row mx-lg-n5">
+      <div class="post col-lg-9 px-lg-5">
+        <div class="post__header">
+          <div class="post__header-item">
+            {{ post.publication_date|date }}
+          </div>
+          <div class="post__header-item">
+            <i class="far fa-clock"></i>
+            {{ post.reading_time }} minutes reading time
+          </div>
+        </div>
+        <div class="post__content">
+          {{ post.content_placeholder.placeholder }}
+          {% render_placeholder post.content_placeholder %}
+        </div>
+      </div>
+      <div class="col-lg-3 px-lg-5">
+        <h2 class=post__side-title>Recent Blog Posts</h2>
+        <p>... TODO ...</p>
+      </div>
+    </div>
+    <div class="post__footer">
+      <p>SHARE THE ARTICLE: ... TODO ...</p>
+    </div>
+  </section>
+{% endblock content %}
