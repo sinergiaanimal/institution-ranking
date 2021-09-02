@@ -38,6 +38,10 @@ div.cms {
   color: $critical-80;
 }
 
+.bg-color-white {
+  background-color: $white !important;
+}
+
 
 // Global
 
@@ -60,7 +64,11 @@ body {
 }
 
 main {
-    padding-bottom: 330px;  // to make place for footer
+    padding-bottom: 330px;  // to make place for footer and bottom margin
+
+    &.no-bottom-gap {
+      padding-bottom: 264px;  // only compensate footer height
+    }
 }
 
 p {
@@ -69,13 +77,13 @@ p {
   font-weight: 400;
   font-size: 18px;
   line-height: 28px;
-  color: $black;
+  color: $neutral-80;
 }
 
 a {
   color: $primary-80;
 
-  &:hover {
+  &:hover:not(.button) {
     color: $primary-90;
   }
 }
@@ -88,6 +96,20 @@ a {
   &--main {
     margin-top: 120px;
   }
+
+  &--hidden {
+    margin-top: 64px;  // to compensate navbar
+    height: 0;
+    max-height: 0;
+    
+    :not(.sr-only) {
+      display: none;
+    }
+  }
+}
+
+.section {
+  padding-top: 90px;
 }
 
 .navbar {

@@ -1,7 +1,11 @@
+from django.core.validators import MaxValueValidator
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from cms.models import CMSPlugin
 from cms.models.fields import PlaceholderField
+from djangocms_bootstrap4.fields import AttributesField, TagTypeField
+from filer.fields.image import FilerImageField
 
 from common.managers import ActivableModelQuerySet
 
@@ -60,6 +64,8 @@ def content_placeholder_slotname(instance):
     return instance.slug
 
 
+# Django CMS related models
+
 class ContentPlaceholder(TimestampedModel):
     slug = models.SlugField(_('slug'), unique=True)
     placeholder = PlaceholderField(
@@ -73,3 +79,27 @@ class ContentPlaceholder(TimestampedModel):
 
     def __str__(self):
       return self.slug
+
+
+class CoverPluginModel(CMSPlugin):
+    image = FilerImageField(
+        verbose_name=_('image'),
+        null=True, blank=True, on_delete=models.CASCADE,
+        related_name='cover_images'
+    )
+    attributes = AttributesField(
+        verbose_name=_('attributes'),
+        blank=True,
+        excluded_keys=[]
+    )
+    darken = models.PositiveSmallIntegerField(
+        _('darken'), validators=[MaxValueValidator(100)], default=0,
+        help_text=_(
+            'Percentage value of the darkness overlay applied '
+            'to the background.'
+        )
+    )
+    tag_type = TagTypeField()
+
+    def __str__(self):
+        return f'(Cover)'

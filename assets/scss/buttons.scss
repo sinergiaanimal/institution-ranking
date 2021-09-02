@@ -17,12 +17,19 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
 
+  &:hover {
+    /* To remove anchor styles */
+    color: $black;
+    text-decoration: none;
+  }
+
   &--primary {
     background-color: $primary-50;
     border-color: $primary-50;
     color: $primary-100;
 
     &:hover {
+      color: $primary-100;
       background-color: $primary-60;
       border-color: $primary-60;
       cursor: pointer;

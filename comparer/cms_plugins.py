@@ -71,5 +71,3 @@ class CriteriaPluginPublisher(CMSPluginBase):
             'categories': PolicyCategory.objects.active().prefetch_related('criterions')
         })
         return context
-
-

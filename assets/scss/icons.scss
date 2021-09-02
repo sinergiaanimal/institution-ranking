@@ -11,6 +11,10 @@
     color: $primary-90;
     content: $content;
   }
+
+  &:hover::before{
+    color: $primary-80;
+  }
 }
 
 @mixin fab($content) {

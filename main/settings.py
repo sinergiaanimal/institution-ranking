@@ -225,6 +225,7 @@ REST_FRAMEWORK = {
 
 CMS_TEMPLATES = [
     ('cms/default.html', _('Default')),
+    ('cms/content_page.html', _('Content Page')),
 ]
 
 

@@ -355,8 +355,4 @@ class RankingBrowserPluginModel(CMSPlugin):
                 })
 
     def __str__(self):
-        return 'Ranking Browser'
-
-
-def get_default_categories():
-    return PolicyCategory.objects.active()
+        return f'Ranking Browser {self.pk}'

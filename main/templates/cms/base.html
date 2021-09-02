@@ -31,7 +31,9 @@
       </header>
     {% endblock header %}
 
-    <main>{% block content %}{% endblock content %}</main>
+    <main class="{% block main_cls %}{% endblock main_cls %}">
+      {% block content %}{% endblock content %}
+    </main>
 
     {% include "cms/_footer.html" %}
 

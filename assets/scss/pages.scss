@@ -1,0 +1,59 @@
+@import "colors";
+
+
+/* Custom elements used in CMS pages */
+
+.partial-rect-bg {
+  position: relative;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: -50px;
+    top: -90px;
+    bottom: -50px;
+    width: 40%;
+    background-color: $primary-50;
+  }
+}
+
+.half-grey-bg {
+  background: linear-gradient(
+    90deg,
+    $neutral-5,
+    $neutral-5 50%,
+  rgba(255,255,255,0) 50%,
+  rgba(255,255,255,0) 100%
+  );
+}
+
+.grey-bg-icon {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  display: block;
+  margin: auto;
+
+  figcaption {
+    display: none;
+  }
+
+  img {
+    position: relative;
+    z-index: 1;
+  }
+
+  &::before {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: -30px;
+    left: 30px;
+    background-color: $neutral-10;
+    border-radius: 8px;
+    z-index: 0;
+  }
+}
