@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 
-from .models import BlogIndexPluginModel, BlogPost
+from .models import BlogIndexPluginModel, BlogRecentPluginModel, BlogPost
 
 
 @plugin_pool.register_plugin
@@ -20,4 +20,21 @@ class BlogIndexPluginPublisher(CMSPluginBase):
         context['feat_post'] = posts[0] if len(posts) else None
         context['posts'] = posts[1:]
 
+        return context
+
+
+@plugin_pool.register_plugin
+class BlogRecentPluginPublisher(CMSPluginBase):
+    model = BlogRecentPluginModel
+    module = _('Blog')
+    name = _('Recent Blog Posts')
+    render_template = 'blog/cms/blog_recent_plugin.html'
+
+    def render(self, context, instance, placeholder):
+        context['instance'] = instance
+        
+        context['posts'] = BlogPost.objects.active().order_by(
+            '-publication_date'
+        )[:instance.post_count]
+        
         return context

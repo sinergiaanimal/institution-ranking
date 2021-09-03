@@ -82,6 +82,7 @@ class BlogPost(TimestampedModel, ActivableModel):
     def bg_opacity(self):
         return '{:.2f}'.format(self.header_darken / 100)
 
+
 class BlogIndexPluginModel(CMSPlugin):
     feat_btn_text = models.CharField(
         _('featured button text'), max_length=50, null=False, blank=False,
@@ -103,3 +104,11 @@ class BlogIndexPluginModel(CMSPlugin):
     def __str__(self):
         return f'{_("Blog Index")}'
     
+
+class BlogRecentPluginModel(CMSPlugin):
+    post_count = models.PositiveSmallIntegerField(
+        _('number of posts'), default=3
+    )
+
+    def __str__(self):
+        return f'{_("Recent Blog Posts")}'

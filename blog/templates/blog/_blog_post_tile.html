@@ -16,9 +16,9 @@
         {{ post.reading_time }} min reading time
       </div>
     </div>
-    <div class="post-tile__content">
-      {{ post.descr_rendered|safe }}
-    </div>
+    <h3 class="post-tile__title">
+      {{ post.title }}
+    </h3>
     <a class="post-tile__link"
        href="{% url 'blog-post-detail' slug=post.slug %}">
       {% trans "Read more" %}
