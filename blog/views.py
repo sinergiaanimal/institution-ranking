@@ -10,6 +10,7 @@ class BlogPostDetailView(DetailView):
     queryset = BlogPost.objects.active()
     context_object_name = 'post'
     template_name = 'blog/blog_post_detail.html'
+    recent_post_count = 3
 
     def get_queryset(self):
         queryset = BlogPost.objects.all()
@@ -20,7 +21,10 @@ class BlogPostDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['bg_opacity'] =  '{:.2f}'.format(
-            context['post'].header_darken / 100
+        context['recent_posts'] = BlogPost.objects.active().exclude(
+            pk=context['post'].pk
+        ).order_by('-publication_date')[:self.recent_post_count]
+        context['post_uri'] = self.request.build_absolute_uri(
+            self.request.get_full_path()
         )
         return context

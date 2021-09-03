@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import datetime
 
+from cms.models.pluginmodel import CMSPlugin
 from cms.models.fields import PlaceholderField
 from autoslug.fields import AutoSlugField
 from imagekit.models.fields import ImageSpecField, ProcessedImageField
@@ -71,3 +72,34 @@ class BlogPost(TimestampedModel, ActivableModel):
         verbose_name=_('CMS placeholder'),
         slotname='post_content'
     )
+
+    class Meta:
+        verbose_name = _('Blog Post')
+        verbose_name_plural = _('Blog Posts')
+        ordering = ['-publication_date']
+
+    @property
+    def bg_opacity(self):
+        return '{:.2f}'.format(self.header_darken / 100)
+
+class BlogIndexPluginModel(CMSPlugin):
+    feat_btn_text = models.CharField(
+        _('featured button text'), max_length=50, null=False, blank=False,
+        help_text=_(
+            'Text displayed on the button of featured blog post '
+            'which redirects to the post details page.'
+        ),
+        default='READ ARTICLE'
+    )
+    more_title = models.CharField(
+        _('remaining posts title'),
+        max_length=250, null=False, blank=False,
+        help_text=_(
+            'Title of the remaining posts section.'
+        ),
+        default='Read more blog posts'
+    )
+
+    def __str__(self):
+        return f'{_("Blog Index")}'
+    

@@ -1,0 +1,40 @@
+{% load cms_tags i18n %}
+
+<section class="cover content-box post-cover"
+         {% if post.header_image %}
+           style="background-image: url('{{ post.header_image.url }}');"
+         {% endif %}>
+  <div class="cover__veil-of-darkness"
+        style="opacity: {{ post.bg_opacity }};">
+  </div>
+  <div class="cover__content">
+    <div class="container">
+      <h1 class="text-center">{{ post.title }}</h1>
+      <div class="cover__header">
+        <div class="cover__header-item">
+          {{ post.publication_date|date }}
+        </div>
+        <div class="cover__header-item">
+          <i class="far fa-clock"></i>
+          {{ post.reading_time }} min reading time
+        </div>
+      </div>
+      <div class="cover__details">
+        {{ post.descr_rendered|safe }}
+      </div>
+      <div class="cover__link">
+        {% if is_detail %}
+          <a class="button button--primary"
+            href="{% page_url 'blog-index' %}">
+            {% trans 'See all articles' %}
+          </a>        
+        {% else %}
+          <a class="button button--primary"
+            href="{% url 'blog-post-detail' slug=post.slug %}">
+            {{ btn_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>

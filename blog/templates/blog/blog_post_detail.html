@@ -6,44 +6,40 @@
 {% endblock title %}
 
 {% block header %}
-  <section class="cover content-box"
-           style="background-image: url('{{ post.header_image.url }}');">
-    <div class="cover__veil-of-darkness"
-         style="opacity: {{ bg_opacity }};">
-    </div>
-    <div class="cover__content">
-      <div class="container">
-        <h1 class="text-center">{{ post.title }}</h1>
-      </div>
-    </div>
-  </section>
+  {% include 'blog/_blog_post_cover.html' with is_detail=True %}
 {% endblock header %}
 
 {% block content %}
   <section class="container clearfix mt-5">
     <div class="row mx-lg-n5">
-      <div class="post col-lg-9 px-lg-5">
-        <div class="post__header">
-          <div class="post__header-item">
-            {{ post.publication_date|date }}
-          </div>
-          <div class="post__header-item">
-            <i class="far fa-clock"></i>
-            {{ post.reading_time }} minutes reading time
-          </div>
-        </div>
+      <div class="post col-lg-8 px-lg-5">
         <div class="post__content">
           {{ post.content_placeholder.placeholder }}
           {% render_placeholder post.content_placeholder %}
         </div>
       </div>
-      <div class="col-lg-3 px-lg-5">
+      <div class="col-lg-4 px-lg-5">
         <h2 class=post__side-title>Recent Blog Posts</h2>
-        <p>... TODO ...</p>
+        {% for p in recent_posts %}
+          {% include "blog/_blog_post_tile.html" with post=p %}
+        {% endfor %}
       </div>
     </div>
     <div class="post__footer">
-      <p>SHARE THE ARTICLE: ... TODO ...</p>
+      <p>
+        <span class="pr-4">SHARE THE ARTICLE:</span>
+        {% with uri=post_uri|iriencode %}
+          <a class="icon icon--spaced icon--facebook" target="_blank"
+            href="https://www.facebook.com/sharer/sharer.php?u={{ uri }}">
+          </a>
+          <a class="icon icon--spaced icon--twitter" target="_blank"
+            href="https://twitter.com/intent/tweet?url={{ uri }}">
+          </a>
+          <a class="icon icon--spaced icon--linkedin" target="_blank"
+            href="https://www.linkedin.com/shareArticle?mini=true&url={{ uri }}">
+          </a>
+        {% endwith %}
+      </p>
     </div>
   </section>
 {% endblock content %}

@@ -1,0 +1,28 @@
+{% load i18n %}
+<div class="post-tile">
+  <a class="post-tile__cover{% if is_medium %} post-tile__cover--medium{% endif %}"
+     {% if post.header_image %}
+      style="background-image: url('{{ post.header_image.url }}');"
+    {% endif %}
+     href="{% url 'blog-post-detail' slug=post.slug %}">
+  </a>
+  <div class="post-tile__body">
+    <div class="post-tile__header">
+      <div class="post-tile__header-item">
+        {{ post.publication_date|date }}
+      </div>
+      <div class="post-tile__header-item">
+        <i class="far fa-clock"></i>
+        {{ post.reading_time }} min reading time
+      </div>
+    </div>
+    <div class="post-tile__content">
+      {{ post.descr_rendered|safe }}
+    </div>
+    <a class="post-tile__link"
+       href="{% url 'blog-post-detail' slug=post.slug %}">
+      {% trans "Read more" %}
+      <i class="fas fa-long-arrow-alt-right pl-2"></i>
+    </a>
+  </div>
+</div>
