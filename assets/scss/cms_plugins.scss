@@ -20,6 +20,11 @@
   background-repeat: no-repeat;
   background-size: cover;
 
+  &--bg-half-r {
+    background-size: 50vw auto;
+    background-position: center right;
+  }
+
   &__veil-of-darkness {
     display: block;
     position: absolute;
