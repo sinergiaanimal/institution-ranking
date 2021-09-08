@@ -1,6 +1,8 @@
 {% load i18n %}
 
-{% include 'blog/_blog_post_cover.html' with post=feat_post is_detail=False btn_text=instance.feat_btn_text %}
+{% if feat_post %}
+  {% include 'blog/_blog_post_cover.html' with post=feat_post is_detail=False btn_text=instance.feat_btn_text %}
+{% endif %}
 
 <section class="container mt-5 mb-5">
   <h2 class="text-center pt-3 pb-5">{{ instance.more_title }}</h2>
