@@ -14,54 +14,13 @@ div.cms {
   }
 }
 
+
 // Bootstrap related
 
 .container {
   &--narrow {
     max-width: 660px;
   }
-}
-
-// Colors
-
-.color-primary-60 {
-  color: $primary-60 !important;
-}
-
-.color-success-80 {
-  color: $success-80 !important;
-}
-
-.color-neutral-20 {
-  color: $neutral-20 !important;
-}
-
-.color-warning-60 {
-  color: $warning-60 !important;
-}
-
-.color-critical-80 {
-  color: $critical-80 !important;
-}
-
-.bg-color-white {
-  background-color: $white !important;
-}
-
-.bg-color-neutral-5 {
-  background-color: $neutral-5 !important;
-}
-
-.shadowed {
-  @include shadow;
-}
-
-.cursor-pointer {
-  cursor: pointer !important;
-}
-
-.cursor-help {
-  cursor: help !important;
 }
 
 
@@ -118,10 +77,6 @@ label {
   line-height: 28px;
   color: $neutral-100;
   margin-bottom: 5px;
-}
-
-.clickable {
-  cursor: pointer;
 }
 
 .header {

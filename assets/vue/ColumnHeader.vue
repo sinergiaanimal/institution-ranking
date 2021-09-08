@@ -1,7 +1,7 @@
 <template>
   <th scope="col"
       data-col="name"
-      class="clickable"
+      class="cursor-pointer"
       :class="extraClasses"
       :title="tooltip"
       @click="updateOrdering"
