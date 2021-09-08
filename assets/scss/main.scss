@@ -32,6 +32,10 @@ div.cms {
   color: $success-80 !important;
 }
 
+.color-neutral-20 {
+  color: $neutral-20 !important;
+}
+
 .color-warning-60 {
   color: $warning-60 !important;
 }
@@ -50,6 +54,14 @@ div.cms {
 
 .shadowed {
   @include shadow;
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+.cursor-help {
+  cursor: help !important;
 }
 
 

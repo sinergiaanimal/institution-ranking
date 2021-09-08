@@ -4,6 +4,7 @@ from django.db import models
 from common.models import ContentPlaceholder
 from .models import Institution, PolicyCategory
 
+
 __all__ = ('InstitutionDetailView', )
 
 
@@ -19,8 +20,8 @@ class InstitutionDetailView(DetailView):
             {'instance': obj} for obj in PolicyCategory.objects.active()
         ]
         context['score_max'] = PolicyCategory.objects.active().aggregate(
-            models.Sum('max_score'))['max_score__sum'
-        ]
+            models.Sum('max_score')
+        )['max_score__sum']
         context['score_current'] = self.object.score_total
         context['score_percentage'] = round(
             context['score_current'] * 100 / context['score_max'])

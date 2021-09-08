@@ -22,8 +22,12 @@ input.input[type="text"] {
   line-height: 27px;
   letter-spacing: 0.06em;
 
-  &--search {
-    ::placeholder {
+  &.input--search {
+    display: inline-block;
+    width: 300px;
+    max-width: 60%;
+
+    &::placeholder {
       padding: 0 20px;
       font-weight: 900;
       color: $neutral-30;

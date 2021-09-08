@@ -48,7 +48,8 @@
             </h3>
             <div class="row mb-4">
               <div class="col-md-10">
-                <div class="progress progress--gold progress--large">
+                <div class="progress progress--gold progress--large cursor-help"
+                     title="{{ institution.score_total }} / {{ score_max }} {% trans 'points' %}">
                   <div class="progress-value">
                     {{ score_percentage }}%
                   </div>

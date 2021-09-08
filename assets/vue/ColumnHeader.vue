@@ -3,6 +3,7 @@
       data-col="name"
       class="clickable"
       :class="extraClasses"
+      :title="tooltip"
       @click="updateOrdering"
   >
     {{ colTitle }}&nbsp;<!--
@@ -30,6 +31,10 @@ export default {
       required: true,
     },
     extraClasses: {
+      type: String,
+      required: false,
+    },
+    tooltip: {
       type: String,
       required: false,
     }

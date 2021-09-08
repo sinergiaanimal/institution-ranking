@@ -10,13 +10,15 @@
         {{ cfg.compareBtnText }}
       </span>
     </button>
-    <div class="form-group" style="max-width: 50%">
+    <div class="form-group d-flex">
       <input
         class="input input--search"
         type="text"
         placeholder="SEARCH"
         v-debounce:300ms="applySearch"
       />
+      <i class="fas fa-search fa-2x d-inline-block color-neutral-20 mt-2 ml-3">
+      </i>
     </div>
     <table class="browser-table table">
       <thead>
@@ -36,6 +38,7 @@
             col-title="Score"
             :ordering-array="ordering"
             @ordering-changed="onOrderingChanged"
+            :tooltip="'Maximum total score is ' + maxScore + ' points'"
           />
 
           <ColumnHeader
@@ -53,6 +56,9 @@
             :col-title="category.short_name"
             :extra-classes="'policy-cat-col'"
             :ordering-array="ordering"
+            :tooltip="
+              category.name + ' | Max score: ' + category.max_score + ' points'
+            "
             @ordering-changed="onOrderingChanged"
           />
 
@@ -65,8 +71,7 @@
             :key="institution.id"
             :set="scorePercentage = Math.round(
               (100 * institution.scores.total) / maxScore
-            )"
-        >
+            )">
           <td v-show="comparisonMode">
             <div class="mt-1">
               <input
@@ -97,7 +102,7 @@
           <td>
             <div
               class="progress progress--gold"
-              :title="scorePercentage + '%'"
+              :title="'score: ' + institution.scores.total + '/' + maxScore"
             >
               <div class="progress-value">
                 {{ scorePercentage }}%
@@ -123,12 +128,12 @@
             class="text-center"
             :key="category.id"
           >
-            {{ institution.scores[category.slug] }}
+            {{ institution.scores[category.slug] + '/' + category.max_score }}
           </td>
 
           <td scope="col">
             <i class="far fa-envelope fa-lg
-                      d-block text-center color-primary-60"
+                      d-block text-center color-primary-60 cursor-pointer"
                @click="showMessagePopup(institution)">
             </i>
           </td>

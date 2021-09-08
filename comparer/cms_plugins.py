@@ -2,7 +2,7 @@ import operator
 from functools import reduce
 
 from django.utils.translation import gettext as _
-from django.db.models import Q
+from django.db.models import Q, Sum
 
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
@@ -27,7 +27,10 @@ class RankingBoxPluginPublisher(CMSPluginBase):
             institutions = institutions.filter(
                 reduce(
                     operator.or_,
-                    [Q(region__iexact=c) for c in instance.region_filter.split(';')]
+                    [
+                        Q(region__iexact=c)
+                        for c in instance.region_filter.split(';')
+                    ]
                 )
             )
 
@@ -35,13 +38,26 @@ class RankingBoxPluginPublisher(CMSPluginBase):
             institutions = institutions.filter(
                 reduce(
                     operator.or_,
-                    [Q(country__iexact=c) for c in instance.country_filter.split(';')]
+                    [
+                        Q(country__iexact=c)
+                        for c in instance.country_filter.split(';')
+                    ]
                 )
             )
 
-        institutions = institutions.order_by('-score_total')[:instance.items_count]
+        institutions = institutions.order_by(
+            '-score_total'
+        )[:instance.items_count]
 
-        context.update({'instance': instance, 'institutions': institutions})
+        max_score = PolicyCategory.objects.active().aggregate(
+            sum=Sum('max_score')
+        )['sum']
+
+        context.update({
+            'instance': instance,
+            'institutions': institutions,
+            'max_score': max_score
+        })
 
         return context
 

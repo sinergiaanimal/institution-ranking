@@ -22,6 +22,12 @@
     color: $primary-90;
     text-transform: uppercase;
     margin-bottom: 10px;
+
+    &-score {
+      font-family: acumin-pro;
+      float: right;
+      font-weight: 400;
+    }
   }
 
   ol {
@@ -75,7 +81,7 @@
   &__score {
     font-family: acumin-pro;
     margin-left: auto;
-    margin-right: 10px;
+    margin-right: 0;
     font-weight: 400;
     font-size: 18px;
     line-height: 24px;

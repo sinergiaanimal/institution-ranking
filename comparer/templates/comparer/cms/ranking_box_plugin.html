@@ -1,6 +1,9 @@
-{% load static %}
+{% load static i18n %}
 <section class="ranking-box{% if instance.html_classes %} {{ instance.html_classes }}{% endif %}">
-  <h2 class="ranking-box__title">{{ instance.title }}</h2>
+  <h2 class="ranking-box__title">
+    <div class="ranking-box__title-score">{% trans "Score" %}</div>
+    {{ instance.title }}
+  </h2>
   <ol>
     {% for institution in institutions %}
       <li class="ranking-box__row">
@@ -14,7 +17,7 @@
             </a>
           </span>
           <span class="ranking-box__score">
-            {{ institution.score_total|default:0 }}
+            {{ institution.score_total|default:0 }}/{{ max_score }}
           </span>
         </div>
       </li>
