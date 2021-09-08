@@ -49,11 +49,6 @@ module.exports = {
       chunkFilename: '[id].css'
     }),
     new VueLoaderPlugin(),
-    new CopyPlugin({
-      patterns: [
-        { from: './static', to: 'static' },
-      ],
-    }),
   ],
 
   optimization: {
