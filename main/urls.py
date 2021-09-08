@@ -36,6 +36,7 @@ router.register(r'policy-categories', PolicyCategoryViewSet)
 
 urlpatterns += (
     re_path(r'^api/', include('comparer.api_urls')),
+    re_path(r'^api/', include('contact.api_urls')),
     re_path(r'^api/', include(router.urls)),
 )
 

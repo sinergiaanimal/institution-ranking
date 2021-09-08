@@ -20,13 +20,6 @@ ALLOWED_HOSTS = []
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 
-# Custom settings
-
-SERVE_MEDIA = True  # Serving media files for development
-
-PROJECT_TITLE = _('Institution comparer')
-
-
 # Django Sites
 
 SITE_URL = "localhost"  # required by django-markdownfield
@@ -88,6 +81,7 @@ INSTALLED_APPS = [
     'common',
     'comparer',
     'blog',
+    'contact',
 
     'django_cleanup.apps.CleanupConfig',
 ]
@@ -242,13 +236,23 @@ THUMBNAIL_PROCESSORS = (
 )
 
 
-# Other
+# === Other ===
+
+# Global
+
+SERVE_MEDIA = True  # Serving media files for development
+PROJECT_TITLE = _('Institution Comparer')
+
+# Comparer app
 
 # Application will assume PolicyCategory with these slugs exists in the database:
 POLICY_CATEGORY_SLUGS = [
     # Fill this in your local_settings.py
 ]
 INSTITUTION_NAME = 'institution'
+
+# Contact app
+CONTACT_MSG_SUBJECT = 'Contact message from {PROJECT_TITLE}'
 
 
 try:

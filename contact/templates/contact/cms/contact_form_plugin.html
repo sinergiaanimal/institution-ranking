@@ -1,0 +1,20 @@
+{% load static sekizai_tags %}
+<section id="contact-form-app-{{ plugin.id }}">
+</section>
+
+{% addtoblock "js" %}
+  <script id="contact-form-cfg-{{ plugin.id }}" type="application/json">
+  {
+    "pluginId": {{ plugin.id }},
+    "nameFName": "{{ plugin.name_fname }}",
+    "namePlaceholder": "{{ plugin.name_placeholder }}",
+    "emailFName": "{{ plugin.email_fname }}",
+    "emailPlaceholder": "{{ plugin.email_placeholder }}",
+    "messageFName": "{{ plugin.message_fname }}",
+    "messagePlaceholder": "{{ plugin.message_placeholder }}",
+    "buttonText": "{{ plugin.button_text }}",
+    "csrfToken": "{{ csrf_token }}"
+  }
+  </script>
+  <script src="{% static 'contact_form.bundle.js' %}"></script>
+{% endaddtoblock %}

@@ -2,6 +2,7 @@ const apiUrls = {
   institutions: '/api/institutions/',
   policyCategories: '/api/policy-categories/',
   messageTemplates: '/api/message-templates/',
+  contactMessage: '/api/contact/message/',
 };
 
 const messageTemplateKind = {

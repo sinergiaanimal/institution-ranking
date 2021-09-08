@@ -1,6 +1,7 @@
 @import "colors";
 @import "fonts";
 
+
 input.input[type="text"] {
   display: block;
   height: 60px;
@@ -26,7 +27,7 @@ input.input[type="text"] {
       padding: 0 20px;
       font-weight: 900;
       color: $neutral-30;
-      text-align: center;
+      text-align: left;
     }
   }
 }
@@ -74,5 +75,38 @@ input.input[type="checkbox"] {
       left: 2px;
       color: $white;
     }
+  }
+}
+
+input.form-input, textarea.form-input {
+  display: block;
+  width: 300px;
+  max-width: 100%;
+  border: none;
+  border-radius: 8px;
+  padding: 0 20px;
+  color: $neutral-80;
+  background-color: $neutral-5;
+  font-family: acumin-pro;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 27px;
+  letter-spacing: 0.06em;
+  width: 100%;
+
+  &::placeholder {
+    font-family: acumin-pro;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    color: $neutral-60;
+  }
+
+  &[type=text],
+  &[type=email],
+  &[type=number] {
+    height: 60px;
   }
 }

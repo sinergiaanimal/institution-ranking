@@ -1,0 +1,6 @@
+Contact message from {{ instance.sender_name }} <{{ instance.sender_email }}>
+
+Sent using contact form of "{{ project_title }}" website at {{ instance.creation_timestamp|date }} | {{ instance.creation_timestamp|time }}
+
+
+{{ instance.message }}
