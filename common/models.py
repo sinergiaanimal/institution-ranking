@@ -102,6 +102,20 @@ class WrapperPluginModel(CMSPlugin):
         return f'(Wrapper)'
 
 
+class EmbedPluginModel(CMSPlugin):
+    """
+    Allows to add HTML code and scripts.
+     Use with caution!
+    """
+    content = models.TextField(
+        _('content'), null=False, blank=True,
+        help_text=_('Put your HTML code here.')
+    )
+
+    def __str__(self):
+        return f'(Embed)'
+
+
 class CoverPluginModel(CMSPlugin):
     """
     Allows to create container with full width background image.

@@ -1,8 +1,10 @@
 from django.utils.translation import ugettext_lazy as _
 
-from common.models import CoverPluginModel, WrapperPluginModel
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
+
+from .models import CoverPluginModel, EmbedPluginModel, WrapperPluginModel
+from .forms import EmbedPluginForm
 
 
 def concat_attrs(*attrs, separator=' '):
@@ -29,6 +31,17 @@ class WrapperPluginPublisher(CMSPluginBase):
         return super().render(
             context, instance, placeholder
         )
+
+
+@plugin_pool.register_plugin
+class EmbedPluginPublisher(CMSPluginBase):
+    model = EmbedPluginModel
+    module = _('Common')
+    name = _('Embed')
+    render_template = 'common/cms/embed_plugin.html'
+    change_form_template = 'djangocms_bootstrap4/admin/code.html'
+    form = EmbedPluginForm
+    allow_children = False
 
 
 @plugin_pool.register_plugin

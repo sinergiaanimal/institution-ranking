@@ -8,7 +8,7 @@
   <h2 class="text-center pt-3 pb-5">{{ instance.more_title }}</h2>
 
   <div class="row mx-lg-n5">
-    {% for post in posts %}    
+    {% for post in posts %}
       <div class="col-lg-4 col-md-6 px-lg-5">
         {% include 'blog/_blog_post_tile.html' with is_medium=True %}
       </div>
@@ -19,4 +19,3 @@
     {% endfor %}
   </div>
 </section>
-
