@@ -63,7 +63,7 @@
                       'value--negative': evaluated[i][category.slug].isNegative
                     }"
                   >
-                    {{ institution.scores[category.slug] }}
+                    {{ institution.scores[category.slug] }}/{{ category.max_score }}
                   </span>
                 </td>
               </tr>
@@ -90,7 +90,7 @@
                         evaluated[index]['total'].isNegative
                     }"
                   >
-                    {{ institution.scores.total }}
+                    {{ institution.scores.total }}/{{ categoryTotal.max_score }}
                   </span>
                 </td>
               </tr>
@@ -136,19 +136,21 @@ export default {
   },
 
   computed: {
+    categoryTotal: function () {
+      return {
+        slug: 'total',
+        max_score: this.categories.reduce(
+          (prev, curr) => ({max_score: prev.max_score + curr.max_score})
+        ).max_score
+      };
+    },
     evaluated: function () {
       let items = [];
       
       for (var institution of this.institutions) {
-        const categoryTotal = {
-          slug: 'total',
-          max_score: this.categories.reduce(
-            (prev, curr) => ({max_score: prev.max_score + curr.max_score})
-          ).max_score
-        };
         const evals = {};
 
-        for (var category of [...this.categories, categoryTotal]) {
+        for (var category of [...this.categories, this.categoryTotal]) {
           const percentage = 
             institution.scores[category.slug] * 100 / category.max_score;
           const isPositive = percentage >= this.positiveThreshold;
