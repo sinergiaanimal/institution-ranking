@@ -74,6 +74,11 @@ class ArchiveImportForm(forms.Form):
     archive_file = forms.FileField(validators=[validate_zip_ext])
 
 
+def remove_institution_related_data(instance, global_data):
+    instance.social_media_links.all().delete()
+    instance.emails.all().delete()
+
+
 class CsvInstitutionImporter(CsvImporter):
     model = Institution
     key_column_name = 'name'
@@ -123,6 +128,10 @@ class CsvInstitutionImporter(CsvImporter):
             related_data={'kind': SocialMediaLink.WEBSITE}
         )
     ]
+
+    processors = {
+        4: [remove_institution_related_data]
+    }
 
 
 def process_institution_score(instance, global_data):
