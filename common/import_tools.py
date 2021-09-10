@@ -231,11 +231,15 @@ class CsvRelatedColumn(CsvColumnBase):
             })
         return processed_list
 
-    def assign_data(self, value, instance, global_data, remove_existing=True):
+    def assign_data(self, value, instance, global_data, remove_existing=False):
         """
         :param value: [list] list of processed values
         :param instance: [Model] model instance
-        :param remove_existing: [bool] should existing data be removed before assigning current data?
+        :param remove_existing: [bool] should existing data be removed before
+         assigning current data?
+         TODO: remove_existing won't work as expected if several
+               CsvRelatedColumn is defined for a single instance, so it's turned
+               off by default.
         :param global_data: [dict] global data dict injected by importer
         :return:
         """
