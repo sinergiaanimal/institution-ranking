@@ -2,6 +2,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
+const TerserPlugin = require('terser-webpack-plugin');
 
 
 module.exports = {
@@ -16,6 +17,7 @@ module.exports = {
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, './dist'),
+    clean: true,
   },
 
   module: {
@@ -54,7 +56,7 @@ module.exports = {
     minimize: true,  // to minimize also for development
     minimizer: [
       new CssMinimizerPlugin(),
+      new TerserPlugin()
     ],
   },
-
 };
