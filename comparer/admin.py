@@ -54,9 +54,21 @@ class InstitutionScoreInline(admin.TabularInline):
 
 
 class CsvImportForm(forms.Form):
-    csv_file = forms.FileField(validators=[validate_csv_ext])
-    override_existing = forms.BooleanField(label=_('Override existing'), required=False)
+    D_COLON = ','
+    D_SEMICOLON = ';'
+    DELIMITER_CHOICES = (
+        (D_COLON, _('colon: ","')),
+        (D_SEMICOLON, _('semicolon: ";"'))
+    )
 
+    csv_file = forms.FileField(validators=[validate_csv_ext])
+    delimiter = forms.ChoiceField(
+        label=_('CSV column delimiter'), required=True,
+        choices=DELIMITER_CHOICES, initial=D_SEMICOLON
+    )
+    override_existing = forms.BooleanField(
+        label=_('Override existing'), required=False
+    )
 
 class ArchiveImportForm(forms.Form):
     archive_file = forms.FileField(validators=[validate_zip_ext])
@@ -256,6 +268,7 @@ class InstitutionAdmin(admin.ModelAdmin):
                 try:
                     institutions = importer.import_data(
                         form.cleaned_data['csv_file'],
+                        delimiter=form.cleaned_data['delimiter'],
                         override_existing=form.cleaned_data['override_existing']
                     )
                 except CsvImportError as e:
@@ -295,6 +308,7 @@ class InstitutionAdmin(admin.ModelAdmin):
                 try:
                     policies = importer.import_data(
                         form.cleaned_data['csv_file'],
+                        delimiter=form.cleaned_data['delimiter'],
                         override_existing=form.cleaned_data['override_existing']
                     )
                 except CsvImportError as e:

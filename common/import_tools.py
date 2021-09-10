@@ -374,7 +374,7 @@ class CsvImporter(object):
 
         return instance
 
-    def import_data(self, csv_file, override_existing=False):
+    def import_data(self, csv_file, override_existing=False, delimiter=';'):
         """
         Main method called to perform import operation.
         :param csv_file: opened CSV file containing data to be imported
@@ -383,11 +383,14 @@ class CsvImporter(object):
         """
         if override_existing and not self.key_column_name:
             raise ConfigCsvImportError(
-                'The override_existing option is set but no key_column_name is defined in CsvImporter derived class.'
+                'The override_existing option is set but no key_column_name '
+                'is defined in CsvImporter derived class.'
             )
 
         csv_file.seek(0)
-        reader = csv.reader(codecs.iterdecode(csv_file, 'utf-8'))
+        reader = csv.reader(
+            codecs.iterdecode(csv_file, 'utf-8-sig'), delimiter=delimiter
+        )
 
         header_row = next(reader, None)
         self.process_header(header_row)
