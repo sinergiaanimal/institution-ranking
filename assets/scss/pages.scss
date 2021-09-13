@@ -13,6 +13,14 @@
     background-color: $primary-50;
   }
 
+  &--hide-md {
+    @media (max-width: $lg-min-width - 1) {
+      &::before {
+        display: none;
+      }
+    }
+  }
+
   &--rect-left::before {
     left: -50px;
     top: -90px;
@@ -36,6 +44,12 @@
   rgba(255,255,255,0) 50%,
   rgba(255,255,255,0) 100%
   );
+
+  &--hide-md {
+    @media (max-width: $lg-min-width - 1) {
+      background: none;
+    }
+  }
 }
 
 .grey-bg-icon {
@@ -78,5 +92,36 @@
   display: inline-block;
   width: 73px;
   height: 73px;
-  margin-right: 50px;
+}
+
+.item-tile {
+  display: flex;
+  flex-direction: row;
+  text-align: left;
+  
+  p, h1, h2, h3, h4, h5 {
+    text-align: left;
+  }
+
+  h3 {
+    margin-bottom: 15px;    
+  }
+
+  .big-icon {
+    margin: 0 40px 0 0;
+  }
+
+  @media (max-width: $md-min-width - 1) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    .big-icon {
+      margin: 0 0 20px 0;
+    }
+
+    p, h1, h2, h3, h4, h5 {
+      text-align: center;
+    }
+  }
 }

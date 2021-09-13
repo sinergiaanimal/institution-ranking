@@ -1,4 +1,5 @@
 @import "colors";
+@import "variables";
 
 
 /* Styling for Django CMS custom WrapperPlugin */
@@ -19,11 +20,6 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-
-  &--bg-half-r {
-    background-size: 50vw auto;
-    background-position: center right;
-  }
 
   &__veil-of-darkness {
     display: block;

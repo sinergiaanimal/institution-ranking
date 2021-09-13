@@ -2,7 +2,9 @@
 @import "fonts";
 @import "mixins";
 
+
 .footer {
+  @include shadow;
   background-color: $primary-50;
   color: $black;
   position: absolute;
@@ -51,7 +53,7 @@
     margin-top: 20px;
 
     a {
-      margin-right: 30px;
+      margin: 0 15px 0 15px;
     }
   }
 
@@ -95,6 +97,54 @@
 
     a {
       margin-left: 30px;
+    }
+  }
+}
+
+
+@media (max-width: $lg-min-width - 1) {
+  
+  .footer {
+
+    &__primary {
+      padding-top: 30px;
+    }
+
+    &__menu {
+      display: none;
+    }
+
+    &__outer-links {
+      margin: auto;
+    }
+
+    &__social {
+      display: flex;
+      justify-content: space-around;
+    }
+
+    &__secondary {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      padding-top: 15px;
+    }
+
+    &__logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+
+      p {
+        margin-bottom: 10px;
+      }
+
+      a {
+        margin-left: 0;
+        margin-bottom: 10px;
+      }
     }
   }
 }

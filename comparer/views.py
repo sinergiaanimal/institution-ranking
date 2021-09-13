@@ -24,7 +24,8 @@ class InstitutionDetailView(DetailView):
         )['max_score__sum']
         context['score_current'] = self.object.score_total
         context['score_percentage'] = round(
-            context['score_current'] * 100 / context['score_max'])
+            (context['score_current'] or 0) * 100 / context['score_max']
+        )
 
         # gathering additional data
         for cat_dict in categories:
@@ -34,7 +35,7 @@ class InstitutionDetailView(DetailView):
                 self.object, f'score_{cat.slug}'
             )
             cat_dict['score_percentage'] = round(
-                cat_dict['score_current'] * 100 / cat_dict['score_max']
+                (cat_dict['score_current'] or 0) * 100 / cat_dict['score_max']
             )
             cat_dict['scores'] = self.object.scores.active().filter(
                 criterion__category=cat

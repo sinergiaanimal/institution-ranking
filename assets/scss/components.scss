@@ -262,4 +262,21 @@
     letter-spacing: -0.02em;
     color: $neutral-10;
   }
+
+  @media (max-width: $lg-min-width - 1) {
+    padding-top: 90px;
+    padding-bottom: 90px;
+
+    h1 {
+      font-size: 35px;
+      line-height: 40px;
+    }
+
+    h2 {
+      font-size: 18px;
+      line-height: 22px;
+    }
+  }
 }
+
+

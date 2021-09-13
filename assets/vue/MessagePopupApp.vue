@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-center text-lg-left">
     <button type="button" class="button button--primary mt-5 mb-5"
             @click="showMessagePopup()">
       {{ cfg.buttonTitle }}

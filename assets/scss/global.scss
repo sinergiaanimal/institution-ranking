@@ -1,6 +1,7 @@
 @import "colors";
 @import "fonts";
 @import "mixins";
+@import "variables";
 
 
 // Django CMS
@@ -167,4 +168,30 @@ h5 {
   letter-spacing: -0.02em;
   color: $primary-100;
   margin-bottom: 30px;
+}
+
+
+@media (max-width: $lg-min-width - 1) {
+
+  h1 {
+    font-size: 42px;
+    line-height: 48px;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 35px;
+    line-height: 40px;
+    text-align: center;
+  }
+
+  h3, h4, h5 {
+    text-align: center;
+  }
+
+  p {
+    font-size: 15px;
+    line-height: 20px;
+    text-align: center;
+  }
 }
