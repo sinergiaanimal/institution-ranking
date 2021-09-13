@@ -98,6 +98,10 @@ label {
 
 .section {
   padding-top: 90px;
+
+  @media (max-width: $lg-min-width - 1) {
+    padding-top: 50px;
+  }
 }
 
 .navbar {
