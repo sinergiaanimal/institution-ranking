@@ -20,7 +20,7 @@
             </button>
           </div>
 
-          <div class="modal-body overflow-x-scroll">
+          <div class="modal-body overflow-auto">
             <table class="table comparison">
               <tr>
                 <td scope="col" class="invisible category-col"></td>
