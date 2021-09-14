@@ -24,8 +24,8 @@ input.input[type="text"] {
 
   &.input--search {
     display: inline-block;
-    width: 300px;
-    max-width: 60%;
+    width: 360px;
+    max-width: 80%;
 
     &::placeholder {
       padding: 0 20px;
@@ -74,6 +74,7 @@ input.input[type="checkbox"] {
       font-weight: 900;
       content: "\f00c";
       font-size: 14px;
+      line-height: 28px;
       position: absolute;
       top: -5px;
       left: 2px;

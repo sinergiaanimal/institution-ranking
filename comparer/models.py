@@ -6,6 +6,7 @@ from django.db.models import Sum, Q
 from django.conf import settings
 
 from autoslug import AutoSlugField
+from djangocms_bootstrap4.fields import AttributesField, TagTypeField
 from imagekit.models import ProcessedImageField, ImageSpecField
 from imagekit.processors import ResizeToFit
 from markdownfield.models import MarkdownField, RenderedMarkdownField
@@ -234,7 +235,12 @@ class RankingBoxPluginModel(CMSPlugin):
         max_length=250,
         blank=True
     )
-    html_classes = models.CharField(_('HTML classes'), max_length=250, blank=True)
+    tag_type = TagTypeField(default='div')
+    attributes = AttributesField(
+        verbose_name=_('attributes'),
+        blank=True,
+        excluded_keys=[]
+    )
 
     def __str__(self):
         return self.title

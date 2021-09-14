@@ -20,7 +20,7 @@
             </button>
           </div>
 
-          <div class="modal-body">
+          <div class="modal-body overflow-x-scroll">
             <table class="table comparison">
               <tr>
                 <td scope="col" class="invisible category-col"></td>
@@ -63,7 +63,8 @@
                       'value--negative': evaluated[i][category.slug].isNegative
                     }"
                   >
-                    {{ institution.scores[category.slug] }}/{{ category.max_score }}
+                    {{ institution.scores[category.slug] }}<!--
+                    -->/{{ category.max_score }}
                   </span>
                 </td>
               </tr>

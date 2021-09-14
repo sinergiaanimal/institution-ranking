@@ -1,150 +1,171 @@
 <template>
   <section>
-    <button
-      type="button"
-      class="button button--primary float-right mb-3"
-      @click="switchComparisonMode()"
-    >
-      <span v-if="comparisonMode">STOP COMPARING</span>
-      <span v-else>
-        {{ cfg.compareBtnText }}
-      </span>
-    </button>
-    <div class="form-group d-flex">
-      <input
-        class="input input--search"
-        type="text"
-        placeholder="SEARCH"
-        v-debounce:300ms="applySearch"
-      />
-      <i class="fas fa-search fa-2x d-inline-block color-neutral-20 mt-2 ml-3">
-      </i>
+    <div class="d-flex flex-column flex-md-row justify-content-between">
+      <div class="form-group d-flex">
+        <input
+          class="input input--search"
+          type="text"
+          placeholder="SEARCH"
+          v-debounce:300ms="applySearch"
+        />
+        <i class="
+          fas fa-search fa-2x d-inline-block color-neutral-20 mt-2 ml-3
+        "></i>
+      </div>
+      <button
+        type="button"
+        class="button button--primary mb-3"
+        @click="switchComparisonMode()"
+      >
+        <span v-if="comparisonMode">STOP COMPARING</span>
+        <span v-else>
+          {{ cfg.compareBtnText }}
+        </span>
+      </button>
     </div>
-    <table class="browser-table table">
-      <thead>
-        <tr>
-          <th scope="col" v-show="comparisonMode"></th>
 
-          <ColumnHeader
-            :col-name="'name'"
-            :col-title="cfg.instColName"
-            :ordering-array="ordering"
-            :extra-classes="'browser-table__name-col'"
-            @ordering-changed="onOrderingChanged"
-          />
+    <div class="browser-table">
+      <table class="table">
+        <thead>
+          <tr>
+            <th
+              scope="col"
+              class="sticky-md"
+              v-show="comparisonMode">
+            </th>
 
-          <ColumnHeader
-            :col-name="'score_total'"
-            col-title="Score"
-            :ordering-array="ordering"
-            @ordering-changed="onOrderingChanged"
-            :tooltip="'Maximum total score is ' + maxScore + ' points'"
-          />
+            <ColumnHeader
+              :col-name="'name'"
+              :col-title="cfg.instColName"
+              :ordering-array="ordering"
+              :extra-classes="{
+                'sticky-md': true,
+                'sticky-md-offset': comparisonMode
+              }"
+              @ordering-changed="onOrderingChanged"
+            />
 
-          <ColumnHeader
-            :col-name="'country'"
-            col-title="Country"
-            :ordering-array="ordering"
-            @ordering-changed="onOrderingChanged"
-          />
+            <ColumnHeader
+              :col-name="'score_total'"
+              col-title="Score"
+              :ordering-array="ordering"
+              @ordering-changed="onOrderingChanged"
+              :tooltip="'Maximum total score is ' + maxScore + ' points'"
+            />
 
-          <ColumnHeader
-            v-for="category in policyCategories"
-            class="text-center"
-            :key="category.id"
-            :col-name="'score_' + category.slug"
-            :col-title="category.short_name"
-            :extra-classes="'policy-cat-col'"
-            :ordering-array="ordering"
-            :tooltip="
-              category.name + ' | Max score: ' + category.max_score + ' points'
-            "
-            @ordering-changed="onOrderingChanged"
-          />
+            <ColumnHeader
+              :col-name="'country'"
+              col-title="Country"
+              :ordering-array="ordering"
+              @ordering-changed="onOrderingChanged"
+            />
 
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
+            <ColumnHeader
+              v-for="category in policyCategories"
+              class="text-center"
+              :key="category.id"
+              :col-name="'score_' + category.slug"
+              :col-title="category.short_name"
+              :extra-classes="'policy-cat-col'"
+              :ordering-array="ordering"
+              :tooltip="
+                category.name + ' | Max score: ' +
+                category.max_score + ' points'
+              "
+              @ordering-changed="onOrderingChanged"
+            />
 
-      <tbody>
-        <tr v-for="institution in institutions"
-            :key="institution.id"
-            :set="scorePercentage = Math.round(
-              (100 * institution.scores.total) / maxScore
-            )">
-          <td v-show="comparisonMode">
-            <div class="mt-1">
-              <input
-                type="checkbox"
-                class="input table-institution-checkbox-input"
-                @change="updateSelection(institution, $event)"
-                :disabled="
-                  selectionLimitReached && !selection.includes(institution)
-                "
-              />
-            </div>
-          </td>
-          <td>
-            <a
-              :href="detailsPageUrl + institution.slug + '/'"
-              class="d-flex align-items-center"
-            >
-              <figure
-                :style="{
-                  'background-image':
-                    'url(' + (institution.logo_thumb || defaultThumbUrl) + ')',
-                }"
-                class="institution-thumb"
-              ></figure>
-              {{ institution.name }}
-            </a>
-          </td>
-          <td>
-            <div
-              class="progress progress--gold"
-              :title="'score: ' + institution.scores.total + '/' + maxScore"
-            >
-              <div class="progress-value">
-                {{ scorePercentage }}%
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr v-for="institution in institutions"
+              :key="institution.id"
+              :set="scorePercentage = Math.round(
+                (100 * institution.scores.total) / maxScore
+              )">
+            <td v-show="comparisonMode" class="sticky-md">
+              <div class="mt-1">
+                <input
+                  type="checkbox"
+                  class="input table-institution-checkbox-input"
+                  @change="updateSelection(institution, $event)"
+                  :disabled="
+                    selectionLimitReached && !selection.includes(institution)
+                  "
+                />
               </div>
-              <div
-                class="progress-bar"
-                role="progressbar"
-                :style="
-                  'width: ' + scorePercentage + '%'
-                "
-                :aria-valuenow="institution.scores.total"
-                aria-valuemin="0"
-                :aria-valuemax="maxScore"
+            </td>
+            <td
+              :class="{
+                'sticky-md': true,
+                'sticky-md-offset': comparisonMode
+              }"
+            >
+              <a
+                :href="detailsPageUrl + institution.slug + '/'"
+                class="d-flex align-items-center"
               >
+                <figure
+                  :style="{
+                    'background-image':
+                      'url(' + (
+                        institution.logo_thumb || defaultThumbUrl
+                      ) + ')',
+                  }"
+                  class="institution-thumb"
+                ></figure>
+                {{ institution.name }}
+              </a>
+            </td>
+            <td>
+              <div
+                class="progress progress--gold"
+                :title="'score: ' + institution.scores.total + '/' + maxScore"
+              >
+                <div class="progress-value">
+                  {{ scorePercentage }}%
+                </div>
+                <div
+                  class="progress-bar"
+                  role="progressbar"
+                  :style="
+                    'width: ' + scorePercentage + '%'
+                  "
+                  :aria-valuenow="institution.scores.total"
+                  aria-valuemin="0"
+                  :aria-valuemax="maxScore"
+                >
+                </div>
               </div>
-            </div>
-          </td>
-          <td>{{ institution.country }}</td>
+            </td>
+            <td>{{ institution.country }}</td>
 
-          <td
-            scope="col"
-            v-for="category in policyCategories"
-            class="text-center"
-            :key="category.id"
-          >
-            {{ institution.scores[category.slug] + '/' + category.max_score }}
-          </td>
+            <td
+              scope="col"
+              v-for="category in policyCategories"
+              class="text-center"
+              :key="category.id"
+            >
+              {{ institution.scores[category.slug] + '/' + category.max_score }}
+            </td>
 
-          <td scope="col">
-            <i class="far fa-envelope fa-lg
-                      d-block text-center color-primary-60 cursor-pointer"
-               @click="showMessagePopup(institution)">
-            </i>
-          </td>
-        </tr>
-        <tr v-if="!(institutions && institutions.length)">
-          <td colspan="100" class="no-results-col">
-            No results
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            <td scope="col">
+              <i class="far fa-envelope fa-lg
+                        d-block text-center color-primary-60 cursor-pointer"
+                @click="showMessagePopup(institution)">
+              </i>
+            </td>
+          </tr>
+          <tr v-if="!(institutions && institutions.length)">
+            <td colspan="100" class="no-results-col">
+              No results
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <MessagePopup ref="messagePopup" />
 

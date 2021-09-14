@@ -1,5 +1,5 @@
 {% load static i18n %}
-<section class="ranking-box{% if instance.html_classes %} {{ instance.html_classes }}{% endif %}">
+<{{ instance.tag_type }} {{ instance.attributes_str }}>
   <h2 class="ranking-box__title">
     <div class="ranking-box__title-score">{% trans "Score" %}</div>
     {{ instance.title }}
@@ -23,4 +23,4 @@
       </li>
     {% endfor %}
   </ol>
-</section>
+</{{ instance.tag_type }}>

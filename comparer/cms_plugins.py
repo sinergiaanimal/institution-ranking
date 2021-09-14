@@ -1,3 +1,4 @@
+from common.cms_plugins import concat_attrs
 import operator
 from functools import reduce
 
@@ -53,6 +54,12 @@ class RankingBoxPluginPublisher(CMSPluginBase):
             sum=Sum('max_score')
         )['sum']
 
+        instance.attributes['class'] = concat_attrs(
+            'ranking-box',
+            instance.attributes.get('class'),
+            separator=' '
+        )
+        
         context.update({
             'instance': instance,
             'institutions': institutions,

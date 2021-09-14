@@ -1,10 +1,13 @@
 @import "colors";
 @import "fonts";
+@import "variables";
+
 
 .toast-panel {
   background-color: $black;
   border-radius: 10px;
   padding: 10px;
+  margin-left: 5px;
   z-index: 1;
 
   &--br-corner {
@@ -14,7 +17,10 @@
     max-width: 500px;
     display: flex;
     align-items: center;
-    padding-left: 40px;
+    
+    @media (min-width: $md-min-width) {
+      padding-left: 40px;
+    }
 
     .button {
       max-height: 52px;
@@ -29,5 +35,10 @@
     line-height: 27px;
     color: $white;
     margin-bottom: 0;
+
+    @media (max-width: $md-min-width - 1) {
+      font-size: 13px;
+      line-height: 18px;
+    }
   }
 }

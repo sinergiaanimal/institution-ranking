@@ -1,5 +1,6 @@
-@import 'colors';
-@import 'fonts';
+@import "colors";
+@import "fonts";
+@import "variables";
 
 
 .popup {
@@ -15,6 +16,12 @@
     letter-spacing: 0.01em;
     color: $black;
     margin-bottom: 10px;
+
+    @media (max-width: $md-min-width - 1) {
+      font-weight: 600;
+      font-size: 26px;
+      line-height: 32px;
+    }
   }
 
   .modal-header {
@@ -29,8 +36,8 @@
     font-family: acumin-pro;
     font-style: normal;
     font-weight: normal;
-    font-size: 18px;
-    line-height: 28px;
+    font-size: 16px;
+    line-height: 24px;
     text-align: center;
     margin-top: 25px;
     margin-bottom: 25px;
