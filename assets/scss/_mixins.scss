@@ -1,4 +1,5 @@
 @import "colors";
+@import "fonts";
 
 
 @mixin shadow {
@@ -6,7 +7,7 @@
 }
 
 @mixin menu-font {
-  font-family: acumin-pro-extra-condensed;
+  font-family: $acumin-pro-extra-condensed;
   font-style: normal;
   font-weight: 400;
   font-size: 24px;

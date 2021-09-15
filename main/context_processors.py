@@ -5,5 +5,6 @@ def global_variables(request):
     return {
         "PROJECT_TITLE": settings.PROJECT_TITLE,
         "INSTITUTION_NAME": settings.INSTITUTION_NAME,
-        "GA_MEASUREMENT_ID": getattr(settings, "GA_MEASUREMENT_ID", None)
+        "GA_MEASUREMENT_ID": getattr(settings, "GA_MEASUREMENT_ID", None),
+        "ADOBE_FONT_ID": getattr(settings, "ADOBE_FONT_ID", None)
     }

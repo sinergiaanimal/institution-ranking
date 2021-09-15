@@ -17,7 +17,7 @@
   margin-bottom: 15px;
 
   &__title {
-    font-family: acumin-pro-semi-condensed;
+    font-family: $acumin-pro-semi-condensed;
     font-size: 17px;
     line-height: 28px;
     font-weight: 600;
@@ -26,14 +26,14 @@
     margin-bottom: 10px;
 
     &-score {
-      font-family: acumin-pro;
+      font-family: $acumin-pro;
       float: right;
       font-weight: 400;
     }
   }
 
   ol {
-    font-family: acumin-pro;
+    font-family: $acumin-pro;
     font-weight: 400;
     padding-left: 20px;
     font-size: 16px;
@@ -42,13 +42,13 @@
     margin-bottom: 0;
 
     li:marker {
-      font-family: acumin-pro;
+      font-family: $acumin-pro;
       font-weight: 400;
     }
   }
 
   a {
-    font-family: acumin-pro;
+    font-family: $acumin-pro;
     font-weight: 400;
     font-size: 18px;
     line-height: 28px;
@@ -76,12 +76,12 @@
 
   &__name {
     line-height: 30px;
-    font-family: acumin-pro-semi-condensed;
+    font-family: $acumin-pro-semi-condensed;
     font-weight: 400;
   }
 
   &__score {
-    font-family: acumin-pro;
+    font-family: $acumin-pro;
     margin-left: auto;
     margin-right: 0;
     font-weight: 400;
@@ -121,7 +121,7 @@
 
   td {
     vertical-align: middle;
-    font-family: acumin-pro;
+    font-family: $acumin-pro;
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
@@ -135,7 +135,7 @@
   }
 
   th {
-    font-family: acumin-pro-semi-condensed;
+    font-family: $acumin-pro-semi-condensed;
     font-style: normal;
     font-weight: 700;
     font-size: 14px;

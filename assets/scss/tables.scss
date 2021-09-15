@@ -15,7 +15,7 @@
 }
 
 .table.comparison {
-  font-family: acumin-pro;
+  font-family: $acumin-pro;
   font-style: normal;
   font-weight: 900;
   font-size: 14px;
@@ -52,7 +52,7 @@
   }
 
   .value {
-    font-family: acumin-pro-semi-condensed;
+    font-family: $acumin-pro-semi-condensed;
     font-weight: 600;
     padding: 10px;
     display: block;

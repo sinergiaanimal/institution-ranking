@@ -7,7 +7,7 @@
 
   &__title {
     width: 100%;
-    font-family: acumin-pro-extra-condensed;
+    font-family: $acumin-pro-extra-condensed;
     font-style: normal;
     font-weight: 400;
     font-size: 40px;
@@ -33,7 +33,7 @@
   }
 
   &__message {
-    font-family: acumin-pro;
+    font-family: $acumin-pro;
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
@@ -69,14 +69,14 @@
   }
 
   &__institution-name {
-    font-family: acumin-pro;
+    font-family: $acumin-pro;
     font-weight: 400;
     font-style: oblique;
     padding-right: 4px;
   }
 
   &__subtitle {
-    font-family: acumin-pro-semi-condensed;
+    font-family: $acumin-pro-semi-condensed;
     font-style: normal;
     font-weight: 600;
     font-size: 16px;

@@ -1,5 +1,6 @@
 @import "colors";
 @import "variables";
+@import "fonts";
 
 
 /* Styling for Django CMS custom WrapperPlugin */
@@ -39,7 +40,7 @@
     &-item {
       margin-left: 10px;
       margin-right: 10px;
-      font-family: acumin-pro;
+      font-family: $acumin-pro;
       font-style: normal;
       font-weight: 400;
       font-size: 18px;
@@ -62,7 +63,7 @@
     margin-top: 30px;
 
     p, li {
-      font-family: acumin-pro;
+      font-family: $acumin-pro;
       font-style: normal;
       font-weight: 400;
       font-size: 20px;

@@ -1,6 +1,6 @@
 @import "colors";
 @import "mixins";
-
+@import "fonts";
 
 .post {
 
@@ -11,7 +11,7 @@
   }
 
   &__header {
-    font-family: acumin-pro;
+    font-family: $acumin-pro;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -40,7 +40,7 @@
   }
 
   &__side-title {
-    font-family: acumin-pro-semi-condensed;
+    font-family: $acumin-pro-semi-condensed;
     font-style: normal;
     font-weight: 600;
     font-size: 28px;
@@ -80,7 +80,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
-    font-family: acumin-pro;
+    font-family: $acumin-pro;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -91,7 +91,7 @@
   }
 
   &__title {
-    font-family: acumin-pro-semi-condensed;
+    font-family: $acumin-pro-semi-condensed;
     weight: 600;
     font-size: 16px;
     line-height: 22px;
@@ -116,7 +116,7 @@
 
   &__link {
     display: block;
-    font-family: acumin-pro;
+    font-family: $acumin-pro;
     font-style: normal;
     font-weight: 400;
     font-size: 16px;

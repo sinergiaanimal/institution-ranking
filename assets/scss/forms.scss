@@ -15,7 +15,7 @@ input.input[type="text"] {
   color: $neutral-80;
   background-color: $white;
 
-  font-family: acumin-pro-semi-condensed;
+  font-family: $acumin-pro-semi-condensed;
   font-weight: 400;
   font-style: normal;
   font-size: 18px;
@@ -92,7 +92,7 @@ input.form-input, textarea.form-input {
   padding: 0 20px;
   color: $neutral-80;
   background-color: $neutral-5;
-  font-family: acumin-pro;
+  font-family: $acumin-pro;
   font-weight: 400;
   font-style: normal;
   font-size: 18px;
@@ -101,7 +101,7 @@ input.form-input, textarea.form-input {
   width: 100%;
 
   &::placeholder {
-    font-family: acumin-pro;
+    font-family: $acumin-pro;
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
