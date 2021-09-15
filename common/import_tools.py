@@ -89,7 +89,9 @@ class CsvColumnBase(object):
                 value = f'https://{value}'
 
         elif self.data_type == self.DT_MARKDOWN:
-            value = markdown.markdown(value)
+            value = markdown.markdown(
+                value, extensions=['nl2br', 'sane_lists', 'smarty']
+            )
 
         return value
 
