@@ -31,8 +31,9 @@ export default {
       required: true,
     },
     extraClasses: {
-      type: String,
+      type: [Object, String],
       required: false,
+      default: null
     },
     tooltip: {
       type: String,

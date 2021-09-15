@@ -9,6 +9,19 @@
       {% endblock full_title %}
     </title>
 
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    {% if GA_MEASUREMENT_ID %}
+      <script async 
+              src="https://www.googletagmanager.com/gtag/js?id={{ GA_MEASUREMENT_ID }}">
+      </script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){window.dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ GA_MEASUREMENT_ID }}');
+      </script>
+    {% endif %}
+
     <!-- required for "mobile" -->
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="stylesheet" href="{% static 'main.css' %}" />
