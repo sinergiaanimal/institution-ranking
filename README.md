@@ -30,6 +30,8 @@ To setup for production environment please follow:
   * python3
   * python3-pip
   * python3-virtualenv
+  * node
+  * npm
 
 
 ## Configuration
