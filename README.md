@@ -32,22 +32,23 @@ To setup for production environment please follow:
   * python3-virtualenv
 
 
-## Building project
-
-* clone this repository
-* run `./install.sh` script
-
-
 ## Configuration
 
-Create `./main/local_settings.py` file
+* Create directory for your project.
 
-Edit the file and add project specific settings:
+* Clone this repository as `institution-comparer` subdirectory of your project's directory.
+
+* Create `institution-comparer/main/local_settings.py` file and edit
+  the file to add project specific settings:
 
 Required:
 
 ```python
-...
+import os
+from pathlib import Path
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 ```
 
 Optional:
@@ -57,10 +58,28 @@ Optional:
 ```
 
 
-## Contributing
+## Building project
+
+Run script:
+```bash
+institution-comparer/install.sh
+```
+
+
+## Running development server
+
+Run script:
+```bash
+institution-comparer/run.sh runserver 8000
+```
+
+The website should now be available under address: http://localhost:8000
+
+
+# Contributing
 Pull requests are welcome. For major changes, please open an issue first to
 discuss what you would like to change.
 
 
-## License
+# License
 [MIT](https://choosealicense.com/licenses/mit/)
