@@ -176,8 +176,8 @@ class CsvPolicyImporter(CsvImporter):
         ),
         CsvFKColumn(
             name='criterion', field_name=None, related_model=PolicyCriterion,
-            key_field_name='name', required=True, save_globally=True,
-            do_assign=False, priority=4
+            key_field_name='name', key_field_lookup='iexact', required=True,
+            save_globally=True, do_assign=False, priority=4
         ),
         CsvFieldColumn(
             name='policy', field_name='title'
