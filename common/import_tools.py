@@ -163,17 +163,21 @@ class CsvFKColumn(CsvColumnBase):
         field_name,
         related_model,
         key_field_name,
+        key_field_lookup='exact',
         **kwargs
     ):
         super().__init__(*args, **kwargs)
         self.field_name = field_name
         self.related_model = related_model
         self.key_field_name = key_field_name
+        self.key_field_lookup = key_field_lookup
 
     def assign_data(self, value, instance, global_data):
         try:
             related = self.related_model.objects.get(
-                **{self.key_field_name: value}
+                **{
+                    f'{self.key_field_name}__{self.key_field_lookup}': value
+                }
             )
         except self.related_model.DoesNotExist:
             raise RowCsvImportError(

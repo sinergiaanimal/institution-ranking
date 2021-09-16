@@ -4,7 +4,10 @@ from django.urls import path
 from django.shortcuts import redirect, render
 from django.utils.translation import ugettext_lazy as _
 
-from common.import_tools import CsvImporter, CsvFieldColumn, CsvRelatedColumn, CsvImportError, ZipImporter, CsvFKColumn
+from common.import_tools import (
+    CsvImporter, CsvFieldColumn, CsvRelatedColumn, CsvImportError,
+    ZipImporter, CsvFKColumn
+)
 from common.form_validators import validate_csv_ext, validate_zip_ext
 from .models import *
 
@@ -27,7 +30,7 @@ class PolicyCategoryAdmin(admin.ModelAdmin):
     model = PolicyCategory
     list_display = [
         'id', 'slug', 'name', 'short_name', 'order', 'max_score', 'is_active'
-        ]
+    ]
     list_display_links = ['id', 'slug']
     lift_filter = ['is_active']
     search_fields = ['name', 'short_name']
@@ -69,6 +72,7 @@ class CsvImportForm(forms.Form):
     override_existing = forms.BooleanField(
         label=_('Override existing'), required=False
     )
+
 
 class ArchiveImportForm(forms.Form):
     archive_file = forms.FileField(validators=[validate_zip_ext])
@@ -138,7 +142,9 @@ def process_institution_score(instance, global_data):
     institution = global_data['institution name']
     criterion = global_data['criterion']
     try:
-        score = InstitutionScore.objects.get(institution=institution, criterion=criterion)
+        score = InstitutionScore.objects.get(
+            institution=institution, criterion=criterion
+        )
     except InstitutionScore.DoesNotExist:
         score = InstitutionScore(
             institution=institution,
@@ -164,12 +170,14 @@ class CsvPolicyImporter(CsvImporter):
 
     columns = [
         CsvFKColumn(
-            name='institution name', field_name=None, related_model=Institution, key_field_name='name',
-            required=True, save_globally=True, do_assign=False, priority=4
+            name='institution name', field_name=None, related_model=Institution,
+            key_field_name='name', key_field_lookup='iexact', required=True,
+            save_globally=True, do_assign=False, priority=4
         ),
         CsvFKColumn(
-            name='criterion', field_name=None, related_model=PolicyCriterion, key_field_name='name',
-            required=True, save_globally=True, do_assign=False, priority=4
+            name='criterion', field_name=None, related_model=PolicyCriterion,
+            key_field_name='name', required=True, save_globally=True,
+            do_assign=False, priority=4
         ),
         CsvFieldColumn(
             name='policy', field_name='title'
@@ -179,14 +187,17 @@ class CsvPolicyImporter(CsvImporter):
             data_type=CsvFieldColumn.DT_LINK
         ),
         CsvFieldColumn(
-            name='text of policy', field_name='text', data_type=CsvFieldColumn.DT_MARKDOWN
+            name='text of policy', field_name='text',
+            data_type=CsvFieldColumn.DT_MARKDOWN
         ),
         CsvFieldColumn(
-            name='comment', field_name='score__comment', do_assign=False, save_globally=True, priority=4
+            name='comment', field_name='score__comment', do_assign=False,
+            save_globally=True, priority=4
         ),
         CsvFieldColumn(
-            name='score', field_name='score__score', data_type=CsvFieldColumn.DT_NUMBER,
-            do_assign=False, save_globally=True, priority=4
+            name='score', field_name='score__score',
+            data_type=CsvFieldColumn.DT_NUMBER, do_assign=False,
+            save_globally=True, priority=4
         )
     ]
 
@@ -205,7 +216,8 @@ class InstitutionAdmin(admin.ModelAdmin):
         'creation_timestamp', 'modification_timestamp'
     ]
     list_display_links = ['id', 'slug', 'name']
-    list_filter = ['is_active', 'region', 'creation_timestamp', 'modification_timestamp']
+    list_filter = ['is_active', 'region',
+                   'creation_timestamp', 'modification_timestamp']
     search_fields = ['id', 'name', 'region', 'country']
     change_list_template = 'comparer/admin/institution_changelist.html'
     inlines = [
@@ -242,13 +254,21 @@ class InstitutionAdmin(admin.ModelAdmin):
                     model=Institution, file_fname='logo', query_fname='name',
                     allowed_ext=['bmp', 'gif', 'png', 'jpg', 'jpeg', 'ico']
                 )
-                imported_count, errors_list, unrecog_list = importer.import_data(form.cleaned_data['archive_file'])
+                imported_count, errors_list, unrecog_list = importer.import_data(
+                    form.cleaned_data['archive_file']
+                )
 
-                message = _('Successfully assigned logo files to {} institutions.').format(imported_count)
+                message = _(
+                    'Successfully assigned logo files to {} institutions.'
+                ).format(imported_count)
                 if errors_list:
-                    message += _(' Encountered errors while processing: "{}".').format('", "'.join(errors_list))
+                    message += _(
+                        ' Encountered errors while processing: "{}".'
+                    ).format('", "'.join(errors_list))
                 if unrecog_list:
-                    message += _(' Unrecognized files in the archive: "{}".').format('", "'.join(unrecog_list))
+                    message += _(
+                        ' Unrecognized files in the archive: "{}".'
+                    ).format('", "'.join(unrecog_list))
                 self.message_user(request, message)
 
                 return redirect("..")
@@ -356,19 +376,23 @@ class InstitutionPolicyInline(admin.TabularInline):
 
 class InstitutionScoreAdmin(admin.ModelAdmin):
     list_display = [
-        'id', 'institution', 'criterion', 'score', 'is_active', 'creation_timestamp', 'modification_timestamp'
+        'id', 'institution', 'criterion', 'score', 'is_active',
+        'creation_timestamp', 'modification_timestamp'
     ]
-    list_filter = ['criterion', 'is_active', 'score', 'is_active', 'creation_timestamp', 'modification_timestamp']
+    list_filter = ['criterion', 'is_active', 'score',
+                   'is_active', 'creation_timestamp', 'modification_timestamp']
     search_fields = ['institution__name', 'criterion__name', 'score']
     inlines = [InstitutionPolicyInline]
 
 
 class InstitutionPolicyAdmin(admin.ModelAdmin):
     list_display = [
-        'id', 'score', 'title', 'link', 'is_active', 'creation_timestamp', 'modification_timestamp'
+        'id', 'score', 'title', 'link', 'is_active', 'creation_timestamp',
+        'modification_timestamp'
     ]
     list_filter = [
-        'score__score', 'is_active', 'creation_timestamp', 'modification_timestamp'
+        'score__score', 'is_active', 'creation_timestamp',
+        'modification_timestamp'
     ]
     search_fields = ['title']
 
