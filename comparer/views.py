@@ -44,11 +44,13 @@ class InstitutionDetailView(DetailView):
 
         context['categories'] = categories
         
-        context['placeholders'] = {
-            'inst_detail_card_header_bg':
-                ContentPlaceholder.objects.get_or_create(
-                    slug='inst_detail_card_header_bg'
-                )[0]
-        }
+        context['placeholders'] = {}
+        for slug in [
+            'inst_detail_card_header_bg',
+            'inst_detail_policy_name_header',
+            'inst_detail_policy_text_header'
+        ]:
+            context['placeholders'][slug] = \
+                ContentPlaceholder.objects.get_or_create(slug=slug)[0]
         
         return context
