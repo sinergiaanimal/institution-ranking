@@ -34,9 +34,10 @@ class InstitutionDetailView(DetailView):
             cat_dict['score_current'] = getattr(
                 self.object, f'score_{cat.slug}'
             )
+
             cat_dict['score_percentage'] = round(
                 (cat_dict['score_current'] or 0) * 100 / cat_dict['score_max']
-            )
+            ) if cat_dict['score_max'] else 0
             cat_dict['scores'] = self.object.scores.active().filter(
                 criterion__category=cat
             )
