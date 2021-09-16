@@ -1,5 +1,5 @@
-git pull
+#!/usr/bin/env bash
 
-virtualenv venv python=python3
+virtualenv $(dirname $0)/../venv --python=python3
 
 $(dirname $0)/deploy.sh

@@ -2,7 +2,7 @@
 
 git pull
 
-source ./venv.sh
+source $(dirname $0)/venv.sh
 
 # Building front-end assets
 npm install
