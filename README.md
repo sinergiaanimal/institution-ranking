@@ -27,11 +27,11 @@ To setup for production environment please follow:
 
 * Linux environment
 * required system packages:
-  * python3
-  * python3-pip
-  * python3-virtualenv
-  * node
-  * npm
+  * `python3`
+  * `python3-pip`
+  * `python3-virtualenv`
+  * `node`
+  * `npm`
 
 
 ## Configuration
