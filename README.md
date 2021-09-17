@@ -49,6 +49,7 @@ Required:
 import os
 from pathlib import Path
 
+BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 ```
@@ -56,7 +57,26 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 Optional:
 
 ```python
-...
+DEBUG = True  # Turn it off in production
+
+PROJECT_TITLE = 'Title of your project'
+
+# For e-mail related settings follow:
+# https://docs.djangoproject.com/en/3.2/ref/settings/#email-backend
+
+POLICY_CATEGORY_SLUGS = [
+  'category-1', 'category-2', 'category-3'
+  # These are slug names of the policy categories which should to be
+  # created by the admin panel at:
+  # http://localhost:8000/admin/comparer/policycategory/add/
+  # They are hardcoded due to performance reasons.
+]
+INSTITUTION_NAME = 'Kind of the institution your ranking is about'
+
+GA_MEASUREMENT_ID = 'Your GoogleAnalytics ID'
+
+ADOBE_FONT_ID = 'Font link id generated via https://fonts.adobe.com/'
+
 ```
 
 
@@ -75,7 +95,32 @@ Run script:
 institution-comparer/run.sh runserver 8000
 ```
 
-The website should now be available under address: http://localhost:8000
+The website should now be running at: http://localhost:8000
+
+
+## Content editing tools and the admin panel
+
+To add or edit contents and access the admin panel you have to create
+superuser account. To do this run:
+```bash
+institution-comparer/run.sh createsuperuser
+```
+And follow the instructions.
+You can then login by adding `?edit` suffix to the URL:
+http://localhost:8000/?edit
+
+
+## Importing data
+
+Policy and institution data can be imported via admin panel from CSV files.
+This feature is located under admin panel at http://localhost:8000/admin/comparer/institution/
+under following links:
+
+* Import institutions from CSV
+* Import policies from CSV
+* Import logo from ZIP
+
+Data format of the import files is undocumented yet. Please contact me if you need more details.
 
 
 # Contributing
