@@ -26,6 +26,7 @@
 
   .modal-header {
     border: none;
+    padding-bottom: 0;
   }
 
   .modal-body {
@@ -44,13 +45,19 @@
     padding: 15px 37px;
     border-radius: 8px;
 
-    &--good {
+    &--positive {
       color: $success-80;
       background-color: $success-5;
       border-color: $success-5;
     }
 
-    &--bad {
+    &--neutral {
+      color: $primary-80;
+      background-color: $primary-5;
+      border-color: $primary-10;
+    }
+
+    &--negative {
       color: $critical-80;
       background-color: $critical-10;
       border-color: $critical-10;
@@ -64,7 +71,6 @@
       font-size: 16px;
       line-height: 24px;
       text-align: left;
-      padding-bottom: 50px;
     }
   }
 
@@ -76,11 +82,11 @@
   }
 
   &__subtitle {
-    font-family: $acumin-pro-semi-condensed;
+    font-family: $acumin-pro-extra-condensed;
     font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 19px;
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 26px;
     color: $neutral-80;
     text-align: center;
   }

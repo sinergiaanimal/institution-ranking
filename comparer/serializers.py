@@ -90,5 +90,5 @@ class MessageTemplateSerializer(ModelSerializer):
         model = MessageTemplate
         fields = [
             'id', 'kind', 'min_score', 'max_score',
-            'title', 'content'
+            'call_to_action', 'content'
         ]

@@ -86,7 +86,9 @@ class Institution(ActivableModel, TimestampedModel):
     LOGO_THUMB_WIDTH, LOGO_THUMB_HEIGHT = 30, 30
 
     name = models.CharField(_('name'), max_length=250)
-    slug = AutoSlugField(_('slug'), editable=True, populate_from='name', unique=True)
+    slug = AutoSlugField(
+        _('slug'), editable=True, populate_from='name', unique=True
+    )
     description = models.TextField(_('description'), blank=True)
     region = models.CharField(_('region'), max_length=100, blank=True)
     country = models.CharField(_('country'), max_length=100)
@@ -199,25 +201,39 @@ class InstitutionPolicy(ActivableModel, TimestampedModel):
 
 
 class MessageTemplate(ActivableModel, TimestampedModel):
-    GOOD, NEUTRAL, BAD = range(1, 4)
+    POSITIVE, NEUTRAL, NEGATIVE = range(1, 4)
     KIND_CHOICES = (
-        (GOOD, _('good')),
+        (POSITIVE, _('positive')),
         (NEUTRAL, _('neutral')),
-        (BAD, _('bad')),
+        (NEGATIVE, _('negative')),
+    )
+    HELP_TEXT = _(
+        'You can use [institution_name] to insert actual name '
+        'of the institution'
     )
 
-    kind = models.PositiveSmallIntegerField(_('kind'), choices=KIND_CHOICES, default=NEUTRAL)
-    min_score = models.PositiveIntegerField(_('minimum score'), null=True, blank=True)
-    max_score = models.PositiveIntegerField(_('maximum score'), null=True, blank=True)
-    title = models.TextField(_('title'))
-    content = models.TextField(_('content'))
+    kind = models.PositiveSmallIntegerField(
+        _('kind'), choices=KIND_CHOICES, default=NEUTRAL
+    )
+    min_score = models.PositiveIntegerField(
+        _('minimum score'), null=True, blank=True
+    )
+    max_score = models.PositiveIntegerField(
+        _('maximum score'), null=True, blank=True
+    )
+    call_to_action = models.TextField(
+        _('Call To Action'), null=False, blank=True, help_text=HELP_TEXT
+    )
+    content = models.TextField(
+        _('content'), help_text=HELP_TEXT
+    )
 
     class Meta:
         verbose_name = _('Message template')
         verbose_name_plural = _('Message templates')
 
     def __str__(self):
-        return self.title
+        return '{} template'.format(self.get_kind_display())
 
 
 class RankingBoxPluginModel(CMSPlugin):
@@ -346,7 +362,7 @@ class RankingBrowserPluginModel(CMSPlugin):
                     item_len=item_len
                 )
             })
-        
+
         ordering_choices = self._get_ordering_choices()
         for item in order_items:
             if item.lstrip('-') not in ordering_choices:

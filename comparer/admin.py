@@ -9,6 +9,7 @@ from common.import_tools import (
     ZipImporter, CsvFKColumn
 )
 from common.form_validators import validate_csv_ext, validate_zip_ext
+
 from .models import *
 
 
@@ -309,7 +310,8 @@ class InstitutionAdmin(admin.ModelAdmin):
                 else:
                     self.message_user(
                         request,
-                        f'{len(institutions)} institutions has been successfully imported from csv file.'
+                        f'{len(institutions)} institutions has been '
+                        'successfully imported from csv file.'
                     )
                 return redirect("..")
 
@@ -349,7 +351,8 @@ class InstitutionAdmin(admin.ModelAdmin):
                 else:
                     self.message_user(
                         request,
-                        f'{len(policies)} policies has been successfully imported from csv file.'
+                        f'{len(policies)} policies has been successfully '
+                        'imported from csv file.'
                     )
                 return redirect("..")
 
@@ -405,6 +408,15 @@ class SocialMediaLinkAdmin(admin.ModelAdmin):
     search_fields = ['institution__name', 'url']
 
 
+class MessageTemplateAdmin(admin.ModelAdmin):
+    list_display = [
+        'id', 'kind', 'call_to_action', 'min_score', 'max_score'
+    ]
+    list_display_links = ['id', 'kind']
+    list_filter = ['kind']
+    search_fields = ['call_to_action', 'content']
+
+
 admin.site.register(PolicyCategory, PolicyCategoryAdmin)
 admin.site.register(PolicyCriterion, PolicyCriterionAdmin)
 admin.site.register(Institution, InstitutionAdmin)
@@ -412,4 +424,4 @@ admin.site.register(SocialMediaLink, SocialMediaLinkAdmin)
 admin.site.register(InstitutionEmail)
 admin.site.register(InstitutionScore, InstitutionScoreAdmin)
 admin.site.register(InstitutionPolicy, InstitutionPolicyAdmin)
-admin.site.register(MessageTemplate)
+admin.site.register(MessageTemplate, MessageTemplateAdmin)

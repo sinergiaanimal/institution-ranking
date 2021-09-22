@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from cms.admin.placeholderadmin import PlaceholderAdminMixin
 
-from common.models import ContentPlaceholder
+from .models import ContentPlaceholder
 
 
 class ContentPlaceholderAdmin(PlaceholderAdminMixin, admin.ModelAdmin):

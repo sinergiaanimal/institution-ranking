@@ -18,32 +18,17 @@
         </div>
         <div class="modal-body">
           <div v-for="message in messages" :key="message.id">
-            <p
-              v-if="message.kind == messageTemplateKind.GOOD"
-              class="popup__message popup__message--good"
-            >
-              Express your gratitude to
-              <span class="popup__institution-name">{{
-                institution.name
-              }}</span>
-              for animals-oriented policies
-              <i class="far fa-smile"></i>
+            <p v-if="message.call_to_action"
+               :class="message.ctaClasses">
+              <span v-html="message.call_to_action"></span>
+              <i v-if="message.iconClasses"
+                 class="ml-2"
+                 :class="message.iconClasses">
+              </i>
             </p>
-            <p
-              v-else-if="message.kind == messageTemplateKind.BAD"
-              class="popup__message popup__message--bad"
-            >
-              Express your concern to
-              <span class="popup__institution-name">{{
-                institution.name
-              }}</span>
-              for lack of animals-oriented policies
-              <i class="far fa-frown"></i>
-            </p>
-
             <p :id="'message-' + message.id"
                class="popup__message popup__message--content">
-              {{ message.content }}
+              <span v-html="message.content"></span>
               <transition name="fade">
                 <div class="popup__copy-msg" v-show="showCopyInfo">
                   Message has been copied to the clipboard.
@@ -105,6 +90,7 @@ import $ from 'jquery';
 import { apiUrls, messageTemplateKind } from './static_data';
 
 export default {
+
   data () {
     return {
       policyCategories: null,
@@ -133,14 +119,58 @@ export default {
     },
 
     getMessages (institution) {
-      return this.messageTemplates.filter((item) => {
-        return (
+      let items = [];
+      
+      for (const item of this.messageTemplates) {
+        if (
           (item.min_score === null ||
             institution.scores.total >= item.min_score) &&
           (item.max_score === null ||
             institution.scores.total <= item.max_score)
+        ) {
+          items.push(Object.assign({}, item));
+        }
+      }
+
+      // Additional processing for messages
+      for (const item of items) {
+        item.ctaClasses = ['popup__message'];
+        
+        // Setting classes
+        for (const key in messageTemplateKind) {
+          if (messageTemplateKind[key] === item.kind) {
+            item.ctaClasses.push(`popup__message--${ key.toLowerCase() }`);
+            if (key === 'POSITIVE') {
+              item.iconClasses = ['far', 'fa-smile'];
+            } else if (key === 'NEGATIVE') {
+              item.iconClasses = ['far', 'fa-frown'];
+            } else {
+              item.iconClasses = [];
+            }
+          }
+        }
+
+        item.call_to_action = item.call_to_action.replaceAll(
+          '\n', '<br>'
+        ).replaceAll(
+          '\r', ''
+        ).replaceAll(
+          '[institution_name]',
+          `<span class="popup__institution-name">
+            ${this.institution.name}
+          </span>`
         );
-      });
+
+        item.content = item.content.replaceAll(
+          '\n', '<br>'
+        ).replaceAll(
+          '\r', ''
+        ).replaceAll(
+          '[institution_name]', `${this.institution.name}`
+        );
+      }
+
+      return items;
     },
 
     getInstitutionDetail (institutionId) {
@@ -152,7 +182,9 @@ export default {
     copyToClipboard (content) {
       function listener (e) {
         e.clipboardData.setData('text/html', content);
-        e.clipboardData.setData('text/plain', content);
+        e.clipboardData.setData(
+          'text/plain', content.replaceAll('<br>', '\n')
+        );
         e.preventDefault();
       }
       document.addEventListener('copy', listener);

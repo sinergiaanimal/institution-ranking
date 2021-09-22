@@ -6,9 +6,9 @@ const apiUrls = {
 };
 
 const messageTemplateKind = {
-  GOOD: 1,
+  POSITIVE: 1,
   NEUTRAL: 2,
-  BAD: 3,
+  NEGATIVE: 3,
 };
 
 const socialMediaLinkKind = {
