@@ -42,7 +42,7 @@
   &__side-title {
     font-family: $acumin-pro-semi-condensed;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 800;
     font-size: 28px;
     line-height: 32px;
     letter-spacing: 0.01em;
@@ -90,11 +90,15 @@
     margin-bottom: 15px;
   }
 
+  &__header-time {
+    color: $neutral-80;
+  }
+
   &__title {
-    font-family: $acumin-pro-semi-condensed;
-    weight: 600;
-    font-size: 16px;
-    line-height: 22px;
+    font-family: $acumin-pro;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 28px;
     color: $primary-100;
     margin-bottom: 0;
   }

@@ -46,7 +46,7 @@
                       'corner-tl': index === 0,
                       'corner-bl': index === categories.length - 1
                     }">
-                  <span class="value">
+                  <span class="value text-right">
                     {{ category.name }}
                   </span>
                 </th>
@@ -55,7 +55,7 @@
                   scope="col"
                   :key="institution.id"
                 >
-                  <span 
+                  <span
                     :class="{
                       'value': true,
                       'value--positive': evaluated[i][category.slug].isPositive,
@@ -70,7 +70,9 @@
               </tr>
 
               <tr>
-                <th scope="col" class="bg-transparent">Total</th>
+                <th scope="col" class="bg-transparent">
+                  <span class="value text-right">Total</span>
+                </th>
                 <td
                   v-for="(institution, index) in institutions"
                   scope="col"

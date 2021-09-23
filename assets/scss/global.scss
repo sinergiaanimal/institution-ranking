@@ -59,7 +59,7 @@ p {
   font-weight: 400;
   font-size: 18px;
   line-height: 28px;
-  color: $neutral-80;
+  color: $primary-100;
 }
 
 ol.list, ul.list {
@@ -74,7 +74,7 @@ ol.list, ul.list {
     font-weight: 400;
     font-size: 18px;
     line-height: 28px;
-    color: $neutral-80;
+    color: $primary-100;
 
     &::marker {
       font-weight: 700;
@@ -135,7 +135,7 @@ label {
 h1 {
   font-family: $acumin-pro-extra-condensed;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 800;
   font-size: 69px;
   line-height: 64px;
   letter-spacing: 0.02em;
@@ -146,7 +146,7 @@ h1 {
 h2 {
   font-family: $acumin-pro-extra-condensed;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 800;
   font-size: 55px;
   line-height: 60px;
   letter-spacing: 0.02em;
@@ -164,7 +164,7 @@ h2 {
 h3 {
   font-family: $acumin-pro-extra-condensed;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 800;
   font-size: 35px;
   line-height: 56px;
   letter-spacing: 0.02em;

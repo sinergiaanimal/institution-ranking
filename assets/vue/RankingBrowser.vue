@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="d-flex flex-column flex-md-row justify-content-between">
+    <div class="d-flex flex-column flex-md-row justify-content-between mb-3">
       <div class="form-group d-flex">
         <input
           class="input input--search"
@@ -75,7 +75,7 @@
               @ordering-changed="onOrderingChanged"
             />
 
-            <th scope="col">Action</th>
+            <th scope="col" :class="{'d-none': comparisonMode}">Action</th>
           </tr>
         </thead>
 
@@ -84,7 +84,8 @@
               :key="institution.id"
               :set="scorePercentage = Math.round(
                 (100 * institution.scores.total) / maxScore
-              )">
+              )"
+              :class="{'row-selected': selection.includes(institution)}">
             <td v-show="comparisonMode" class="sticky-md">
               <div class="mt-1">
                 <input
@@ -151,7 +152,8 @@
               {{ institution.scores[category.slug] + '/' + category.max_score }}
             </td>
 
-            <td scope="col">
+            <td scope="col"
+                :class="{'d-none': comparisonMode}">
               <i class="far fa-envelope fa-lg
                         d-block text-center color-primary-60 cursor-pointer"
                 @click="showMessagePopup(institution)">
