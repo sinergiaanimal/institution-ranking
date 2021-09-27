@@ -16,7 +16,10 @@ class BlogIndexPluginPublisher(CMSPluginBase):
     def render(self, context, instance, placeholder):
         context['instance'] = instance
         
-        posts = BlogPost.objects.active().order_by('-publication_date')
+        posts = BlogPost.objects.all().order_by('-publication_date')
+        if not context['request'].user.is_staff:
+            posts = posts.active()
+
         context['feat_post'] = posts[0] if len(posts) else None
         context['posts'] = posts[1:]
 

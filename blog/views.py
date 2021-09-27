@@ -21,9 +21,16 @@ class BlogPostDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['recent_posts'] = BlogPost.objects.active().exclude(
+        
+        recent_posts = BlogPost.objects.all().exclude(
             pk=context['post'].pk
-        ).order_by('-publication_date')[:self.recent_post_count]
+        ).order_by('-publication_date')
+
+        if not self.request.user.is_staff:
+            recent_posts = recent_posts.active()
+        
+        context['recent_posts'] = recent_posts[:self.recent_post_count]
+
         context['post_uri'] = self.request.build_absolute_uri(
             self.request.get_full_path()
         )

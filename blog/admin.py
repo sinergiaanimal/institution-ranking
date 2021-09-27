@@ -1,9 +1,11 @@
 from django.contrib import admin
 
+from cms.admin.placeholderadmin import PlaceholderAdminMixin
+
 from .models import BlogPost
 
 
-class BlogPostAdmin(admin.ModelAdmin):
+class BlogPostAdmin(PlaceholderAdminMixin, admin.ModelAdmin):
     list_display = (
         'id', 'slug', 'title', 'publication_date', 'reading_time',
         'creation_timestamp', 'modification_timestamp', 'is_active'
