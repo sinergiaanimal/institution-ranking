@@ -19,6 +19,10 @@
       color: $black;
     }
 
+    .container {
+      flex-wrap: nowrap;
+    }
+
     .nav-item {
 
       .nav-link {
