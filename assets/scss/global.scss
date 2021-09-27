@@ -34,7 +34,6 @@ html {
 body {
   position: relative;
   height: auto;
-  min-height: 100vh;
 
   font-family: $acumin-pro;
   font-style: normal;
@@ -46,11 +45,12 @@ body {
 }
 
 main {
-    padding-bottom: 330px;  // to make place for footer and bottom margin
+  min-height: calc(100vh - 478px);
+  padding-bottom: 40px;
 
-    &.no-bottom-gap {
-      padding-bottom: 263px;  // only compensate footer height
-    }
+  &.no-bottom-gap {
+    padding-bottom: 0;
+  }
 }
 
 p {

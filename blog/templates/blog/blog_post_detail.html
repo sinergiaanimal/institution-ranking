@@ -12,13 +12,13 @@
 {% block content %}
   <section class="container clearfix mt-5">
     <div class="row mx-lg-n5">
-      <div class="post col-lg-8 px-lg-5">
+      <div class="post col-lg-8 px-lg-5 pb-5">
         <div class="post__content">
           {{ post.content_placeholder.placeholder }}
           {% render_placeholder post.content_placeholder %}
         </div>
       </div>
-      <div class="col-lg-4 px-lg-5">
+      <div class="col-lg-4 px-lg-5 pb-5">
         <h2 class=post__side-title>Recent Blog Posts</h2>
         {% for p in recent_posts %}
           {% include "blog/_blog_post_tile.html" with post=p %}
@@ -28,17 +28,19 @@
     <div class="post__footer">
       <p>
         <span class="pr-4">SHARE THE ARTICLE:</span>
-        {% with uri=post_uri|iriencode %}
-          <a class="icon icon--spaced icon--facebook" target="_blank"
-             href="https://www.facebook.com/sharer/sharer.php?u={{ uri }}">
-          </a>
-          <a class="icon icon--spaced icon--twitter" target="_blank"
-             href="https://twitter.com/intent/tweet?url={{ uri }}">
-          </a>
-          <a class="icon icon--spaced icon--linkedin" target="_blank"
-             href="https://www.linkedin.com/shareArticle?mini=true&url={{ uri }}">
-          </a>
-        {% endwith %}
+        <div class="d-md-inline-block text-center">
+          {% with uri=post_uri|iriencode %}
+            <a class="icon icon--spaced icon--facebook" target="_blank"
+              href="https://www.facebook.com/sharer/sharer.php?u={{ uri }}">
+            </a>
+            <a class="icon icon--spaced icon--twitter" target="_blank"
+              href="https://twitter.com/intent/tweet?url={{ uri }}">
+            </a>
+            <a class="icon icon--spaced icon--linkedin" target="_blank"
+              href="https://www.linkedin.com/shareArticle?mini=true&url={{ uri }}">
+            </a>
+          {% endwith %}
+        </div>
       </p>
     </div>
   </section>
