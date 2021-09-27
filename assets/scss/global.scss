@@ -118,9 +118,11 @@ label {
 
 .section {
   padding-top: 90px;
+  /* padding-bottom: 90px; */
 
   @media (max-width: $lg-min-width - 1) {
     padding-top: 50px;
+    /* padding-bottom: 50px; */
   }
 }
 
