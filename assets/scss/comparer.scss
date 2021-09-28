@@ -51,7 +51,7 @@
     font-family: $acumin-pro;
     font-weight: 400;
     font-size: 18px;
-    line-height: 28px;
+    line-height: 22px;
   }
 
   &__row {
@@ -75,7 +75,7 @@
   }
 
   &__name {
-    line-height: 30px;
+    line-height: 20px;
     font-family: $acumin-pro-semi-condensed;
     font-weight: 800;
   }
@@ -190,7 +190,7 @@
   @media (max-width: $lg-min-width - 1) {
     th, td {
       font-size: 14px;
-      line-height: 20px;
+      line-height: 16px;
     }
   }
 }
