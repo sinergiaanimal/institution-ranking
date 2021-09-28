@@ -79,6 +79,11 @@
       border-top: 1px solid $primary-60;
     }
 
+    .navbar-toggler {
+      width: 40px;
+      height: 40px;
+    }
+
     .navbar-nav {
       @include shadow;
 
