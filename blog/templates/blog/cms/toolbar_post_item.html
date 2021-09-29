@@ -1,0 +1,12 @@
+<form action="{{ url }}" method="post"
+      class="cms-toolbar-item cms-toolbar-item-buttons">
+  <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+  <button type="submit" class="cms-btn {{ extra_classes|join:' ' }}"
+          style="float: left;
+                 line-height: 30px;
+                 height: 30px;
+                 font-size: 12px;
+                 padding: 0 12px;">
+    {{ name }}
+  </button>
+</form>

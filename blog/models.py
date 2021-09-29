@@ -1,5 +1,6 @@
 from django.core.validators import MaxValueValidator
 from django.db import models
+from django.urls.base import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import datetime
 
@@ -81,6 +82,12 @@ class BlogPost(TimestampedModel, ActivableModel):
     @property
     def bg_opacity(self):
         return '{:.2f}'.format(self.header_darken / 100)
+    
+    def __str__(self):
+        return self.slug
+
+    def get_absolute_url(self):
+        return reverse('blog-post-detail', kwargs={'slug': self.slug})
 
 
 class BlogIndexPluginModel(CMSPlugin):

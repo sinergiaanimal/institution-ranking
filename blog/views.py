@@ -1,8 +1,13 @@
 from django.views.generic import DetailView
+from django.views import View
+from django.contrib.auth.decorators import permission_required
+from django.utils.decorators import method_decorator
+from django.shortcuts import get_object_or_404, redirect
+from django.http import HttpResponseBadRequest
 
 from .models import BlogPost
 
-__all__ = ('BlogPostDetailView',)
+__all__ = ('BlogPostDetailView', 'BlogPostActionView')
 
 
 class BlogPostDetailView(DetailView):
@@ -35,3 +40,20 @@ class BlogPostDetailView(DetailView):
             self.request.get_full_path()
         )
         return context
+
+
+@method_decorator(permission_required('blog.change_blogpost'), name='dispatch')
+class BlogPostActionView(View):
+
+    def post(self, request, slug, action, *args, **kwargs):
+        if action not in ('publish', 'unpublish'):
+            return HttpResponseBadRequest(f'Action "{action}" is not allowed.')
+        blogpost = get_object_or_404(BlogPost, slug=slug)
+
+        if action == 'publish':
+            blogpost.is_active = True
+        elif action == 'unpublish':
+            blogpost.is_active = False
+        blogpost.save()
+
+        return redirect(blogpost)
