@@ -3,7 +3,10 @@ from django.utils.translation import ugettext_lazy as _
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 
-from .models import CoverPluginModel, EmbedPluginModel, WrapperPluginModel
+from .models import (
+    CoverPluginModel, EmbedPluginModel, WrapperPluginModel,
+    CookieConsentPluginModel
+)
 from .forms import EmbedPluginForm
 
 
@@ -68,6 +71,27 @@ class CoverPluginPublisher(CMSPluginBase):
         )
 
         context['darkness'] = '{:.2f}'.format(instance.darken / 100);
+
+        return super().render(
+            context, instance, placeholder
+        )
+
+
+@plugin_pool.register_plugin
+class CookieConsentPluginPublisher(CMSPluginBase):
+    model = CookieConsentPluginModel
+    module = _('Common')
+    name = _('Cookie Consent')
+    render_template = 'common/cms/cookie_consent.html'
+    allow_children = True
+
+    def render(self, context, instance, placeholder):
+        instance.attributes['class'] = concat_attrs(
+            'cookie-consent',
+            'd-none',
+            instance.attributes.get('class'),
+            separator=' '
+        )
 
         return super().render(
             context, instance, placeholder

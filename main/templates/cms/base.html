@@ -56,6 +56,8 @@
 
     {% include "cms/_footer.html" %}
 
+    {% static_placeholder "bottom_bar" %}
+
     {% block js_start %}{% endblock %}
 
     <script src="{% static 'main.bundle.js' %}"></script>

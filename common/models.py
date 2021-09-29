@@ -42,7 +42,7 @@ class ActivableModel(models.Model):
 class OrderedModel(models.Model):
     """
     Adds "order" field to the model and set it's value as the last at save
-     if not explicitly given.
+    if not explicitly given.
     """
     order = models.IntegerField(_('Order'), null=False, blank=True)
 
@@ -89,7 +89,7 @@ class ContentPlaceholder(TimestampedModel):
 class WrapperPluginModel(CMSPlugin):
     """
     Wraps contents into simple HTML element with configurable type
-     and attributes.
+    and attributes.
     """
     tag_type = TagTypeField()
     attributes = AttributesField(
@@ -105,7 +105,7 @@ class WrapperPluginModel(CMSPlugin):
 class EmbedPluginModel(CMSPlugin):
     """
     Allows to add HTML code and scripts.
-     Use with caution!
+    Use with caution!
     """
     content = models.TextField(
         _('content'), null=False, blank=True,
@@ -141,3 +141,22 @@ class CoverPluginModel(CMSPlugin):
 
     def __str__(self):
         return f'(Cover)'
+
+    
+class CookieConsentPluginModel(CMSPlugin):
+    """
+    Displays cookie consent message to the user and stores the agreement
+    as a cookie.
+    """
+    tag_type = TagTypeField()
+    attributes = AttributesField(
+        verbose_name=_('attributes'),
+        blank=True,
+        excluded_keys=[]
+    )
+
+    def __str__(self):
+        return f'(Cookie Consent)'
+
+    
+

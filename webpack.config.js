@@ -13,6 +13,7 @@ module.exports = {
     ranking_browser: './assets/ranking_browser.js',
     message_popup: './assets/message_popup.js',
     contact_form: './assets/contact_form.js',
+    cookie_consent: './assets/cookie_consent.js'
   },
   output: {
     filename: '[name].bundle.js',

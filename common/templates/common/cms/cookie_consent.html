@@ -1,0 +1,18 @@
+{% load static sekizai_tags cms_tags i18n %}
+
+<div class="cookie-consent-gap d-none"></div>
+<{{ instance.tag_type }} {{ instance.attributes_str }}>
+  <button class="cookie-consent__close" type="button"
+          aria-label="{% trans 'Close' %}">
+    <i class="fas fa-times"></i>
+  </button>
+  <div class="cookie-consent__content">
+    {% for plugin in instance.child_plugin_instances %}
+      {% with forloop as parentloop %}{% render_plugin plugin %}{% endwith %}
+    {% endfor %}
+  </div>
+</{{ instance.tag_type }}>
+
+{% addtoblock "js" %}
+  <script src="{% static 'cookie_consent.bundle.js' %}"></script>
+{% endaddtoblock %}
