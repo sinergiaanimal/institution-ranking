@@ -20,11 +20,19 @@ div.cms {
   top: 64px !important;
 }
 
+
 // Bootstrap related
 
 .container {
   &--narrow {
     max-width: 660px;
+  }
+}
+
+@media (max-width: $lg-min-width - 1) {
+  .modal-dialog {
+    // to compensate top main nav on mobile
+    margin-top: 74px;
   }
 }
 
