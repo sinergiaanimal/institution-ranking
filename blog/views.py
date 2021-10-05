@@ -40,10 +40,6 @@ class BlogPostDetailView(DetailView):
         context['post_uri'] = self.request.build_absolute_uri(
             self.request.get_full_path()
         )
-        context['post_title'] = '{} | {}'.format(
-            context['post'].title,
-            settings.PROJECT_TITLE
-        )
         return context
 
 

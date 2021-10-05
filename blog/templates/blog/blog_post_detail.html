@@ -29,7 +29,7 @@
       <p>
         <span class="pr-4">SHARE THE ARTICLE:</span>
         <div class="d-md-inline-block text-center">
-          {% with uri=post_uri|iriencode title=post_title|urlencode %}
+          {% with uri=post_uri|iriencode title=post.title|urlencode %}
             <a class="icon icon--spaced icon--facebook" target="_blank"
               href="https://www.facebook.com/sharer/sharer.php?u={{ uri }}">
             </a>
