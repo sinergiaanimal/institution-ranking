@@ -42,21 +42,15 @@ To setup for production environment please follow:
 
 * Create `institution-comparer/main/local_settings.py` file and edit
   the file to add project specific settings:
-
-Required:
-
 ```python
+# Imports required to resolve paths:
 import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-```
 
-Optional:
-
-```python
 DEBUG = True  # Turn it off in production
 
 PROJECT_TITLE = 'Title of your project'
@@ -76,7 +70,6 @@ INSTITUTION_NAME = 'Kind of the institution your ranking is about'
 GA_MEASUREMENT_ID = 'Your GoogleAnalytics ID'
 
 ADOBE_FONT_ID = 'Font link id generated via https://fonts.adobe.com/'
-
 ```
 
 
