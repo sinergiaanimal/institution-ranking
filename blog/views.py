@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponseBadRequest
+from django.conf import settings
 
 from .models import BlogPost
 
@@ -38,6 +39,10 @@ class BlogPostDetailView(DetailView):
 
         context['post_uri'] = self.request.build_absolute_uri(
             self.request.get_full_path()
+        )
+        context['post_title'] = '{} | {}'.format(
+            context['post'].title,
+            settings.PROJECT_TITLE
         )
         return context
 
