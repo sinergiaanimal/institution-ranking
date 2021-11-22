@@ -62,12 +62,18 @@ class CsvColumnBase(object):
     def is_valid(self, value):
         if self.required and not (value and value.strip()):
             return False, 'Value is required.'
+
         if self.data_type == self.DT_LINK:
             pass  # URL validation is to strict.
             # try:
             #     self.url_validator(value)
             # except ValidationError as e:
             #     return False, e.message
+        elif self.data_type == self.DT_NUMBER:
+            try:
+                int(value)
+            except ValueError:
+                return False, 'Value is not a number.'
 
         return True, ''
 
