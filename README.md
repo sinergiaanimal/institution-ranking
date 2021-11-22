@@ -1,4 +1,4 @@
-# Institution Comparer
+# Institution Ranking
 
 Standalone website solution built for displaying rankings of various institutions.
 
