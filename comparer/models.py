@@ -171,8 +171,8 @@ class InstitutionScore(ActivableModel, TimestampedModel):
         related_name='scores'
     )
     criterion = models.ForeignKey(
-        verbose_name=_('policy criterion'), to=PolicyCriterion, on_delete=models.CASCADE,
-        related_name='scores'
+        verbose_name=_('policy criterion'), to=PolicyCriterion,
+        on_delete=models.CASCADE, related_name='scores'
     )
     comment = models.TextField(_('comment'), blank=True)
     score = models.IntegerField(_('score'), default=0)
