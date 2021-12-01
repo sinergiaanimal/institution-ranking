@@ -21,14 +21,16 @@ function getCookie (name) {
 
 /**
  * Sets a cookie
- * @param {String} name 
- * @param {String} value 
+ * @param {String} name
+ * @param {String} value
  * @param {String} path     '/' by default
- * @param {Number} maxAge   not set by default
+ * @param {Number} maxAge   30 days by default
  */
 function setCookie (name, value, path, maxAge) {
+  const oneMonth = 60/*s*/ * 60/*min*/ * 24/*h*/ * 30/*day*/;
+
   document.cookie = `${name}=${value}; Path=${path || '/'};` +
-    (maxAge ? ' Max-Age=' + maxAge + ';' : '') +
+    ' Max-Age=' + (maxAge || oneMonth) + ';' +
     ' SameSite=strict;';
 }
 
