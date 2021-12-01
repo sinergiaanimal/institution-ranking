@@ -56,7 +56,7 @@
                aria-labelledby="heading-score-{{ score.pk }}"
                data-parent="#category-accordion-{{ cat.pk }}">
             <div class="card-body">
-              
+
               {% for policy in score.policies.active %}
                 <div class="row mt-3">
 
@@ -81,6 +81,12 @@
                     {% if policy.text.strip %}
                       <div class="accordion__item-detail-box">
                         {{ policy.text|safe }}
+
+                        {% if score.comment.strip %}
+                          <p class="comment">
+                            Comments on score: {{ score.comment.strip }}
+                          </p>
+                        {% endif %}
                       </div>
                     {% endif %}
                   </div>

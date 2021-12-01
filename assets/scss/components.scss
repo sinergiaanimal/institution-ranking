@@ -192,6 +192,11 @@
         &:last-child {
           margin-bottom: 0;
         }
+
+        &.comment {
+          // font-weight: 600;
+          font-style: italic;
+        }
       }
     }
 
@@ -205,8 +210,6 @@
       font-size: 14px;
       line-height: 20px;
       color: $primary-100;
-      
-      
     }
 
     &-toggler {
