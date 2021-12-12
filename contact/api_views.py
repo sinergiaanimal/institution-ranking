@@ -14,11 +14,6 @@ __all__ = ['ContactMessageView']
 
 class ContactMessageView(APIView):
     permission_classes = (AllowAny,)
-    
-    # def get_serializer_context(self):
-    #     return {
-    #         'request': self.request,
-    #     }
 
     def post(self, request, format=None):
 

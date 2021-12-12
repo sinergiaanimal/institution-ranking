@@ -21,6 +21,7 @@ class ContactMessageSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         plugin = validated_data.pop('plugin')
-        validated_data['recipients'] = plugin.recipients.active()
-
-        return super().create(validated_data)
+        recipients = plugin.recipients.active()
+        instance = super().create(validated_data)
+        instance.recipients.add(*recipients)
+        return instance
