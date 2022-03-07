@@ -38,6 +38,10 @@
         {{ errors.message.join('; ') }}
       </div>
     </div>
+    <div v-if="errors.non_field_errors"
+          class="alert alert-danger mt-2" role="alert">
+      {{ errors.non_field_errors.join('; ') }}
+    </div>
     <div v-show="showSuccessMsg"
          class="alert alert-success mt-2 mb-2" role="alert">
       Your message has been sent. Thank you for your feedback!
@@ -61,7 +65,7 @@ import { apiUrls } from './static_data';
 
 export default {
   name: 'ContactFormApp',
-  
+
   props: {
     cfg: {
       type: Object,
@@ -84,6 +88,21 @@ export default {
   },
 
   methods: {
+    clearForm () {
+      this.formData.sender_name = '';
+      this.formData.sender_email = '';
+      this.formData.message = '';
+    },
+    showErrorMsg () {
+      const msg =
+        'Something went wrong! Your message has not been sent. ' + 
+        'Please contact the administrator.';
+      if (this.errors.non_field_errors) {
+        this.errors.non_field_errors.push(msg);
+      } else {
+        this.errors.non_field_errors = [msg];
+      }
+    },
     async sendMessage () {
       this.isProcessing = true;
       this.showSuccessMsg = false;
@@ -96,27 +115,26 @@ export default {
           {headers: {'X-CSRFToken': this.cfg.csrfToken}}
         ).then(
           (response) => {
+            this.isProcessing = false;
+            this.clearForm();
             if (
               response.status !== 201 ||
               !response.data ||
               !response.data.status_str ||
               response.data.status_str !== 'sent'
             ) {
-              alert('Something went wrong! Please contact the administrator.');
+              this.showErrorMsg();
+            } else {
+              this.showSuccessMsg = true;
             }
-
-            this.formData.sender_name = '';
-            this.formData.sender_email = '';
-            this.formData.message = '';
-            this.isProcessing = false;
-            this.showSuccessMsg = true;
           }
         );
       } catch (error) {
         if (error.response && error.response.status === 400) {
           this.errors = error.response.data;
         } else {
-          alert('Something went wrong! Please contact the administrator.');
+          this.clearForm();
+          this.showErrorMsg();
         }
         this.isProcessing = false;
       }
