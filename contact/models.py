@@ -45,6 +45,9 @@ class ContactFormPluginModel(CMSPlugin):
     def __str__(self):
         return '(Contact Form)'
 
+    def copy_relations(self, oldinstance):
+        self.recipients.add(*oldinstance.recipients.all())
+
 
 class Recipient(ActivableModel, TimestampedModel):
     TO, CC, BCC = ('TO', 'CC', 'BCC')
@@ -120,7 +123,7 @@ class ContactMessage(TimestampedModel):
         to = [r.email for r in recipients if r.recipient_type == Recipient.TO]
         bcc = [r.email for r in recipients if r.recipient_type == Recipient.BCC]
         cc = [r.email for r in recipients if r.recipient_type == Recipient.CC]
-        
+
         msg_body = render_to_string(
             'contact/email/contact_message.txt',
             {

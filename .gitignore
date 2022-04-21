@@ -12,6 +12,7 @@ db.sqlite3-journal
 
 # Local files
 /local
+/tmp
 local_deploy.sh
 
 # Celery stuff
