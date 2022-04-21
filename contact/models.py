@@ -46,7 +46,11 @@ class ContactFormPluginModel(CMSPlugin):
         return '(Contact Form)'
 
     def copy_relations(self, oldinstance):
-        self.recipients.add(*oldinstance.recipients.all())
+        self.recipients.all().delete()
+        for recipient in oldinstance.recipients.all():
+            recipient.id = None
+            recipient.plugin = self
+            recipient.save()
 
 
 class Recipient(ActivableModel, TimestampedModel):
