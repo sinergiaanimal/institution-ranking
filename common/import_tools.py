@@ -422,10 +422,20 @@ class CsvImporter(object):
         instances = []
         with transaction.atomic():
             self.pre_import(override_existing=override_existing)
-            for row_index, row in enumerate(reader, start=1):
-
-                instance = self.process_row(row_index, row, override_existing)
-                instances.append(instance)
+            try:
+                for row_index, row in enumerate(reader, start=1):
+                    instance = self.process_row(
+                        row_index, row, override_existing
+                    )
+                    instances.append(instance)
+            except UnicodeDecodeError as err:
+                raise ConfigCsvImportError(
+                    'The file must be UTF-8 encoded. Details: ' + str(err)
+                )
+            except Exception as err:
+                raise ConfigCsvImportError(
+                    'Unexpected exception occurred. Details: ' + str(err)
+                )
 
         return instances
 
@@ -433,7 +443,7 @@ class CsvImporter(object):
 class ZipImporter(object):
     """
     Tries to save files from zip_file archive to corresponding model instances
-     when name of the file matches query_fname field value of the model instance.
+    when name of the file matches query_fname field value of the model instance.
     """
 
     def __init__(

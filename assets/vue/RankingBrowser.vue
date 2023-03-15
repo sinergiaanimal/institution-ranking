@@ -146,10 +146,17 @@
             <td
               scope="col"
               v-for="category in policyCategories"
-              class="text-center"
+              class="text-center cursor-help"
               :key="category.id"
+              :title="
+                'score: ' +
+                institution.scores[category.slug] + '/' +
+                category.max_score
+              "
             >
-              {{ institution.scores[category.slug] + '/' + category.max_score }}
+              {{ Math.round(
+                (institution.scores[category.slug] * 100) / category.max_score
+              ) }}%
             </td>
 
             <td scope="col"

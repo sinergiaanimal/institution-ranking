@@ -1,4 +1,4 @@
-{% load static i18n %}
+{% load static i18n comparer %}
 <{{ instance.tag_type }} {{ instance.attributes_str }}>
   <h2 class="ranking-box__title">
     <div class="ranking-box__title-score">{% trans "Score" %}</div>
@@ -16,8 +16,10 @@
               {{ institution.name }}
             </a>
           </span>
-          <span class="ranking-box__score">
-            {{ institution.score_total|default:0 }}/{{ max_score }}
+          <span
+            class="ranking-box__score cursor-help"
+            title="Score: {{ institution.score_total|default:0 }}/{{ max_score }}">
+            {{ institution.score_total|score_percentage:max_score }}%
           </span>
         </div>
       </li>
