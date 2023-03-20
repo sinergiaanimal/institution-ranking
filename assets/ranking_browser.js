@@ -2,7 +2,7 @@ import 'bootstrap/js/dist/modal';
 
 import { createApp } from 'vue';
 import RankingBrowserApp from './vue/RankingBrowserApp.vue';
-import vueDebounce from 'vue-debounce';
+import { vue3Debounce } from 'vue-debounce';
 
 
 window.onload = function () {
@@ -13,6 +13,8 @@ window.onload = function () {
     );
     const cfgData = JSON.parse(cfgElem.innerHTML);
 
-    createApp(RankingBrowserApp, { cfg: cfgData }).use(vueDebounce).mount(elem);
+    createApp(RankingBrowserApp, { cfg: cfgData }).directive(
+      'debounce', vue3Debounce()
+    ).mount(elem);
   }
 };
