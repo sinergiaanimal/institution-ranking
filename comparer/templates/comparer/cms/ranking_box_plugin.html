@@ -6,7 +6,7 @@
   </h2>
   <ol>
     {% for institution in institutions %}
-      <li class="ranking-box__row">
+      <li class="ranking-box__row" value="{{ institution.position }}">
         <div class="ranking-box__item">
           <span class="ranking-box__logo"
                 style="background-image: url({% if institution.logo_thumb %}{% get_media_prefix %}{{ institution.logo_thumb }}{% else %}{% static 'comparer/img/institution-logo-default.svg' %}{% endif %})">

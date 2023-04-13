@@ -54,12 +54,25 @@ class RankingBoxPluginPublisher(CMSPluginBase):
             sum=Sum('max_score')
         )['sum']
 
+        # Calculating and setting positions
+        curr_position = 1
+        prev_score = (
+            institutions[0].score_total
+                if len(institutions)
+                else max_score
+        )
+        for institution in institutions:
+            if institution.score_total < prev_score:
+                curr_position += 1
+            institution.position = curr_position
+            prev_score = institution.score_total
+
         instance.attributes['class'] = concat_attrs(
             'ranking-box',
             instance.attributes.get('class'),
             separator=' '
         )
-        
+
         context.update({
             'instance': instance,
             'institutions': institutions,
