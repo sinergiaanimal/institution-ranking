@@ -6,7 +6,10 @@ from comparer.models import *
 from comparer.serializers import *
 
 
-__all__ = ('PolicyCategoryViewSet', 'InstitutionViewSet', 'MessageTemplateList', 'MessageTemplateListForScore')
+__all__ = (
+    'PolicyCategoryViewSet', 'InstitutionViewSet', 'MessageTemplateList',
+    'MessageTemplateListForScore'
+)
 
 
 class PolicyCategoryViewSet(viewsets.ModelViewSet):
@@ -21,7 +24,9 @@ class InstitutionViewSet(viewsets.ModelViewSet):
     """
     queryset = Institution.objects.active().with_scores()
     search_fields = ['name', 'region', 'country']
-    ordering_fields = ['name', 'country', 'score_total'] + [f'score_{s}' for s in settings.POLICY_CATEGORY_SLUGS]
+    ordering_fields = ['name', 'country', 'score_total'] + \
+        [f'score_{s}' for s in settings.POLICY_CATEGORY_SLUGS]
+    ordering = ['-score_total', 'name']
 
     def get_serializer_class(self):
         if self.action == 'list':

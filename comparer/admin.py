@@ -359,7 +359,7 @@ class InstitutionAdmin(admin.ModelAdmin):
         else:  # GET
             form = CsvImportForm()
 
-        title = _('Import institutions from csv')
+        title = _('Import policies from csv')
         context = {
             'form': form,
             'opts': self.model._meta,

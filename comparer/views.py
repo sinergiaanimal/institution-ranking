@@ -43,7 +43,7 @@ class InstitutionDetailView(DetailView):
             )
 
         context['categories'] = categories
-        
+
         context['placeholders'] = {}
         for slug in [
             'inst_detail_card_header_bg',
@@ -52,5 +52,5 @@ class InstitutionDetailView(DetailView):
         ]:
             context['placeholders'][slug] = \
                 ContentPlaceholder.objects.get_or_create(slug=slug)[0]
-        
+
         return context
