@@ -69,7 +69,7 @@ class CsvColumnBase(object):
             #     self.url_validator(value)
             # except ValidationError as e:
             #     return False, e.message
-        elif self.data_type == self.DT_NUMBER:
+        elif self.data_type == self.DT_NUMBER and value:
             try:
                 int(value)
             except ValueError:
@@ -86,8 +86,7 @@ class CsvColumnBase(object):
         value = raw_value.strip() if isinstance(raw_value, str) else raw_value
 
         if self.data_type == self.DT_NUMBER:
-            if value:
-                value = int(value)
+            value = int(value) if value else self.default
         elif self.data_type == self.DT_LINK:
             if value and not (
                 value.startswith('http://') or value.startswith('https://')

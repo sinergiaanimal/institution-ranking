@@ -197,8 +197,9 @@ class CsvPolicyImporter(CsvImporter):
         ),
         CsvFieldColumn(
             name='score', field_name='score__score',
-            data_type=CsvFieldColumn.DT_NUMBER, do_assign=False,
-            save_globally=True, priority=4
+            data_type=CsvFieldColumn.DT_NUMBER,
+            required=False, default=None,
+            do_assign=False, save_globally=True, priority=4
         )
     ]
 
