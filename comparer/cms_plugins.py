@@ -62,7 +62,7 @@ class RankingBoxPluginPublisher(CMSPluginBase):
                 else max_score
         )
         for institution in institutions:
-            if institution.score_total and institution.score_total < prev_score:
+            if (institution.score_total or 0) < prev_score:
                 curr_position += 1
             institution.position = curr_position
             prev_score = institution.score_total
