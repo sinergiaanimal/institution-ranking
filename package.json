@@ -4,8 +4,7 @@
   "description": "Institution comparer project powered with Django CMS.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack --mode development --watch --stats-children",
+    "dev": "webpack --mode development --watch",
     "build": "webpack --mode production"
   },
   "repository": {
@@ -20,34 +19,28 @@
   },
   "homepage": "https://github.com/dzejkobi/institution-comparer#readme",
   "devDependencies": {
-    "@vue/compiler-sfc": "^3.1.4",
-    "copy-webpack-plugin": "^9.0.1",
-    "css-loader": "^5.2.6",
-    "css-minimizer-webpack-plugin": "^3.0.1",
-    "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^7.15.1",
-    "file-loader": "^6.2.0",
-    "mini-css-extract-plugin": "^1.6.0",
-    "node-sass": "^8.0.0",
-    "sass-loader": "13.2",
-    "source-map-js": "^0.6.2",
-    "style-loader": "^2.0.0",
-    "terser-webpack-plugin": "^5.2.4",
-    "url-loader": "^4.1.1",
-    "vue-loader": "^16.3.3",
-    "vue-template-compiler": "^2.6.14",
-    "webpack": "^5.40.0",
-    "webpack-cli": "^4.7.2"
+    "@vue/compiler-sfc": "3.5.42",
+    "css-loader": "7.1.5",
+    "css-minimizer-webpack-plugin": "8.0.0",
+    "mini-css-extract-plugin": "2.10.2",
+    "sass": "1.103.1",
+    "sass-loader": "17.0.1",
+    "terser-webpack-plugin": "5.6.1",
+    "vue-loader": "17.4.2",
+    "webpack": "5.110.3",
+    "webpack-cli": "7.2.3"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.2",
-    "axios": "^0.21.2",
-    "bootstrap": "4.6",
-    "jquery": "^3.6.0",
-    "npm": "^9.6.1",
-    "popper.js": "^1.16.1",
-    "tar": "^6.1.11",
-    "vue": "^3.1.4",
-    "vue-debounce": "^4.0.0"
+    "@fortawesome/fontawesome-free": "5.15.4",
+    "axios": "1.20.0",
+    "bootstrap": "4.6.2",
+    "jquery": "3.7.1",
+    "popper.js": "1.16.1",
+    "vue": "3.5.42",
+    "vue-debounce": "5.0.1"
+  },
+  "engines": {
+    "node": "24.x",
+    "npm": "11.x"
   }
 }

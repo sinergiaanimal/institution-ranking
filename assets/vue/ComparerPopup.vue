@@ -22,6 +22,7 @@
 
           <div class="modal-body overflow-auto">
             <table class="table comparison">
+              <thead>
               <tr>
                 <td scope="col" class="invisible category-col"></td>
                 <th
@@ -38,65 +39,68 @@
                   </span>
                 </th>
               </tr>
+              </thead>
 
-              <tr v-for="(category, index) in categories"
-                 :key="category.id">
-                <th scope="col"
+              <tbody>
+                <tr v-for="(category, index) in categories"
+                  :key="category.id">
+                  <th scope="col"
+                      :class="{
+                        'corner-tl': index === 0,
+                        'corner-bl': index === categories.length - 1
+                      }">
+                    <span class="value text-right">
+                      {{ category.name }}
+                    </span>
+                  </th>
+                  <td
+                    v-for="(institution, i) in institutions"
+                    scope="col"
+                    :key="institution.id"
+                  >
+                    <span
+                      :class="{
+                        'value': true,
+                        'value--positive': evaluated[i][category.slug].isPositive,
+                        'value--neutral': evaluated[i][category.slug].isNeutral,
+                        'value--negative': evaluated[i][category.slug].isNegative
+                      }"
+                    >
+                      {{ institution.scores[category.slug] }}<!--
+                      -->/{{ category.max_score }}
+                    </span>
+                  </td>
+                </tr>
+
+                <tr>
+                  <th scope="col" class="bg-transparent">
+                    <span class="value text-right">Total</span>
+                  </th>
+                  <td
+                    v-for="(institution, index) in institutions"
+                    scope="col"
+                    :key="institution.id"
                     :class="{
-                      'corner-tl': index === 0,
-                      'corner-bl': index === categories.length - 1
-                    }">
-                  <span class="value text-right">
-                    {{ category.name }}
-                  </span>
-                </th>
-                <td
-                  v-for="(institution, i) in institutions"
-                  scope="col"
-                  :key="institution.id"
-                >
-                  <span
-                    :class="{
-                      'value': true,
-                      'value--positive': evaluated[i][category.slug].isPositive,
-                      'value--neutral': evaluated[i][category.slug].isNeutral,
-                      'value--negative': evaluated[i][category.slug].isNegative
+                      'corner-bl': index === 0,
+                      'corner-br': index === institutions.length - 1
                     }"
                   >
-                    {{ institution.scores[category.slug] }}<!--
-                    -->/{{ category.max_score }}
-                  </span>
-                </td>
-              </tr>
-
-              <tr>
-                <th scope="col" class="bg-transparent">
-                  <span class="value text-right">Total</span>
-                </th>
-                <td
-                  v-for="(institution, index) in institutions"
-                  scope="col"
-                  :key="institution.id"
-                  :class="{
-                    'corner-bl': index === 0,
-                    'corner-br': index === institutions.length - 1
-                  }"
-                >
-                  <span
-                    :class="{
-                      'value': true,
-                      'value--summary-positive':
-                        evaluated[index]['total'].isPositive,
-                      'value--summary-neutral':
-                        evaluated[index]['total'].isNeutral,
-                      'value--summary-negative':
-                        evaluated[index]['total'].isNegative
-                    }"
-                  >
-                    {{ institution.scores.total }}/{{ categoryTotal.max_score }}
-                  </span>
-                </td>
-              </tr>
+                    <span
+                      :class="{
+                        'value': true,
+                        'value--summary-positive':
+                          evaluated[index]['total'].isPositive,
+                        'value--summary-neutral':
+                          evaluated[index]['total'].isNeutral,
+                        'value--summary-negative':
+                          evaluated[index]['total'].isNegative
+                      }"
+                    >
+                      {{ institution.scores.total }}/{{ categoryTotal.max_score }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
