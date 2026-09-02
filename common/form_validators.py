@@ -1,5 +1,5 @@
 from django.forms import ValidationError
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 
 def validate_ext(value, extensions):
