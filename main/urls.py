@@ -20,6 +20,8 @@ urlpatterns = i18n_patterns(
 
     re_path(r'^blog/', include('blog.urls')),
 
+    re_path(r'^markdownfield/', include('markdownfield.urls')),
+
     re_path(r'^', include('comparer.urls')),
 
     path(

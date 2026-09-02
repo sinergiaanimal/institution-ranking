@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin, messages
 from django.urls import path
 from django.shortcuts import redirect, render
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from common.import_tools import CsvImporter, CsvFieldColumn, CsvRelatedColumn, CsvImportError, ZipImporter, CsvFKColumn
 from common.form_validators import validate_csv_ext, validate_zip_ext
